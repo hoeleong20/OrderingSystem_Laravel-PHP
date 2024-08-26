@@ -65,9 +65,6 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Others
-
-
 ## Initial Setup
 ### 1. Clone the repository
 Make sure the location is "C:\xampp\htdocs", then clone the project.
