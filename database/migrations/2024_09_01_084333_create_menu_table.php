@@ -23,8 +23,8 @@ return new class extends Migration
 
         Schema::create('remarks', function (Blueprint $table) {
             $table->id();
-            $table->string('menu_code');        // Foreign key reference to menus
             $table->string('remark');           // Remark description (e.g., "No veg", "Less spicy")
+            $table->string('menu_code');        // Foreign key reference to menus
             $table->foreign('menu_code')
                 ->references('menu_code')
                 ->on('menu')
