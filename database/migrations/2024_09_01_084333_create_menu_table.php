@@ -17,19 +17,28 @@ return new class extends Migration
             $table->text('desc')->nullable();       // Optional description of the menu item
             $table->decimal('price', 8, 2);         // Price of the menu item
             $table->enum('status', ['active', 'soldOut', 'archived'])
-                ->default('active');       // Enum status
+                ->default('active');                // Enum status
             $table->timestamps();                   // Created_at and Updated_at timestamps
         });
 
         Schema::create('remarks', function (Blueprint $table) {
+            $table->id(); // Primary key
+            $table->string('name'); // The remark name (e.g., "No veg", "Add an egg")
+            $table->decimal('price', 8, 2)->default(0.00); // Extra cost for this remark
+            $table->timestamps(); // Timestamps to track creation and updates
+        });
+
+        Schema::create('menu_remark', function (Blueprint $table) {
             $table->id();
-            $table->string('remark');           // Remark description (e.g., "No veg", "Less spicy")
-            $table->string('menu_code');        // Foreign key reference to menus
-            $table->foreign('menu_code')
-                ->references('menu_code')
-                ->on('menu')
-                ->onDelete('cascade');
-            $table->timestamps();               // Created_at and Updated_at timestamps
+
+            // Foreign key reference to the 'menu' table using menu_code
+            $table->string('menu_code');
+            $table->foreign('menu_code')->references('menu_code')->on('menu')->onDelete('cascade');
+
+            // Foreign key reference to the 'remarks' table using remark_id
+            $table->foreignId('remark_id')->constrained()->onDelete('cascade');
+
+            $table->timestamps(); // Timestamps to track when records are created/updated
         });
     }
 
@@ -38,7 +47,13 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Drop the pivot table 'menu_remark' first due to foreign key constraints
+        Schema::dropIfExists('menu_remark');
+
+        // Then drop the 'remarks' table
         Schema::dropIfExists('remarks');
+
+        // Finally, drop the 'menu' table
         Schema::dropIfExists('menu');
     }
 };

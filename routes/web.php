@@ -13,6 +13,9 @@ Route::get('/menu/create', [MenuController::class, 'create'])->name('menus.creat
 
 Route::post('/menu', [MenuController::class, 'store'])->name('menus.store');
 
+Route::get('/menu/adminMenu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
+
+
 Route::get('/about', function () {
     return view('about');
 })->name('about');

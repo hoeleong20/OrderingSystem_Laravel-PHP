@@ -20,6 +20,18 @@ class MenuController extends Controller
     }
 
     /**
+     * Display the specified menu.
+     *
+     * @param  \App\Models\Menu  $menu
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndex()
+    {
+        $allMenus = Menu::all();
+        return view('menus.adminMenu', ['allMenus' => $allMenus]);
+    }
+
+    /**
      * Show the form for creating a new menu.
      *
      * @return \Illuminate\Http\Response
@@ -42,7 +54,7 @@ class MenuController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'desc' => 'required|string',
-            'price' => 'required|decimal:2'
+            'price' => 'required|decimal:0,2'
         ]);
 
         // Auto generate menu_code with format (A001-A999)
@@ -74,9 +86,7 @@ class MenuController extends Controller
 
         // Combine the prefix and the new number
         return 'A' . $newNumber;
-
     }
-
 
     /**
      * Display the specified menu.

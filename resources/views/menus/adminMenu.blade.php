@@ -121,13 +121,36 @@
         <!-- end header section -->
     </div>
 
+    <!-- Table of all menus in menu database -->
     <section class="layout_padding">
-
-
-
-
-
-
+        <div>
+            Menu (Admin View)
+        </div>
+        <br>
+        <div>
+            <table border="2">
+                <tr>
+                    <th>Menu ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Remarkable</th>
+                    <th>Status</th>
+                    <th>Edit / Delete</th>
+                </tr>
+                @foreach ($allMenus as $menu)
+                    <tr>
+                        <td>{{$menu->menu_code}}</td>
+                        <td>{{$menu->name}}</td>
+                        <td>{{$menu->desc}}</td>
+                        <td>{{$menu->price}}</td>
+                        <td>{{$menu->status}}</td>
+                        <td>ToDo -- get all remarks</td>
+                        <td>Drop down list to select edit/delete for current row</td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
     </section>
 
     <!-- footer section -->
