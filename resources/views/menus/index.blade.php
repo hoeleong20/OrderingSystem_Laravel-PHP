@@ -137,8 +137,8 @@
 
             <!-- Admin ONLY -->
             <div>
-                <a href="{{ route('menus.create') }}">
-                    Create
+                <a href="{{ route('menus.adminMenu') }}">
+                    Admin
                 </a>
             </div>
             <!-- End Admin ONLY -->

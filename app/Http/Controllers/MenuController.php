@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\Remark;
+use App\Decorators\DecoratorFactory;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -27,8 +28,15 @@ class MenuController extends Controller
      */
     public function adminIndex()
     {
-        $allMenus = Menu::all();
-        return view('menus.adminMenu', ['allMenus' => $allMenus]);
+        $menus = Menu::all();
+        $remarks = DecoratorFactory::getAvailableRemarks();
+
+        // Ensure each menu has a 'remarkable' field set
+        $menus->each(function ($menu) {
+            $menu->remarkable = $menu->remarkable ?? []; // Default to empty array if null
+        });
+
+        return view('menus.adminMenu', compact('menus', 'remarks'));
     }
 
     /**
@@ -38,8 +46,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        //$remarks = Remark::all();
-        return view('menus.create'/*, compact('remarks')*/);
+
     }
 
     /**
@@ -50,28 +57,39 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate all field required
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'desc' => 'required|string',
-            'price' => 'required|decimal:0,2'
+            'price' => 'required|numeric',
+            'remarks' => 'nullable|array', // Ensure remarks are an array
         ]);
 
-        // Auto generate menu_code with format (A001-A999)
-        $menuCode = $this->generateMenuCode();
+        // Convert selected remarks to JSON for storage
+        $remarkable = $request->input('remarks', []); // Defaults to an empty array if no remarks selected
 
-        // Add menu_code to validatedData
-        $validatedData['menu_code'] = $menuCode;
+        $menu = Menu::create([
+            'menu_code' => $this->generateMenuCode(),
+            'name' => $validatedData['name'],
+            'desc' => $validatedData['desc'],
+            'price' => $validatedData['price'],
+            'status' => 'active',
+            'remarkable' => $remarkable, // Store array of selected remarkable tags
+        ]);
 
-        // Store to database
-        $newMenu = Menu::create($validatedData);
-
-        return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
+        return redirect()->route('menus.adminMenu')->with('success', 'Menu created successfully!');
     }
 
+    /**
+     * Generate the next available menu_code.
+     *
+     * @return string
+     */
     private function generateMenuCode()
     {
-        $lastMenu = Menu::latest()->first();
+        // Find the menu with the highest numeric part of the menu_code
+        $lastMenu = Menu::where('menu_code', 'like', 'A%')
+            ->orderByRaw('CAST(SUBSTRING(menu_code, 2) AS UNSIGNED) DESC')
+            ->first();
 
         if (!$lastMenu) {
             // If no previous menu exists, start with A001
@@ -84,7 +102,7 @@ class MenuController extends Controller
         // Increment the number
         $newNumber = str_pad(intval($lastNumber) + 1, 3, '0', STR_PAD_LEFT);
 
-        // Combine the prefix and the new number
+        // Combine the prefix 'A' and the new number
         return 'A' . $newNumber;
     }
 
@@ -107,8 +125,7 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        $remarks = Remark::all();
-        return view('menus.edit', compact('menu', 'remarks'));
+
     }
 
     /**
@@ -118,18 +135,30 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+    public function update(Request $request, $menuCode)
     {
-        $menu->update([
-            'name' => $request->name,
-            'desc' => $request->desc,
-            'price' => $request->price,
+        // Validate input, including the status field
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'desc' => 'required|string',
+            'price' => 'required|numeric',
+            'status' => 'required|string|in:active,soldOut,archived', // Ensure status is a valid value
+            'remarks' => 'nullable|array',
         ]);
 
-        // Update remarks associated with the menu
-        $menu->remarks()->sync($request->remarks);
+        // Find the menu by its menu_code
+        $menu = Menu::where('menu_code', $menuCode)->firstOrFail();
 
-        return redirect()->route('menus.index')->with('success', 'Menu updated successfully.');
+        // Update the menu
+        $menu->update([
+            'name' => $validatedData['name'],
+            'desc' => $validatedData['desc'],
+            'price' => $validatedData['price'],
+            'status' => $validatedData['status'], // Ensure status is being updated
+            'remarkable' => $request->input('remarks', []), // Default to empty array if no remarks
+        ]);
+
+        return redirect()->route('menus.adminMenu')->with('success', 'Menu updated successfully!');
     }
 
     /**

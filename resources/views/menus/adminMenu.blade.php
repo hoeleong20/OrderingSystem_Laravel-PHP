@@ -21,11 +21,6 @@
     <!--owl slider stylesheet -->
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <!-- nice select  -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-        integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
-        crossorigin="anonymous" />
     <!-- font awesome style -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 
@@ -123,33 +118,163 @@
 
     <!-- Table of all menus in menu database -->
     <section class="layout_padding">
-        <div>
-            Menu (Admin View)
+        <div class="heading_container heading_center">
+            <h2>Admin Menu Management</h2>
+            <hr />
         </div>
-        <br>
-        <div>
-            <table border="2">
-                <tr>
-                    <th>Menu ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Remarkable</th>
-                    <th>Status</th>
-                    <th>Edit / Delete</th>
-                </tr>
-                @foreach ($allMenus as $menu)
-                    <tr>
-                        <td>{{$menu->menu_code}}</td>
-                        <td>{{$menu->name}}</td>
-                        <td>{{$menu->desc}}</td>
-                        <td>{{$menu->price}}</td>
-                        <td>{{$menu->status}}</td>
-                        <td>ToDo -- get all remarks</td>
-                        <td>Drop down list to select edit/delete for current row</td>
-                    </tr>
-                @endforeach
-            </table>
+        <div class="container">
+            <div class="row">
+                <!-- Left Column: Add/Edit Menu Form -->
+                <div class="col-md-4">
+                    <div class="form_container">
+                        <!-- Add New Menu Form -->
+                        <div id="addMenuForm">
+                            <h3>Add New Menu</h3>
+                            <form method="post" action="{{ route('menus.store') }}">
+                                @csrf
+                                <div>
+                                    <label>Menu Name:</label>
+                                    <input type="text" name="name" placeholder="New menu name" required />
+                                </div>
+                                <div>
+                                    <label>Description:</label>
+                                    <input type="text" name="desc" placeholder="Description" required />
+                                </div>
+                                <div>
+                                    <label>Price:</label>
+                                    <input type="text" name="price" placeholder="Price" required />
+                                </div>
+                                <div>
+                                    <label>Choose Remarkable:</label>
+                                    <table border="1" cellpadding="10">
+                                        <thead>
+                                            <tr>
+                                                <th>Select</th>
+                                                <th>Remark Name</th>
+                                                <th>Additional Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($remarks as $remark)
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" name="remarks[]"
+                                                            value="{{ $remark['name'] }}">
+                                                    </td>
+                                                    <td>{{ $remark['name'] }}</td>
+                                                    <td>{{ number_format($remark['price'], 2) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <input type="submit" value="Add Menu" />
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Edit Menu Form (Hidden by default) -->
+                        <div id="editMenuForm" style="display:none;">
+                            <h3>Edit Menu</h3>
+                            <form method="post" id="editMenuAction">
+                                @csrf
+                                @method('PUT')
+                                <div>
+                                    <label>Menu Name:</label>
+                                    <input type="text" id="editName" name="name" required />
+                                </div>
+                                <div>
+                                    <label>Description:</label>
+                                    <input type="text" id="editDesc" name="desc" required />
+                                </div>
+                                <div>
+                                    <label>Price:</label>
+                                    <input type="text" id="editPrice" name="price" required />
+                                </div>
+                                <div>
+                                    <label>Status:</label>
+                                    <select name="status" id="editStatus" required>
+                                        <option value="active">Active</option>
+                                        <option value="soldOut">Sold Out</option>
+                                        <option value="archived">Archived</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Edit Remarks:</label>
+                                    <table border="1" cellpadding="10">
+                                        <thead>
+                                            <tr>
+                                                <th>Select</th>
+                                                <th>Remark Name</th>
+                                                <th>Additional Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="editRemarks">
+                                            <!-- Remarks will be populated dynamically with JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <input type="submit" value="Update Menu" />
+                                    <button type="button" onclick="cancelEdit()">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Menu Table -->
+                <div class="col-md-8">
+                    <h3>Menu List</h3>
+                    @if (session('success'))
+                        <div class="alert alert-success" id="successMessage">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>Menu Code</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Remarkable</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($menus as $menu)
+                                <tr>
+                                    <td>{{ $menu->menu_code }}</td>
+                                    <td>{{ $menu->name }}</td>
+                                    <td>{{ $menu->desc }}</td>
+                                    <td>{{ $menu->price }}</td>
+                                    <td>{{ $menu->status }}</td>
+                                    <td>{{ is_array($menu->remarkable) ? implode(', ', $menu->remarkable) : '' }}</td>
+                                    <td>
+                                        <button type="button"
+                                            onclick="editMenu('{{ $menu->menu_code }}', '{{ $menu->name }}', '{{ $menu->desc }}', '{{ $menu->price }}', '{{ json_encode($menu->remarkable) }}')">
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{{ route('menus.destroy', $menu->menu_code) }}"
+                                            style="display: inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" value="Delete"
+                                                onclick="return confirm('Are you sure?')">
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -236,6 +361,54 @@
     </footer>
     <!-- footer section -->
 
+    <!-- Script Section -->
+    <script>
+        // Hide the success message after 3 seconds
+        setTimeout(function() {
+            let successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+        }, 3000);
+
+        // Switch from Add Menu to Edit Menu form
+        function editMenu(menuCode, name, desc, price, remarks) {
+            document.getElementById('addMenuForm').style.display = 'none';
+            document.getElementById('editMenuForm').style.display = 'block';
+
+            document.getElementById('editName').value = name;
+            document.getElementById('editDesc').value = desc;
+            document.getElementById('editPrice').value = price;
+
+            const statusField = document.getElementById('editStatus');
+            statusField.value = status;
+
+            // Populate the remarks for editing
+            let selectedRemarks = JSON.parse(remarks);
+            let remarkList = @json($remarks);
+            let remarkTable = '';
+
+            remarkList.forEach(function(remark) {
+                let isChecked = selectedRemarks.includes(remark.name) ? 'checked' : '';
+                let formattedPrice = parseFloat(remark.price).toFixed(2);
+                remarkTable += `<tr>
+                                    <td><input type="checkbox" name="remarks[]" value="${remark.name}" ${isChecked}></td>
+                                    <td>${remark.name}</td>
+                                    <td>${formattedPrice}</td>
+                                </tr>`;
+            });
+
+            document.getElementById('editRemarks').innerHTML = remarkTable;
+            document.getElementById('editMenuAction').action = '/menus/' + menuCode;
+        }
+
+        // Cancel Edit and switch back to Add Menu form
+        function cancelEdit() {
+            document.getElementById('addMenuForm').style.display = 'block';
+            document.getElementById('editMenuForm').style.display = 'none';
+        }
+    </script>
+
     <!-- jQery -->
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <!-- popper js -->
@@ -248,8 +421,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <!-- isotope js -->
     <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-    <!-- nice select -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
     <!-- custom js -->
     <script src="{{ asset('js/custom.js') }}"></script>
     <!-- Google Map -->
