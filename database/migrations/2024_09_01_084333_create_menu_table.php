@@ -17,19 +17,9 @@ return new class extends Migration
             $table->text('desc')->nullable();       // Optional description of the menu item
             $table->decimal('price', 8, 2);         // Price of the menu item
             $table->enum('status', ['active', 'soldOut', 'archived'])
-                ->default('active');       // Enum status
+                ->default('active');                // Enum status
+            $table->json('remarkable')->nullable(); // Store array of remarkable tags
             $table->timestamps();                   // Created_at and Updated_at timestamps
-        });
-
-        Schema::create('remarks', function (Blueprint $table) {
-            $table->id();
-            $table->string('remark');           // Remark description (e.g., "No veg", "Less spicy")
-            $table->string('menu_code');        // Foreign key reference to menus
-            $table->foreign('menu_code')
-                ->references('menu_code')
-                ->on('menu')
-                ->onDelete('cascade');
-            $table->timestamps();               // Created_at and Updated_at timestamps
         });
     }
 
@@ -38,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('remarks');
         Schema::dropIfExists('menu');
     }
 };

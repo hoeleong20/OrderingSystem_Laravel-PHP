@@ -7,11 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
-
-Route::get('/menu/create', [MenuController::class, 'create'])->name('menus.create');
-
-Route::post('/menu', [MenuController::class, 'store'])->name('menus.store');
+Route::resource('menus', MenuController::class);
+Route::get('/menu/adminMenu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
 
 Route::get('/about', function () {
     return view('about');

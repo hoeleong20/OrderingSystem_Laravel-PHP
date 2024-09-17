@@ -75,7 +75,7 @@
                             </li>
                         </ul>
                         <div class="user_option">
-                            <a href="{{ route('menus.create') }}" class="user_link">
+                            <a href="" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
                             <a class="cart_link" href="#">
@@ -134,6 +134,14 @@
                     Our Menu
                 </h2>
             </div>
+
+            <!-- Admin ONLY -->
+            <div>
+                <a href="{{ route('menus.adminMenu') }}">
+                    Admin
+                </a>
+            </div>
+            <!-- End Admin ONLY -->
 
             <ul class="filters_menu">
                 <li class="active" data-filter="*">All</li>

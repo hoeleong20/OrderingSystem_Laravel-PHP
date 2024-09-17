@@ -2,20 +2,48 @@
 
 namespace App\Decorators;
 
-use App\Models\Menu;
-use App\Models\Remark;
-
 class DecoratorFactory
 {
-    public static function createDecorator(Menu $menu, Remark $remark): DecoratorInterface
+    /**
+     * Apply the correct remark decorator to the menu based on the remark type.
+     *
+     * @param MenuInterface $menu
+     * @param Remark $remark
+     * @return MenuInterface
+     */
+    public static function applyRemark(MenuInterface $menu, string $remarkName)
     {
-        // Implement logic to create the appropriate decorator based on the remark
-        if ($remark->remark === 'No Veg') {
-            return new NoVegDecorator($menu);
-        } elseif ($remark->remark === 'Less Spicy') {
-            return new LessSpicyDecorator($menu);
+        switch ($remarkName) {
+            case 'No Veg':
+                return new NoVegRemark($menu);
+            case 'No Spicy':
+                return new NoSpicyRemark($menu);
+            case 'Less Spicy':
+                return new LessSpicyRemark($menu);
+                case 'More Sauce':
+                    return new MoreSauceRemark($menu);
+                case 'Add Cheese':
+                    return new AddCheeseRemark($menu);
+            // Add more cases for additional remark types as needed...
+            default:
+                return $menu; // If no matching remark, return the menu unchanged
         }
-        // Add more conditions for other remarks as needed
-        return null; // Handle unknown remark
+    }
+
+    /**
+     * Return all available remarks with corresponding decorators.
+     *
+     * @return array
+     */
+    public static function getAvailableRemarks()
+    {
+        return [
+            ['name' => 'No Veg', 'price' => 0.00],
+            ['name' => 'No Spicy', 'price' => 0.00],
+            ['name' => 'Less Spicy', 'price' => 0.00],
+            ['name' => 'More Sauce', 'price' => 1.00],
+            ['name' => 'Add Cheese', 'price' => 2.00],
+            // Add more available remarks here...
+        ];
     }
 }
