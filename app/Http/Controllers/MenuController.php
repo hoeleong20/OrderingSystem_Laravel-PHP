@@ -16,7 +16,7 @@ class MenuController extends Controller
     public function index()
     {
         //$menus = Menu::all();       //problem!!!
-        return view('menus.menu'/*, compact('menus')*/);
+        return view('menus.index'/*, compact('menus')*/);
     }
 
     /**
@@ -38,18 +38,45 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $menu = Menu::create([
-            'menu_code' => $request->menu_code,
-            'name' => $request->name,
-            'desc' => $request->desc,
-            'price' => $request->price,
+        // Validate all field required
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'desc' => 'required|string',
+            'price' => 'required|decimal:2'
         ]);
 
-        // Attach remarks to the menu
-        $menu->remarks()->sync($request->remarks);
+        // Auto generate menu_code with format (A001-A999)
+        $menuCode = $this->generateMenuCode();
 
-        return redirect()->route('menus.index')->with('success', 'Menu created successfully.');
+        // Add menu_code to validatedData
+        $validatedData['menu_code'] = $menuCode;
+
+        // Store to database
+        $newMenu = Menu::create($validatedData);
+
+        return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
     }
+
+    private function generateMenuCode()
+    {
+        $lastMenu = Menu::latest()->first();
+
+        if (!$lastMenu) {
+            // If no previous menu exists, start with A001
+            return 'A001';
+        }
+
+        // Extract the numeric part of the last menu code
+        $lastNumber = substr($lastMenu->menu_code, 1);
+
+        // Increment the number
+        $newNumber = str_pad(intval($lastNumber) + 1, 3, '0', STR_PAD_LEFT);
+
+        // Combine the prefix and the new number
+        return 'A' . $newNumber;
+
+    }
+
 
     /**
      * Display the specified menu.

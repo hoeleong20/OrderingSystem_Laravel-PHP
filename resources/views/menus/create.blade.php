@@ -19,9 +19,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}" />
 
     <!--owl slider stylesheet -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <!-- nice select  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+        integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+        crossorigin="anonymous" />
     <!-- font awesome style -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 
@@ -48,7 +52,9 @@
                         </span>
                     </a>
 
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class=""> </span>
                     </button>
 
@@ -58,7 +64,8 @@
                                 <a class="nav-link" href="{{ route('welcome') }}">Home </a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ route('menu') }}">Menu <span class="sr-only">(current)</span> </a>
+                                <a class="nav-link" href="{{ route('menus.index') }}">Menu <span
+                                        class="sr-only">(current)</span> </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('about') }}">About</a>
@@ -72,7 +79,10 @@
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
                             <a class="cart_link" href="#">
-                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
+                                    xml:space="preserve">
                                     <g>
                                         <g>
                                             <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -113,22 +123,33 @@
 
     <!-- Create new menu form -->
     <section class="layout_padding">
-        <div class="heading_container heading_center">
+        <div class="heading_container">
             <h2>Add a new menu item</h2>
         </div>
         <div class="col-md-6">
             <div class="form_container">
-                <form method="post" action="">
+                <form method="post" action="{{ route('menus.store') }}">
+                    @csrf
+                    @method('post')
                     <div>
                         <label>Menu : </label>
-                        <input type="name" name="name" placeholder="New menu name" />
+                        <input type="text" name="name" placeholder="New menu name" />
+                    </div>
+                    <div>
+                        <label>Description : </label>
+                        <input type="text" name="desc" placeholder="Description" />
+                    </div>
+                    <div>
+                        <label>Price : </label>
+                        <input type="text" name="price" placeholder="Price" />
+                    </div>
+                    <div>
+                        <input type="submit" value="Add Menu" />
                     </div>
                 </form>
             </div>
         </div>
     </section>
-
-
 
     <!-- footer section -->
     <footer class="footer_section">
@@ -167,7 +188,8 @@
                             Feane
                         </a>
                         <p>
-                            Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+                            Necessary, making this the first true generator on the Internet. It uses a dictionary of
+                            over 200 Latin words, combined with
                         </p>
                         <div class="footer_social">
                             <a href="">
@@ -215,13 +237,13 @@
     <!-- jQery -->
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <!-- popper js -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
     <!-- bootstrap js -->
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <!-- owl slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <!-- isotope js -->
     <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
     <!-- nice select -->

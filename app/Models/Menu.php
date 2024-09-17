@@ -9,7 +9,9 @@ use App\Decorators\DecoratorFactory;
 class Menu extends Model
 {
     use HasFactory;
-    
+
+    protected $table = 'menu';
+
     protected $fillable = [
         'menu_code',
         'name',

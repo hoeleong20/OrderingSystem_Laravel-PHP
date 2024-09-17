@@ -7,9 +7,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/menus/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
 
-Route::get('/menus/create', [MenuController::class, 'create'])->name('menus.create');
+Route::get('/menu/create', [MenuController::class, 'create'])->name('menus.create');
+
+Route::post('/menu', [MenuController::class, 'store'])->name('menus.store');
 
 Route::get('/about', function () {
     return view('about');
