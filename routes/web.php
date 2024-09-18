@@ -13,14 +13,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
 route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
 //route::get('post', [HomeController::class, 'post'])->middleware('auth','admin')->name('post');
+use App\Http\Controllers\MenuController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/menu', function () {
-    return view('menu');
-})->name('menu');
+Route::resource('menus', MenuController::class);
+Route::get('/menu/adminMenu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
 
 Route::get('/about', function () {
     return view('about');
