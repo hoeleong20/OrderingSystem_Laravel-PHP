@@ -146,43 +146,37 @@
     <div class="container">
       <div class="heading_container">
         <h2>
-          Book A Table
+          Make a Reservation
         </h2>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="">
+            <form action="" method="POST">
+              @csrf
               <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
+                <input type="text" class="form-control" name="name" placeholder="Your Name" required />
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
+                <input type="text" class="form-control" name="phone" placeholder="Phone Number" required />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
+                <input type="email" class="form-control" name="email" placeholder="Your Email" required />
               </div>
               <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    How many persons?
-                  </option>
-                  <option value="">
-                    2
-                  </option>
-                  <option value="">
-                    3
-                  </option>
-                  <option value="">
-                    4
-                  </option>
-                  <option value="">
-                    5
-                  </option>
+                <input type="number" class="form-control" name="pax" placeholder="No. of Pax" required />
+              </div>
+              <div>
+                <input type="datetime-local" class="form-control" name="datetime" required>
+              </div>
+              <div>
+                <select class="form-control nice-select wide" name="reservation_type" required>
+                  <option value="none" selected disabled hidden>Select Reservation Type</option>
+                  <option value="table">Reserve a Table</option>
+                  <option value="dish">Reserve a Dish</option>
+                  <option value="combined">Reserve Table with Dish</option>
+                  <option value="event">Reserve as an Event</option>
                 </select>
-              </div>
-              <div>
-                <input type="date" class="form-control">
               </div>
               <div class="btn_box">
                 <button>
