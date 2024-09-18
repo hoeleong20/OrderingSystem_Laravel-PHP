@@ -36,7 +36,7 @@
 
     <div class="hero_area">
         <div class="bg-box">
-            <img src="{{ asset('images/hero-bg.jpg') }}" alt="">
+            <img src="images/hero-bg.jpg" alt="">
         </div>
         <!-- header section strats -->
         <header class="header_section">
@@ -58,7 +58,7 @@
                                 <a class="nav-link" href="{{ route('welcome') }}">Dashboard <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('menus.index') }}">Menu</a>
+                                <a class="nav-link" href="{{ route('menu') }}">Menu</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('about') }}">About</a>
@@ -719,7 +719,7 @@
                 </div>
             </div>
             <div class="btn-box">
-                <a href="{{ route('menus.index') }}">
+                <a href="{{ route('menu') }}">
                     View More
                 </a>
             </div>
