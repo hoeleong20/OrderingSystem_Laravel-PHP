@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<order>
+    <foodItem>
+        <foodId>Pizza</foodId>
+        <price>10.99</price>
+        <quantity>1</quantity>
+    </foodItem>
+    <foodItem>
+        <foodId>Burger</foodId>
+        <price>7.99</price>
+        <quantity>2</quantity>
+    </foodItem>
+    <foodItem >
+        <foodId>Soda</foodId>
+        <price>1.99</price>
+        <quantity>3</quantity>
+    </foodItem>
+</order>
+
+

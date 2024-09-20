@@ -17,3 +17,11 @@ Route::get('/about', function () {
 Route::get('/book', function () {
     return view('book');
 })->name('book');
+
+Route::get('/cartPage', function () {
+    return view('cartPage');
+})->name('cartPage');
+
+Route::get('/orderSummaryPage', function () {
+    return view('orderSummaryPage');
+})->name('orderSummaryPage');
