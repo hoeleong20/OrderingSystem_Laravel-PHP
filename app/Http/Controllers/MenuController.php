@@ -16,8 +16,17 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //$menus = Menu::all();       //problem!!!
-        return view('menus.index'/*, compact('menus')*/);
+        // Retrieve only active menus
+        $menus = Menu::where('status', 'active')->get();
+        $remarks = DecoratorFactory::getAvailableRemarks();
+
+        // Ensure each menu has a 'remarkable' field set
+        $menus->each(function ($menu) {
+            $menu->remarkable = $menu->remarkable ?? []; // Default to empty array if null
+        });
+
+        // Return the index view with the active menus
+        return view('menus.index', compact('menus', 'remarks'));
     }
 
     /**
@@ -44,10 +53,7 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-
-    }
+    public function create() {}
 
     /**
      * Store a newly created menu in storage.
@@ -112,10 +118,7 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show(Menu $menu)
-    {
-        return view('menus.show', compact('menu'));
-    }
+    public function show(Menu $menu) {}
 
     /**
      * Show the form for editing the specified menu.
@@ -123,10 +126,7 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function edit(Menu $menu)
-    {
-
-    }
+    public function edit(Menu $menu) {}
 
     /**
      * Update the specified menu in storage.
