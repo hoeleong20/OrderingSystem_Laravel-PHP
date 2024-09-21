@@ -10,6 +10,7 @@ Route::get('/', function () {
 Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
 Route::resource('menus', MenuController::class);
 Route::get('/menu/adminMenu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
+Route::get('/menu/{menu_code}', [MenuController::class, 'show'])->name('menus.show');
 
 Route::get('/about', function () {
     return view('about');
