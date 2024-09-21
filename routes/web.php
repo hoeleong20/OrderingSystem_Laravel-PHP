@@ -2,15 +2,16 @@
 
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/menu', function () {
-    return view('menu');
-})->name('menu');
+Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
+Route::resource('menus', MenuController::class);
+Route::get('/menu/adminMenu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
 
 // Route::get('/order', action: [OrderController::class,'index'])->name('order.index');
 // Route::get('/order/create', action: [OrderController::class,'create'])->name('order.create');
@@ -45,11 +46,3 @@ Route::get('/about', function () {
 Route::get('/book', function () {
     return view('book');
 })->name('book');
-
-// Route::get('/cartPage', function () {
-//     return view('cartPage');
-// })->name('cartPage');
-
-// Route::get('/checkOut', function () {
-//     return view('checkOut');
-// })->name('checkOut');

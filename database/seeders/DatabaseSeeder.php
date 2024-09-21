@@ -15,13 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            MenuSeeder::class, // Add this line to call the MenuSeeder
+        
+        ]);
+
         // User::factory(10)->create();
 
         User::factory()->create([
             'id'=>1,
             'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
         
         CartItem::factory(3)->create();
         Order::factory(3)->create();
