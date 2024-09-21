@@ -40,32 +40,31 @@
 
 
   <style>
-    .addItemSuccessToast{
-      z-index: 5; 
+    .addItemSuccessToast {
+      z-index: 5;
       bottom: 1rem;
       left: 25%;
       width: 50%;
     }
 
-    #liveToast{
-      max-width: 100%!important;
+    #liveToast {
+      max-width: 100% !important;
       border-radius: 1rem;
     }
 
-    .toast-header{
-      height:6rem;
+    .toast-header {
+      height: 6rem;
     }
 
-    #toastImage{
-      max-height:60px;
+    #toastImage {
+      max-height: 60px;
     }
 
-    #toastText{
+    #toastText {
       font-size: 1.3rem;
       margin: 0 auto;
-      color:#ff9c33;
+      color: #ff9c33;
     }
-
   </style>
 </head>
 
@@ -108,7 +107,7 @@
               <a href="" class="user_link">
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
-              <a class="cart_link" href="{{ route('cartPage') }}">
+              <a class="cart_link" href="{{ route('order.index') }}">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
@@ -255,49 +254,55 @@
     </div>
   </section>
 
+
   <!-- Modal -->
   <div class="modal fade" id="orderItemModal" tabindex="-1" role="dialog" aria-labelledby="orderItemModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Order</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <?php
+        <form action="{{ route('order.store') }}" method="POST">
+          @csrf
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Order</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <?php
+            // Include the necessary classes
+            require_once 'C:\xampp\htdocs\RestaurantOrderingSystem\resources\views\OrderModule\MenuSAXParser.php';
+            require_once 'C:\xampp\htdocs\RestaurantOrderingSystem\resources\views\OrderModule\Menu.php';
 
-          require_once 'C:\xampp\htdocs\RestaurantOrderingSystem\resources\views\OrderModule\MenuSAXParser.php';  // Include the SAXParser class
-          require_once 'C:\xampp\htdocs\RestaurantOrderingSystem\resources\views\OrderModule\Menu.php';      // Ensure Menu class is also included
+            // Initialize the parser with the XML file
+            $parser = new MenuSAXParser('C:\xampp\htdocs\RestaurantOrderingSystem\resources\views\OrderModule\Menu.xml');
 
-          // Initialize the parser with the XML file
-          $parser = new MenuSAXParser('C:\xampp\htdocs\RestaurantOrderingSystem\resources\views\OrderModule\Menu.xml');
+            // Get the menu data from the parser
+            $menuItems = $parser->getMenuData();
 
-          // Get the menu data from the parser
-          $menuItems = $parser->getMenuData();
+            // Display each menu item
+            foreach ($menuItems as $menu) {
+              echo "<div class='menu-item'>" . $menu . "</div>";
+            }
+            ?>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <!-- Change the button type to 'submit' to trigger form submission -->
+            <button type="submit" style="color:white" class="btn btn-primary" id="addToCartBtn">Add to Cart</button>
+          </div>
+        </form>
 
-          // Display each menu item
-          foreach ($menuItems as $menu) {
-            echo "<div class='menu-item'>" . $menu . "</div>";
-          }
-          ?>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="addToCartBtn" data-item-id="1">Add to Cart</button>
-        </div>
       </div>
     </div>
   </div>
 
-<!-- Display the result here -->
-<div id="cartResult"></div>
+  <!-- Display the result here -->
+  <div id="cartResult"></div>
 
 
   <!-- Toast -->
   <div class="position-fixed addItemSuccessToast">
-    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">  <!-- toast hide -->
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000"> <!-- toast hide -->
       <div class="toast-header">
         <img src="images/f1.png" id="toastImage" class="rounded mx-5" alt="...">
         <strong class="mr-auto" id="toastText">You have successfully added an item to cart.</strong>
@@ -443,14 +448,14 @@
       // modal.dispose()
       // modal.hide()
 
-
+      // document.querySelector('form').submit();
       $('#liveToast').toast('show')
     });
 
 
 
 
-    
+
     // When the button is clicked, send a request to the PHP script
 
     // document.getElementById('addToCartBtn').addEventListener('click', function() {
