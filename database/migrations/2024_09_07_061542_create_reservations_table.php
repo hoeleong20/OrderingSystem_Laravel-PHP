@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reservations', function (Blueprint $table) {
-            $table->string('reservation_id')->primary();
-            $table->string('customer_name');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('pax')->nullable();
-            $table->string('date')->nullable();
-            $table->string('time')->nullable();
-            // $table->id('tableID');
+            $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->integer('pax');
+            $table->dateTime('datetime');
+            $table->enum('reservation_type', ['table', 'table_with_dish', 'dish', 'event']);
             $table->timestamps();
         });
     }

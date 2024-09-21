@@ -152,7 +152,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="" method="POST">
+            <form action="{{ route('reservations.store') }}" method="POST">
               @csrf
               <div>
                 <input type="text" class="form-control" name="name" placeholder="Your Name" required />

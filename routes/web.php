@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\ReservationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,3 +19,6 @@ Route::get('/book', function () {
     return view('book');
 })->name('book');
 
+Route::resource('reservations', ReservationController::class);
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+Route::get('/reservations/{id}/summary', [ReservationController::class, 'summary'])->name('reservations.summary');

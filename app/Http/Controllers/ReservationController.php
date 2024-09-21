@@ -3,46 +3,78 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\Reservation;
+use App\Models\Reservation;
 
 class ReservationController extends Controller
 {
-    public function makeReservation(Request $request)
+    public function index()
     {
-        // Validate the form data
+        $reservations = Reservation::all();
+        return view('reservations.index', compact('reservations'));
+    }
+
+    public function create()
+    {
+        return view('reservations.create');
+    }
+
+    public function store(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email',
             'pax' => 'required|integer',
             'datetime' => 'required|date',
-            'reservation_type' => 'required|string|in:table, table_with_dish, dish, event',
-            'dish_id' => 'nullable|array',  // Dish IDs can be an array
-            'dish_id.*' => 'exists:dishes,id',  // Each dish ID should exist in the dishes table
+            'reservation_type' => 'required|in:table,table_with_dish,dish,event'
         ]);
 
-        // Save reservation data
-        $reservation = new Reservation();
-        $reservation->name = $request->input('name');
-        $reservation->phone = $request->input('phone');
-        $reservation->email = $request->input('email');
-        $reservation->pax = $request->input('pax');
-        $reservation->reservation_date = $request->input('datetime');
-        $reservation->reservation_type = $request->input('reservation_type');
+        // Create the reservation
+        $reservation = Reservation::create($request->all());
 
-        $reservation->save();
+        // Redirect to the reservation summary page with the newly created reservation
+        return redirect()->route('reservations.summary', $reservation->id);
+    }
 
-        // Save multiple dishes if the reservation type involves dishes
-        if (in_array($request->input('reservation_type'), ['dish', 'combined'])) {
-            $dishIds = $request->input('dish_id', []);
-            foreach ($dishIds as $dishId) {
-                // DB::table('reservation_dish')->insert([
-                //     'reservation_id' => $reservation->id,
-                //     'dish_id' => $dishId,
-                // ]);
-            }
-        }
+    public function show(Reservation $reservation)
+    {
+        return view('reservations.show', compact('reservation'));
+    }
 
-        return redirect()->back()->with('success', 'Reservation made successfully!');
+    public function edit(Reservation $reservation)
+    {
+        return view('reservations.edit', compact('reservation'));
+    }
+
+    public function update(Request $request, Reservation $reservation)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email',
+            'pax' => 'required|integer',
+            'datetime' => 'required|date',
+            'reservation_type' => 'required|in:table,table_with_dish,dish,event'
+        ]);
+
+        $reservation->update($request->all());
+
+        return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');
+    }
+
+    public function destroy(Reservation $reservation)
+    {
+        $reservation->delete();
+
+        return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully.');
+    }
+
+    public function summary($id)
+    {
+        // Retrieve the reservation
+        $reservation = Reservation::findOrFail($id);
+
+        // Return the summary view with the reservation details
+        return view('reservations.summary', compact('reservation'));
     }
 }
