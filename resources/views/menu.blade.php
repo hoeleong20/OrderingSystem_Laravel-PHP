@@ -312,6 +312,12 @@
       </div>
     </div>
   </div>
+
+  @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
   <!-- end food section -->
 
   <!-- footer section -->
@@ -483,6 +489,9 @@
     //         // Send the request with the itemID
     //         xhr.send('itemID=' + itemID);
     //     });
+
+
+    
   </script>
 
 </body>

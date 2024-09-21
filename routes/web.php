@@ -8,7 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-
+Route::get('/menu', function () {
+    return view('menu');
+})->name('menu');
 
 // Route::get('/order', action: [OrderController::class,'index'])->name('order.index');
 // Route::get('/order/create', action: [OrderController::class,'create'])->name('order.create');
@@ -19,17 +21,22 @@ Route::get('/', function () {
 // Route::delete('/order/{id}', action: [OrderController::class,'destroy'])->name('order.destroy');
 
 // Route::get('/order/checkOut', [OrderController::class, 'checkOut'])->name('order.checkOut');
+Route::get('/checkOut', [OrderController::class, 'checkOut'])->name('order.checkOut');
+Route::post('/order/{id}/pay', [OrderController::class, 'pay'])->name('order.pay');
+
+
+
 Route::resource('order',controller: OrderController::class);
 
 
+//  Route::post('/payment', action: [OrderController::class,'store'])->name('order.store');
+//  Route::put('/order/{id}', action: [OrderController::class,'update'])->name('order.update');
 
 
 
 
 
-Route::get('/menu', function () {
-    return view('menu');
-})->name('menu');
+
 
 Route::get('/about', function () {
     return view('about');
@@ -43,6 +50,6 @@ Route::get('/book', function () {
 //     return view('cartPage');
 // })->name('cartPage');
 
-Route::get('/checkOut', function () {
-    return view('checkOut');
-})->name('checkOut');
+// Route::get('/checkOut', function () {
+//     return view('checkOut');
+// })->name('checkOut');

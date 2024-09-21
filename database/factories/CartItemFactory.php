@@ -17,10 +17,9 @@ class CartItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'orderID' => 'OR001',
-            'foodItemID' => 'FO001',
+            'orderID' => 1,
+            'foodName' => 'Burger',
             'quantity' => 1,
-            'status' => 'inCart'
         ];
     }
 }

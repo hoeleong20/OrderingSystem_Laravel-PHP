@@ -212,6 +212,20 @@
 
               <div class="container">
                 <h1 class="h3 mb-5">Payment</h1>
+
+
+                @if (isset($order))
+                <p>Order ID: {{ $order->id }}</p>
+                <p>Customer ID: {{ $order->customerID }}</p>
+                <p>Total Payment: {{ $order->paymentTotal }}</p>
+                <p>Payment Method: {{ $order->paymentMethod }}</p>
+                <!-- Add more order details as needed -->
+                @else
+                <p>No pending order available.</p>
+                @endif
+
+
+                
                 <div class="row">
                   <!-- Left -->
                   <div class="accordion" id="accordionPayment">
@@ -320,25 +334,23 @@
             </div>
           </div>
           <div class="col-md-5">
+          <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST">
+            @csrf  
             <div class="right border">
               <div class="header">Order Summary</div>
-              <p>2 items</p>
+              <p>Qty: {{ $totalItems }}</p>
+              @foreach ($cartItems as $cartItem)
               <div class="row item">
                 <div class="col-4 align-self-center"><img class="img-fluid" src="images/f1.png"></div>
                 <div class="col-8">
                   <div class="row"><b>$ 26.99</b></div>
-                  <div class="row text-muted">Be Legandary Lipstick-Nude rose</div>
-                  <div class="row">Qty:1</div>
+                  <div class="row text-muted">{{ $cartItem->foodName }}</div>
+                  <div class="row">Qty:{{ $cartItem->quantity }}</div>
                 </div>
               </div>
-              <div class="row item">
-                <div class="col-4 align-self-center"><img class="img-fluid" src="images/f1.png"></div>
-                <div class="col-8">
-                  <div class="row"><b>$ 19.99</b></div>
-                  <div class="row text-muted">Be Legandary Lipstick-Sheer Navy Cream</div>
-                  <div class="row">Qty:1</div>
-                </div>
-              </div>
+                @endforeach
+              
+ 
               <hr>
               <div class="row lower">
                 <div class="col text-left">Subtotal</div>
@@ -355,10 +367,11 @@
               <div class="row lower">
                 <div class="col text-left"><a href="#"><u>Add promo code</u></a></div>
               </div>
-              <button class="paymentBtn" id="makePaymentBtn">Make Payment</button>
+              <button type="submit" class="paymentBtn" id="makePaymentBtn">Make Payment</button>
               <!-- Result display -->
               <div id="result"></div>
             </div>
+            </form>
           </div>
         </div>
       </div>
@@ -394,33 +407,33 @@
               <img class="cc-types__img cc-types__img--genric">
             </div>
             <form id="addCardForm">
-            <div class="mb-3">
-              <label class="form-label">Card Number</label>
-              <input type="text" class="form-control cc-number-input" name="cc-number-input" id="cc-number-input" placeholder="" maxlength="19" required>
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="mb-3">
-                  <label class="form-label">Name on card</label>
-                  <input type="text" class="form-control cc-name-input" id="cc-name-input" placeholder="" >
+              <div class="mb-3">
+                <label class="form-label">Card Number</label>
+                <input type="text" class="form-control cc-number-input" name="cc-number-input" id="cc-number-input" placeholder="" maxlength="19" required>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Name on card</label>
+                    <input type="text" class="form-control cc-name-input" id="cc-name-input" placeholder="">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="mb-3">
+                    <label class="form-label">Expiry date</label>
+                    <input type="text" class="form-control cc-expiry-input" id="cc-expiry-input" placeholder="MM/YY" maxlength="5">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="mb-3">
+                    <label class="form-label">CVV Code</label>
+                    <input type="text" class="form-control cc-cvc-input" id="cc-cvc-input" maxlength="3">
+                  </div>
                 </div>
               </div>
-              <div class="col-lg-3">
-                <div class="mb-3">
-                  <label class="form-label">Expiry date</label>
-                  <input type="text" class="form-control cc-expiry-input" id="cc-expiry-input" placeholder="MM/YY" maxlength="5" >
-                </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addNewCardBtn" data-item-id="1">Save Card</button>
               </div>
-              <div class="col-lg-3">
-                <div class="mb-3">
-                  <label class="form-label">CVV Code</label>
-                  <input type="text" class="form-control cc-cvc-input" id="cc-cvc-input" maxlength="3" >
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" id="addNewCardBtn" data-item-id="1">Save Card</button>
-            </div>
             </form>
           </div>
         </div>
@@ -446,29 +459,7 @@
   <script src="js/bootstrap.js"></script>
 
   <script>
-    document.getElementById('makePaymentBtn').addEventListener('click', function() {
-      // Create an AJAX request to send the trigger to the server
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost/RestaurantOrderingSystem/resources/views/OrderModule/MakePayment.php', true);
 
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          // Successfully processed the request
-          document.getElementById('result').textContent = xhr.responseText;
-        } else {
-          // Display error message for non-200 status
-          document.getElementById('result').textContent = 'Error processing the payment. Status Code: ' + xhr.status;
-        }
-      };
-
-      xhr.onerror = function() {
-        // Handle network errors
-        document.getElementById('result').textContent = 'Request failed. Please check your network connection.';
-      };
-
-      // Send the request
-      xhr.send();
-    });
 
 
     //Modal
@@ -642,36 +633,36 @@
 
 
     $(document).ready(function() {
-    $('#addNewCardBtn').click(function(e) {
+      $('#addNewCardBtn').click(function(e) {
         e.preventDefault(); // Prevent the default form submission
 
         // Collect form data
         var formData = {
-            'cc-number-input': $('#cc-number-input').val(),
-            'cc-name-input': $('input[name="cc-name-input"]').val(),
-            'cc-expiry-input': $('input[name="cc-expiry-input"]').val(),
-            'cc-cvc-input': $('input[name="cc-cvc-input"]').val()
+          'cc-number-input': $('#cc-number-input').val(),
+          'cc-name-input': $('input[name="cc-name-input"]').val(),
+          'cc-expiry-input': $('input[name="cc-expiry-input"]').val(),
+          'cc-cvc-input': $('input[name="cc-cvc-input"]').val()
         };
 
         // Send the data using AJAX
         $.ajax({
-            url: 'http://localhost/RestaurantOrderingSystem/resources/views/OrderModule/AddNewCard.php', // The PHP file to process the request
-            type: 'POST', // HTTP method
-            data: formData, // Data to be sent to the server
-            success: function(response) {
-                // Show a success message
-                document.getElementById('result').textContent = response;
-                alert(response);
-                // You can also update the UI here if needed
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors
-                // console.error('Error: ' + error);
-                
-            }
+          url: 'http://localhost/RestaurantOrderingSystem/resources/views/OrderModule/AddNewCard.php', // The PHP file to process the request
+          type: 'POST', // HTTP method
+          data: formData, // Data to be sent to the server
+          success: function(response) {
+            // Show a success message
+            document.getElementById('result').textContent = response;
+            alert(response);
+            // You can also update the UI here if needed
+          },
+          error: function(xhr, status, error) {
+            // Handle any errors
+            // console.error('Error: ' + error);
+
+          }
         });
+      });
     });
-});
 
 
     // document.getElementById('addNewCardBtn').addEventListener('click', function(event) {
@@ -717,39 +708,39 @@
 
 
 
-            // Function to fetch and display data
-            function fetchData() {
-            fetch('..\views\orderModule\ListCard.php')
-                .then(response => response.json())
-                .then(data => {
-                    const resultDiv = document.getElementById('result');
-                    resultDiv.innerHTML = ''; // Clear previous results
+    // Function to fetch and display data
+    function fetchData() {
+      fetch('..\views\orderModule\ListCard.php')
+        .then(response => response.json())
+        .then(data => {
+          const resultDiv = document.getElementById('result');
+          resultDiv.innerHTML = ''; // Clear previous results
 
-                    if (data.status === 'success') {
-                        // Display the results
-                        data.data.forEach(record => {
-                            const recordDiv = document.createElement('div');
-                            recordDiv.classList.add('record');
-                            recordDiv.innerHTML = `
+          if (data.status === 'success') {
+            // Display the results
+            data.data.forEach(record => {
+              const recordDiv = document.createElement('div');
+              recordDiv.classList.add('record');
+              recordDiv.innerHTML = `
                                 <p><strong>Payment Method ID:</strong> ${record.paymentMethodId}</p>
                                 <p><strong>Customer ID:</strong> ${record.customerId}</p>
                                 <p><strong>Card Number:</strong> ${record.cardNumber}</p>
                             `;
-                            resultDiv.appendChild(recordDiv);
-                        });
-                    } else {
-                        resultDiv.innerHTML = `<p>${data.message}</p>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    document.getElementById('result').innerHTML = `<p>Error fetching data.</p>`;
-                });
-        }
+              resultDiv.appendChild(recordDiv);
+            });
+          } else {
+            resultDiv.innerHTML = `<p>${data.message}</p>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          document.getElementById('result').innerHTML = `<p>Error fetching data.</p>`;
+        });
+    }
 
 
-        // Fetch data on page load
-        window.onload = fetchData;
+    // Fetch data on page load
+    window.onload = fetchData;
   </script>
 </body>
 

@@ -17,9 +17,10 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'customerId' => 1,
+            'customerID' => 1,
             'paymentTotal' => 100,
             'paymentMethod' => 'TNG',
+            'status' => 'pending',
         ];
     }
 }

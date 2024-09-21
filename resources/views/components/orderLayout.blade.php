@@ -49,7 +49,7 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css"
   rel="stylesheet"
 />
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="sub_page">
@@ -177,6 +177,71 @@
   
 ></script>
 <script>
+function updateQuantity(cartItemId, action) {
+        // Get the current quantity value
+        const quantityInput = document.getElementById(`quantity-${cartItemId}`);
+        let currentQuantity = parseInt(quantityInput.value);
+
+        // Update the quantity based on the action
+        if (action === 'increase') {
+            currentQuantity++;
+        } else if (action === 'decrease' && currentQuantity > 0) {
+            currentQuantity--;
+        }
+
+        // Update the input value
+        quantityInput.value = currentQuantity;
+
+        // Send the updated quantity to the server
+        fetch(`/order/${cartItemId}`, { // Use the correct route format
+            method: 'PUT', // Use PUT for updating
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Add CSRF token for security
+            },
+            body: JSON.stringify({ quantity: currentQuantity }) // Send updated quantity
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle success response (optional)
+            console.log('Success:', data);
+            // You can also show a success message or update the UI accordingly
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+
+
+
+
+    function deleteRecord(cartItemId) {
+      console.log("Deleting cart item with ID: " + cartItemId);
+
+    if (confirm("Are you sure you want to delete this item?")) {
+        fetch(`/order/${cartItemId}`, {
+            method: 'DELETE', // Use DELETE for deleting
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Add CSRF token for security
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse JSON response
+        })
+        .then(data => {
+            alert(data.message); // Show success message
+            location.reload(); // Reload the page or update the UI as needed
+        })
+        .catch(error => {
+            alert('Error deleting item: ' + error.message);
+        });
+    }
+}
 
 </script>
 

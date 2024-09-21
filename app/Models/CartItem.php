@@ -9,6 +9,6 @@ class CartItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['orderID', 'foodItemID', 'quantity', 'status'];
+    protected $fillable = ['orderID', 'foodName', 'quantity'];
 
 }
