@@ -4,8 +4,6 @@ namespace app\Models\Composite;
 
 // Author Khor Zhi Ying 
 
-use app\Models\Table;
-
 class TableReservation extends ReservableComponent {
     protected $tables = [];
 

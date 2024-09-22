@@ -1,7 +1,8 @@
 <!-- Author Khor Zhi Ying  -->
- 
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <title>Reserve Table with Dish</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
 </head>
+
 <body>
 
     <div class="container">
@@ -44,9 +46,11 @@
             <div class="form-group">
                 <label for="dishes">Select Dishes:</label>
                 <select name="dish_id[]" class="form-control" multiple required>
-                    @foreach ($menuItems as $menuItem)
-                        <option value="{{ $menuItem->id }}">{{ $menuItem->name }} - ${{ $menuItem->price }}</option>
-                    @endforeach
+                    <option value="dish-1">Spaghetti Bolognese</option>
+                    <option value="dish-2">Grilled Chicken</option>
+                    <option value="dish-3">Caesar Salad</option>
+                    <option value="dish-4">Margherita Pizza</option>
+                    <option value="dish-5">Beef Steak</option>
                 </select>
             </div>
 
@@ -57,4 +61,5 @@
     </div>
 
 </body>
+
 </html>

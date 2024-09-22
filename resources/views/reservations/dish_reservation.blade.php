@@ -1,6 +1,7 @@
 <!-- Author Khor Zhi Ying -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <title>Reserve a Dish</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
 </head>
+
 <body>
 
     <div class="container">
@@ -30,21 +32,21 @@
                 <input type="email" name="email" class="form-control" required>
             </div>
             <div>
-            <label for="email">Date and Time:</label>
+                <label for="email">Date and Time:</label>
                 <input type="datetime-local" class="form-control" name="datetime" required>
-              </div>
-              <input type="hidden" name="reservation_type" value="dish">
+            </div>
+            <input type="hidden" name="reservation_type" value="dish">
 
             <div class="form-group">
-            <label for="dishes">Select Dishes:</label>
-            <select name="dish_id[]" class="form-control" multiple required>
-                <option value="dish-1">Spaghetti Bolognese</option>
-                <option value="dish-2">Grilled Chicken</option>
-                <option value="dish-3">Caesar Salad</option>
-                <option value="dish-4">Margherita Pizza</option>
-                <option value="dish-5">Beef Steak</option>
-            </select>
-        </div>
+                <label for="dishes">Select Dishes:</label>
+                <select name="dish_id[]" class="form-control" multiple required>
+                    <option value="dish-1">Spaghetti Bolognese</option>
+                    <option value="dish-2">Grilled Chicken</option>
+                    <option value="dish-3">Caesar Salad</option>
+                    <option value="dish-4">Margherita Pizza</option>
+                    <option value="dish-5">Beef Steak</option>
+                </select>
+            </div>
 
             <input type="hidden" name="reservation_type" value="dish">
 
@@ -53,4 +55,5 @@
     </div>
 
 </body>
+
 </html>

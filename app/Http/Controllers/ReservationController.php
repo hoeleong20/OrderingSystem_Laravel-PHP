@@ -10,8 +10,6 @@ use App\Models\Composite\CompositeReservation;
 use App\Models\Composite\TableReservation;
 use App\Models\Composite\DishReservation;
 use App\Models\Composite\EventReservation;
-use App\Models\Table;
-use App\Models\Menu;
 
 class ReservationController extends Controller
 {
@@ -32,12 +30,12 @@ class ReservationController extends Controller
 
     public function createTableWithDishReservation()
     {
-        return view('reservations.table_with_dish_reservation');
+        return view('reservations.table_with_dish');
     }
 
     public function createEventReservation()
     {
-        return view('reservations.event_reservation');
+        return view('reservations.event');
     }
 
     public function store(Request $request)

@@ -5,7 +5,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReservationController;
-use App\Http\Middleware\Authenticate;
 
 Route::get('/', function () {
     return view('welcome');
