@@ -125,10 +125,7 @@
                 @csrf
                 <button type="submit" class="btn btn-primary">Send Sold Out Menus</button>
             </form>
-
-            @if (file_exists(storage_path('app/available_menus.xml')))
-                <a href="{{ route('menus.activate') }}" class="btn btn-success">Activate Menus</a>
-            @endif
+                <a href="{{ route('menus.activatePage') }}" class="btn btn-success">Activate Menus</a>
         </div>
         <div class="container">
             <div class="row">

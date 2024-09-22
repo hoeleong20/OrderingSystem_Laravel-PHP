@@ -254,42 +254,32 @@ class MenuController extends Controller
 
     public function activatePage()
     {
-        $xmlPath = storage_path('app/available_menus.xml');
-        $xslPath = storage_path('app/available_menus.xsl');
+        // Path to the XML and XSLT files
+        $xmlFilePath = storage_path('app/available_menus.xml');
+        $xslFilePath = storage_path('app/menu_transform.xsl');
 
-        // Check if the XML and XSLT files exist
-        if (file_exists($xmlPath) && file_exists($xslPath)) {
-            // Load XML
-            $xml = new DOMDocument;
-            $xml->load($xmlPath);
-
-            // Load XSLT
-            $xsl = new DOMDocument;
-            $xsl->load($xslPath);
-
-            // Configure the XSLT processor
-            $xsltProcessor = new XSLTProcessor();
-            $xsltProcessor->importStylesheet($xsl); // Attach the XSL rules
-
-            // Apply XPath to filter or select specific data
-            $xpath = new DOMXPath($xml);
-
-            // Example: Filter to select only menus with "Pizza" in their name
-            $menus = $xpath->query("//menu[contains(name, 'Pizza')]");
-
-            if ($menus->length > 0) {
-                // If filtered menus found, apply XSLT transformation
-                $html = $xsltProcessor->transformToXML($xml);
-            } else {
-                // If no menus match the filter, proceed with full transformation
-                $html = $xsltProcessor->transformToXML($xml);
-            }
-
-            // Pass transformed HTML to the Blade view
-            return view('menus.activateMenu', ['transformedHtml' => $html]);
-        } else {
-            return redirect()->route('menus.adminMenu')->with('error', 'XML or XSLT file not found.');
+        // Check if the XML or XSLT files exist
+        if (!file_exists($xmlFilePath) || !file_exists($xslFilePath)) {
+            return redirect()->back()->with('error', 'XML or XSLT file not found.');
         }
+
+        // Load the XML file
+        $xml = new \DOMDocument();
+        $xml->load($xmlFilePath);
+
+        // Load the XSLT file
+        $xsl = new \DOMDocument();
+        $xsl->load($xslFilePath);
+
+        // Create a new XSLT processor
+        $processor = new \XSLTProcessor();
+        $processor->importStylesheet($xsl);  // Attach the XSLT stylesheet
+
+        // Transform the XML into HTML using the XSLT processor
+        $transformedHtml = $processor->transformToXml($xml);
+
+        // Pass the transformed HTML to the Blade view
+        return view('menus.activateMenu'/*, compact('transformedHtml')*/);
     }
 
     public function activateMenus()
