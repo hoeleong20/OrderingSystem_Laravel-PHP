@@ -20,7 +20,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 
 
-route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+route::get('/home', [HomeController::class, 'index'])->middleware('auth', 'verified')->name('home');
 
 Route::get('/', function () {
     return view('welcome');
