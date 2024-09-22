@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Decorators\DecoratorFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use DOMDocument;
+use DOMXPath;
+use XSLTProcessor;
 
 class MenuController extends Controller
 {
@@ -178,5 +186,143 @@ class MenuController extends Controller
     {
         $menu->delete();
         return redirect()->route('menus.index')->with('success', 'Menu deleted successfully.');
+    }
+
+    // Function to send sold-out menus to the supplier's Python service
+    public function sendSoldOutMenus()
+    {
+        $soldOutMenus = Menu::where('status', 'soldOut')->pluck('name')->toArray();
+
+        // Log the sold-out menus
+        Log::info('Sending Sold Out Menus:', ['menus' => $soldOutMenus]);
+
+        try {
+            $response = Http::post('http://127.0.0.1:5000/check_availability', [
+                'menu_names' => $soldOutMenus,
+            ]);
+
+            // Log the entire response
+            Log::info('Response from Python Service:', ['response_body' => $response->body()]);
+
+            $availableMenus = json_decode($response->getBody(), true);
+
+            // Access the correct key ('available_menus')
+            if (isset($availableMenus['available_menus'])) {
+                $this->generateOrUpdateXML($availableMenus);  // Now process the available menus
+            } else {
+                Log::error('Available menus not found in the response.', ['response' => $availableMenus]);
+                return redirect()->route('menus.adminMenu')->with('error', 'No available menus found.');
+            }
+
+            return redirect()->route('menus.adminMenu')->with('success', 'Menus processed successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error sending sold out menus:', ['error' => $e->getMessage()]);
+            return redirect()->route('menus.adminMenu')->with('error', 'An error occurred while processing menus.');
+        }
+    }
+
+    // Function to generate or update the XML file with available menus
+    private function generateOrUpdateXML($availableMenus)
+    {
+        // Define the file path where the XML will be stored
+        $filePath = storage_path('app/available_menus.xml');
+
+        // Load existing XML file if it exists, otherwise create a new XML structure
+        $xml = file_exists($filePath) ? simplexml_load_file($filePath) : new \SimpleXMLElement('<menus/>');
+
+        // Loop through available menus and append them to the XML
+        foreach ($availableMenus['available_menus'] as $menuName) {
+            // Escape special characters in menu names to avoid XPath issues
+            $escapedMenuName = htmlspecialchars($menuName, ENT_QUOTES, 'UTF-8');
+
+            // Check if the menu already exists in the XML to avoid duplicate entries
+            $existingMenu = $xml->xpath("//menu[name[text()='{$escapedMenuName}']]");
+
+            // If the menu doesn't exist, add it
+            if (empty($existingMenu)) {
+                $menuElement = $xml->addChild('menu');
+                $menuElement->addChild('name', $escapedMenuName);
+            }
+        }
+
+        // Save or update the XML file
+        $xml->asXML($filePath);
+
+        // Log to verify where the file is being saved
+        Log::info('XML file saved at: ' . $filePath);
+    }
+
+    public function activatePage()
+    {
+        $xmlPath = storage_path('app/available_menus.xml');
+        $xslPath = storage_path('app/available_menus.xsl');
+
+        // Check if the XML and XSLT files exist
+        if (file_exists($xmlPath) && file_exists($xslPath)) {
+            // Load XML
+            $xml = new DOMDocument;
+            $xml->load($xmlPath);
+
+            // Load XSLT
+            $xsl = new DOMDocument;
+            $xsl->load($xslPath);
+
+            // Configure the XSLT processor
+            $xsltProcessor = new XSLTProcessor();
+            $xsltProcessor->importStylesheet($xsl); // Attach the XSL rules
+
+            // Apply XPath to filter or select specific data
+            $xpath = new DOMXPath($xml);
+
+            // Example: Filter to select only menus with "Pizza" in their name
+            $menus = $xpath->query("//menu[contains(name, 'Pizza')]");
+
+            if ($menus->length > 0) {
+                // If filtered menus found, apply XSLT transformation
+                $html = $xsltProcessor->transformToXML($xml);
+            } else {
+                // If no menus match the filter, proceed with full transformation
+                $html = $xsltProcessor->transformToXML($xml);
+            }
+
+            // Pass transformed HTML to the Blade view
+            return view('menus.activateMenu', ['transformedHtml' => $html]);
+        } else {
+            return redirect()->route('menus.adminMenu')->with('error', 'XML or XSLT file not found.');
+        }
+    }
+
+    public function activateMenus()
+    {
+        $xmlPath = storage_path('app/available_menus.xml');
+
+        // Load XML file
+        if (file_exists($xmlPath)) {
+            $xml = new DOMDocument;
+            $xml->load($xmlPath);
+
+            // Create an XPath object to query XML
+            $xpath = new DOMXPath($xml);
+
+            // Select all menu names from the XML file
+            $menus = $xpath->query("//menu/name");
+
+            foreach ($menus as $menu) {
+                $menuName = $menu->nodeValue;
+
+                // Update the menu status to 'active' in the database
+                \App\Models\Menu::where('name', $menuName)->update(['status' => 'active']);
+            }
+
+            // Delete the XML file after activation
+            if (file_exists($xmlPath)) {
+                unlink($xmlPath);
+            }
+
+            // Redirect back with a success message
+            return redirect()->route('menus.adminMenu')->with('success', 'Menus activated successfully, and XML file deleted.');
+        } else {
+            return redirect()->route('menus.adminMenu')->with('error', 'XML file not found.');
+        }
     }
 }
