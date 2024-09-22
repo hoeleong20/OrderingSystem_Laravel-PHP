@@ -123,6 +123,7 @@
         <div>
             {!! $transformedHtml !!}
         </div>
+        <!-- -->
 
         <!-- Form to activate all menus at once -->
         <form method="POST" action="{{ route('menus.activate') }}">
