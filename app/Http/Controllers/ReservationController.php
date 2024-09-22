@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+// Author Khor Zhi Ying 
+
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Composite\CompositeReservation;
@@ -24,19 +26,20 @@ class ReservationController extends Controller
         return view('reservations.book'); // This is the default view for table reservations
     }
     public function createDishReservation()
-{
-    return view('reservations.dish_reservation');
-}
+    {
+        return view('reservations.dish_reservation');
+    }
 
-public function createTableWithDishReservation()
-{
-    return view('reservations.table_with_dish_reservation');
-}
+    public function createTableWithDishReservation()
+    {
+        return view('reservations.table_with_dish_reservation');
+    }
 
-public function createEventReservation()
-{
-    return view('reservations.event_reservation');
-}
+    public function createEventReservation()
+    {
+        return view('reservations.event_reservation');
+    }
+
     public function store(Request $request)
     {
         // Base validation that applies to all reservation types
@@ -80,20 +83,6 @@ public function createEventReservation()
         ]);
 
         return redirect()->route('reservations.summary', $reservation->id);
-    }
-
-    public function show($id)
-    {
-        // Find the reservation by ID
-        $reservation = Reservation::find($id);
-
-        // Check if the reservation is null (not found)
-        if (!$reservation) {
-            return redirect()->back()->withErrors('Reservation not found.');
-        }
-
-        // Now it's safe to access reservation properties
-        return view('reservations.show', compact('reservation'));
     }
 
     public function edit(Reservation $reservation)
@@ -174,4 +163,4 @@ public function createEventReservation()
         // Return the summary view with the reservation details
         return view('reservations.summary', compact('reservation'));
     }
-}
+    }

@@ -2,6 +2,8 @@
 
 namespace app\Models\Composite;
 
+// Author Khor Zhi Ying 
+
 use app\Models\Table;
 
 class TableReservation extends ReservableComponent {
@@ -10,7 +12,7 @@ class TableReservation extends ReservableComponent {
     public function __construct($number_of_tables)
     {
         for($i = 0; $i < $number_of_tables; $i++){
-            $this->tables[] = new Table();
+            $this->tables[] = ['1','2'];
         }
     }
 

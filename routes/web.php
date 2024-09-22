@@ -1,8 +1,11 @@
 <?php
 
+// Author Khor Zhi Ying 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Middleware\Authenticate;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,9 +24,20 @@ Route::get('/book', function () {
     return view('book');
 })->name('book');
 
-Route::resource('reservations', ReservationController::class);
+
+
+// Resource route for reservation CRUD
+Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::get('/reservations/{id}/summary', [ReservationController::class, 'summary'])->name('reservations.summary');
-Route::get('/reservations/dish', [ReservationController::class, 'createDishReservation'])->name('reservations.dish');
+Route::get('/reservations/{id}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
+Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('reservations.update');
+Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+
+// Keep this for table_with_dish and event
 Route::get('/reservations/table_with_dish', [ReservationController::class, 'createTableWithDishReservation'])->name('reservations.table_with_dish');
 Route::get('/reservations/event', [ReservationController::class, 'createEventReservation'])->name('reservations.event');
+
+// Route for accessing the dish reservation form
+Route::get('/reservations/dish', [ReservationController::class, 'createDishReservation'])->name('reservations.dish');

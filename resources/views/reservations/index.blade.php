@@ -1,3 +1,5 @@
+<!-- Author: Khor Zhi Ying -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +31,7 @@
                     <th>Pax</th>
                     <th>Datetime</th>
                     <th>Reservation Type</th>
+                    <th>Extra Info</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -42,6 +45,7 @@
                         <td>{{ $reservation->pax }}</td>
                         <td>{{ $reservation->datetime->format('Y-m-d H:i:s') }}</td>
                         <td>{{ ucfirst($reservation->reservation_type) }}</td>
+                        <td>{{ $reservation->extra_info }}</td>
                         <td>
                             <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-primary btn-sm">Edit</a>
                             <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" style="display:inline-block;">

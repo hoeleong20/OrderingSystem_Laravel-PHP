@@ -2,6 +2,8 @@
 
 namespace app\Models\Composite;
 
+// Author Khor Zhi Ying 
+
 use app\Models\Menu;
 
 class DishReservation extends ReservableComponent {

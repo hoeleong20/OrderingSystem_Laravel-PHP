@@ -1,4 +1,5 @@
-<!-- resources/views/reservations/event_reservation.blade.php -->
+<!-- Author Khor Zhi Ying  -->
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>

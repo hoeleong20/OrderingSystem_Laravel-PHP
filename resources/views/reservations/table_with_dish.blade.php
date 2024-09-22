@@ -1,4 +1,5 @@
-<!-- resources/views/reservations/table_with_dish_reservation.blade.php -->
+<!-- Author Khor Zhi Ying  -->
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>

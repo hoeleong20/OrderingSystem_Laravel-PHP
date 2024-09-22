@@ -1,4 +1,4 @@
-<!-- resources/views/reservations/dish_reservation.blade.php -->
+<!-- Author Khor Zhi Ying -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +29,11 @@
                 <label for="email">Email:</label>
                 <input type="email" name="email" class="form-control" required>
             </div>
+            <div>
+            <label for="email">Date and Time:</label>
+                <input type="datetime-local" class="form-control" name="datetime" required>
+              </div>
+              <input type="hidden" name="reservation_type" value="dish">
 
             <div class="form-group">
             <label for="dishes">Select Dishes:</label>
