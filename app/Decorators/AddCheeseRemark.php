@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Decorators;
 
 class AddCheeseRemark extends RemarkDecorator

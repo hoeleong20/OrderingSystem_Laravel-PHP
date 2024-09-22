@@ -121,6 +121,14 @@
         <div class="heading_container heading_center">
             <h2>Admin Menu Management</h2>
             <hr />
+            <form action="{{ route('menus.sendSoldOutMenus') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary">Send Sold Out Menus</button>
+            </form>
+
+            @if (file_exists(storage_path('app/available_menus.xml')))
+                <a href="{{ route('menus.activate') }}" class="btn btn-success">Activate Menus</a>
+            @endif
         </div>
         <div class="container">
             <div class="row">
