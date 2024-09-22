@@ -20,12 +20,6 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::delete('admin/UserList', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
 });
 
-
-Route::get('/reservations/export/xml', [ReservationController::class, 'exportReservationsToXML'])->name('reservations.export.xml');
-Route::get('/reservations/transform/xslt', [ReservationController::class, 'transformXMLWithXSLT'])->name('reservations.transform.xslt');
-Route::get('/reservations/search/{customerName}', [ReservationController::class, 'searchReservationByXPath'])->name('reservations.search.xpath');
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -40,6 +34,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/menus/send-sold-out', [MenuController::class, 'sendSoldOutMenus'])->name('menus.sendSoldOutMenus');
     Route::get('/menus/activate', [MenuController::class, 'activatePage'])->name('menus.activatePage');
     Route::post('/menus/activate', [MenuController::class, 'activateMenus'])->name('menus.activate');
+    
+    
+    
     // Author Khor Zhi Ying
     Route::get('/book', function () {
         return view('book');
@@ -76,7 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return "Error fetching rating.";
         }
     });
-
+    Route::get('/reservations/export/xml', [ReservationController::class, 'exportReservationsToXML'])->name('reservations.export.xml');
+    Route::get('/reservations/transform/xslt', [ReservationController::class, 'transformXMLWithXSLT'])->name('reservations.transform.xslt');
+    Route::get('/reservations/search/{customerName}', [ReservationController::class, 'searchReservationByXPath'])->name('reservations.search.xpath');
 
 
     Route::get('/', function () {
@@ -85,39 +84,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
 
-    // Route::get('/order', action: [OrderController::class,'index'])->name('order.index');
-// Route::get('/order/create', action: [OrderController::class,'create'])->name('order.create');
-// Route::post('/order', action: [OrderController::class,'store'])->name('order.store');
-// Route::get('/order/{id}', action: [OrderController::class,'show'])->name('order.show');
-// Route::get('/order/{id}/edit', action: [OrderController::class,'edit'])->name('order.edit');
-// Route::put('/order/{id}', action: [OrderController::class,'update'])->name('order.update');
-// Route::delete('/order/{id}', action: [OrderController::class,'destroy'])->name('order.destroy');
-
-    // Route::get('/order/checkOut', [OrderController::class, 'checkOut'])->name('order.checkOut');
-
-
-
-
-    //  Route::post('/payment', action: [OrderController::class,'store'])->name('order.store');
-//  Route::put('/order/{id}', action: [OrderController::class,'update'])->name('order.update');
-
-
-
-
-
 
     Route::get('/about', function () {
         return view('menus.index');
     })->name('about');
-
-
-
-
-
 });
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 require __DIR__ . '/auth.php';
