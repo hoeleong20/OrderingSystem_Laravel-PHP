@@ -1,3 +1,4 @@
+<!-- Author : Lim Jia Qing -->
 <!DOCTYPE html>
 <html>
 
@@ -121,6 +122,11 @@
         <div class="heading_container heading_center">
             <h2>Admin Menu Management</h2>
             <hr />
+            <form action="{{ route('menus.sendSoldOutMenus') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary">Send Sold Out Menus</button>
+            </form>
+                <a href="{{ route('menus.activatePage') }}" class="btn btn-success">Activate Menus</a>
         </div>
         <div class="container">
             <div class="row">
