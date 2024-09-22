@@ -13,7 +13,6 @@ Route::get('/', function () {
 Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
 Route::resource('menus', MenuController::class);
 Route::get('/menu/adminMenu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
-Route::get('/menu/{menu_code}', [MenuController::class, 'show'])->name('menus.show');
 
 // Route::get('/order', action: [OrderController::class,'index'])->name('order.index');
 // Route::get('/order/create', action: [OrderController::class,'create'])->name('order.create');

@@ -20,31 +20,14 @@ class DecoratorFactory
                 return new NoSpicyRemark($menu);
             case 'Less Spicy':
                 return new LessSpicyRemark($menu);
-            case 'More Sauce':
-                return new MoreSauceRemark($menu);
-            case 'Add Cheese':
-                return new AddCheeseRemark($menu);
-                // Add more cases for additional remark types as needed...
+                case 'More Sauce':
+                    return new MoreSauceRemark($menu);
+                case 'Add Cheese':
+                    return new AddCheeseRemark($menu);
+            // Add more cases for additional remark types as needed...
             default:
                 return $menu; // If no matching remark, return the menu unchanged
         }
-    }
-
-
-    /**
-     * Apply multiple remarks to the menu.
-     *
-     * @param MenuInterface $menu
-     * @param array $selectedRemarks
-     * @return MenuInterface
-     */
-    public static function applyRemarks(MenuInterface $menu, array $selectedRemarks)
-    {
-        foreach ($selectedRemarks as $remarkName) {
-            $menu = self::applyRemark($menu, $remarkName);
-        }
-
-        return $menu;
     }
 
     /**

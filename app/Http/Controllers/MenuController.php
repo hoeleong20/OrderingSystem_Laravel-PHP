@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Remark;
 use App\Decorators\DecoratorFactory;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ class MenuController extends Controller
     {
         // Retrieve only active menus
         $menus = Menu::where('status', 'active')->get();
+        $remarks = DecoratorFactory::getAvailableRemarks();
 
         // Ensure each menu has a 'remarkable' field set
         $menus->each(function ($menu) {
@@ -24,7 +26,7 @@ class MenuController extends Controller
         });
 
         // Return the index view with the active menus
-        return view('menus.index', compact('menus'));
+        return view('menus.index', compact('menus', 'remarks'));
     }
 
     /**
@@ -111,21 +113,12 @@ class MenuController extends Controller
     }
 
     /**
-     * Show the detail of a specific menu.
-     * This will display the selected menu along with its available remarks.
+     * Display the specified menu.
      *
-     * @param string $menu_code
+     * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show($menu_code)
-    {
-        $menu = Menu::where('menu_code', $menu_code)->firstOrFail();
-
-        // Get the remarkable field from the Menu model
-        $remarks = $menu->remarkable; // This should be an array of remarks (e.g., 'No Veg', 'No Spicy', etc.)
-
-        return view('menus.menuDetail', compact('menu', 'remarks'));
-    }
+    public function show(Menu $menu) {}
 
     /**
      * Show the form for editing the specified menu.
