@@ -105,9 +105,29 @@ DB_DATABASE=restaurant-ordering-system
 DB_USERNAME=root
 DB_PASSWORD=
 ```
+
 After that run `php artisan migrate`
 
-### 8. Run the project
+### 8. Change the Mail Details 
+```
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=a92ee5af8a1144
+MAIL_PASSWORD=e89cfddafd1278
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+
+### 9. Download Breeze
+Download laravel breeze
+
+`php artisan breeze:install`
+
+
+### 10. Run the project
 Before running the project, ensure the Apache+MySQL in XAMPP is started.
 
 To run the project, `php artisan serve`
