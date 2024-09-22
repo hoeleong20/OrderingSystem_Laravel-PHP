@@ -24,7 +24,7 @@ class OrderController extends Controller
 
         if ($pendingOrders != null) { // Check if there's a pending order
             $cartItems = CartItem::where('orderID', $pendingOrders)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at', 'asc')
                 ->get();
 
             session(['orderID' => $pendingOrders]);
@@ -62,6 +62,8 @@ class OrderController extends Controller
         //     'note' => ['required','string']
         // ]);
 
+        
+
 
         if (session('orderID') == 0) {
             $orderData['customerID'] = session('customerID');
@@ -73,10 +75,12 @@ class OrderController extends Controller
             session(['orderID' => $orders->id]);
         }
 
+        // $menuPrice = $request->input('menu_price');
 
         $data['orderID'] = session('orderID');
-        $data['foodName'] = 'French Fries';
+        $data['foodName'] = $request->input('menu_name');
         $data['quantity'] = 1;
+        $data['foodPrice'] = $request->input('menu_price');
 
 
         $cartItems = CartItem::create($data);
@@ -191,28 +195,39 @@ class OrderController extends Controller
 
             // Calculate the total quantity of items
             $totalItems = $cartItems->sum('quantity');
+            
+            $totalPrice = $cartItems->sum('foodPrice');
 
             if ($order) {
                 // Pass the order data and total items to the checkout view
-                return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems]);
+                return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems,'totalPrice' => $totalPrice]);
             } else {
                 // Redirect back if no pending order is found
                 return redirect()->route('order.index')->with('error', 'No pending order found.');
             }
         }
-        return redirect()->route('menu');
+        return redirect()->route('menus.index');
     }
 
-    public function pay($id)
+    public function pay(Request $request,$id)
     {
         $order = Order::findOrFail($id); // Find the order by ID
 
+        $paymentType = $request->input('payment');
+        $totalPrice = $request->input('totalPrice');
+
+        if($paymentType=='ccPayment'){
+            $ccPaymentType = $request->input('ccPayment');
+        }
+
         if ($order) {
             Log::info('Updating order status for order ID: ' . $id);
+            $order->paymentTotal = $totalPrice;
+            $order->paymentMethod = $paymentType;
             $order->status = 'paid';
             $order->save();
             
-            return redirect()->route('menu')->with('success', 'Payment successful! Order status updated to paid.');
+            return redirect()->route('menus.index')->with('success', 'Payment successful! Order status updated to paid.');
         }else{
 
             Log::warning('Order not found for order ID: ' . $id);

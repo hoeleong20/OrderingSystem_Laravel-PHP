@@ -78,7 +78,7 @@
                             <a href="" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
-                            <a class="cart_link" href="#">
+                            <a class="cart_link" href="{{ route('order.index') }}">
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                     viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
@@ -132,6 +132,8 @@
                 <div class="col-md-8">
                     <div class="row">
                         @foreach ($menus as $menu)
+                        <form action="{{ route('order.store') }}" method="POST">
+          @csrf
                             <div class="col-md-6 mb-4">
                                 <div class="card menu-box h-100">
                                     <div class="card-body">
@@ -139,11 +141,14 @@
                                         <p class="card-text">{{ $menu->desc }}</p>
                                         <div class="options d-flex justify-content-between align-items-center">
                                             <h6>RM {{ number_format($menu->price, 2) }}</h6>
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
-                                        </div>
+                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
+                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
+                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
+                            </form>
                         @endforeach
                     </div>
                 </div>
@@ -293,6 +298,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
     </script>
     <!-- End Google Map -->
+
+    <script>
+        
+    </script>
 
 </body>
 

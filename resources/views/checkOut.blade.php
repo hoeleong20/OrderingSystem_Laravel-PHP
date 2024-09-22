@@ -212,7 +212,8 @@
 
               <div class="container">
                 <h1 class="h3 mb-5">Payment</h1>
-
+                <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST">
+                @csrf  
 
                 @if (isset($order))
                 <p>Order ID: {{ $order->id }}</p>
@@ -233,7 +234,7 @@
                     <div class="accordion-item mb-3">
                       <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
                         <div class="form-check w-100 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseCC" aria-expanded="false" ">
-                            <input class=" form-check-input" type="radio" name="payment" id="payment1">
+                            <input class=" form-check-input" type="radio" name="payment" id="payment1" value="ccPayment">
                           <label class="form-check-label pt-1" for="payment1">
                             Debit/Credit Card
                           </label>
@@ -253,13 +254,13 @@
                         <div class="accordion-body">
                           <div class="form-check w-100 collapsed CC-content">
                             <div class="ccPaymentRow">
-                              <input class="form-check-input" type="radio" name="ccPayment" id="ccPayment1">
+                              <input class="form-check-input" type="radio" name="ccPayment" id="ccPayment1" value="ccPayment1234">
                               <label class="form-check-label savedCC" for="ccPayment1" id="savedCC1">
                                 Mastercard &#8226;&#8226;&#8226;&#8226; 1234
                               </label>
                             </div>
                             <div class="ccPaymentRow">
-                              <input class="form-check-input" type="radio" name="ccPayment" id="ccPayment2">
+                              <input class="form-check-input" type="radio" name="ccPayment" id="ccPayment2" value="ccPayment2345">
                               <label class="form-check-label savedCC" for="ccPayment2" id="savedCC2">
                                 Mastercard &#8226;&#8226;&#8226;&#8226; 2345
                               </label>
@@ -269,7 +270,7 @@
 
 
                           <div class="addNewCardBox">
-                            <button class="btn btn-outline-secondary btn-sm addNewCardText" data-toggle="modal" data-target="#addNewCardModal">Add New Card</button>
+                            <button  type="button" class="btn btn-outline-secondary btn-sm addNewCardText" data-toggle="modal" data-target="#addNewCardModal">Add New Card</button>
                           </div>
 
 
@@ -281,8 +282,8 @@
                     <div class="accordion-item mb-3 border">
                       <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
                         <div class="form-check w-100 collapsed" data-bs-toggle="collapse" data-bs-target="#collapsePP" aria-expanded="false">
-                          <input class="form-check-input" type="radio" name="payment" id="payment2">
-                          <label class="form-check-label pt-1" for="payment2">
+                          <input class="form-check-input" type="radio" name="payment" id="payment2" value="tngPayment">
+                          <label class="form-check-label pt-1" for="payment2" >
                             TNG eWallet
                           </label>
                         </div>
@@ -302,7 +303,7 @@
                     <div class="accordion-item mb-3 border">
                       <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
                         <div class="form-check w-100 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseFPX" aria-expanded="false">
-                          <input class="form-check-input" type="radio" name="payment" id="payment3">
+                          <input class="form-check-input" type="radio" name="payment" id="payment3" value="ebankingPayment">
                           <label class="form-check-label pt-1" for="payment3">
                             Malaysia E-Banking
                           </label>
@@ -334,8 +335,7 @@
             </div>
           </div>
           <div class="col-md-5">
-          <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST">
-            @csrf  
+          
             <div class="right border">
               <div class="header">Order Summary</div>
               <p>Qty: {{ $totalItems }}</p>
@@ -343,8 +343,8 @@
               <div class="row item">
                 <div class="col-4 align-self-center"><img class="img-fluid" src="images/f1.png"></div>
                 <div class="col-8">
-                  <div class="row"><b>$ 26.99</b></div>
-                  <div class="row text-muted">{{ $cartItem->foodName }}</div>
+                  <div class="row"><b>{{ $cartItem->foodPrice }}</b></div>
+                  <div class="row text-muted">RM {{ $cartItem->foodName }}</div>
                   <div class="row">Qty:{{ $cartItem->quantity }}</div>
                 </div>
               </div>
@@ -354,7 +354,8 @@
               <hr>
               <div class="row lower">
                 <div class="col text-left">Subtotal</div>
-                <div class="col text-right">$ 46.98</div>
+                <div class="col text-right">RM {{ $totalPrice }}</div>
+                <input type="hidden" name="totalPrice" value="{{ $totalPrice }}">
               </div>
               <div class="row lower">
                 <div class="col text-left">Delivery</div>
@@ -362,7 +363,7 @@
               </div>
               <div class="row lower">
                 <div class="col text-left"><b>Total to pay</b></div>
-                <div class="col text-right"><b>$ 46.98</b></div>
+                <div class="col text-right"><b>RM {{ $totalPrice }}</b></div>
               </div>
               <div class="row lower">
                 <div class="col text-left"><a href="#"><u>Add promo code</u></a></div>

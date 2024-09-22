@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('orderID');
             $table->string('foodName');
             $table->integer('quantity');
+            $table->decimal('foodPrice', 8, 2);  
             $table->timestamps();
         }); 
     }

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             'id'=>1,
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
         
         CartItem::factory(3)->create();
         Order::factory(3)->create();

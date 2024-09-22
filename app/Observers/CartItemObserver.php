@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Models\CartItem;
+use App\Http\Controllers\CartItemController;
+
 use Illuminate\Support\Facades\Log;
 
 class CartItemObserver
@@ -11,6 +13,10 @@ class CartItemObserver
     {
         // Logic after a cart item is created
         Log::info('Cart Item created:', $cartItem->toArray());
+
+        // // Call the method to send cart items to Java program
+        // $cartItemController = new CartItemController();
+        // $cartItemController->sendCartItemsToJava();
     }
 
     public function updated(CartItem $cartItem)

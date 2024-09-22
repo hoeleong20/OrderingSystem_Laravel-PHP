@@ -20,6 +20,7 @@ class CartItemFactory extends Factory
             'orderID' => 1,
             'foodName' => 'Burger',
             'quantity' => 1,
+            'foodPrice' => 11.11
         ];
     }
 }

@@ -32,7 +32,7 @@
                 </button>
               </div>
               <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">$499.00</h5>
+                <h5 class="mb-0">RM {{ $cartItem->foodPrice }}</h5>
               </div>
               <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                 <a href="#!" class="text-danger" onclick="deleteRecord({{ $cartItem->id }})"><i class="fas fa-trash fa-lg"></i></a>
@@ -50,7 +50,7 @@
 
       <div class="card fixed-bottom flex-row col-7 mb-3" style="margin:auto">
         <div class="card-body d-flex flex-row ">
-          <a type="button" class="btn btn-outline-warning btn-lg col-6" id="goToMenuBtn" href="{{ route('menu') }}">Add More Items</a>
+          <a type="button" class="btn btn-outline-warning btn-lg col-6" id="goToMenuBtn" href="{{ route('menus.index') }}">Add More Items</a>
           <a type="button" class="btn btn-warning btn-block btn-lg ms-3 col-6" id="placeOrderBtn" href="{{ route('order.checkOut') }}">Place Order</a>
 
         </div>
