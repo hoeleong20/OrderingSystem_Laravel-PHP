@@ -22,11 +22,6 @@
     <!--owl slider stylesheet -->
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <!-- nice select  -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-        integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
-        crossorigin="anonymous" />
     <!-- font awesome style -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 
@@ -76,10 +71,10 @@
                             </li>
                         </ul>
                         <div class="user_option">
-                            <a href="" class="user_link">
+                            <a href="{{ route('menus.create') }}" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
-                            <a class="cart_link" href="{{ route('order.index') }}">
+                            <a class="cart_link" href="#">
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                     viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
@@ -111,8 +106,7 @@
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </button>
                             </form>
-                            <a href="{{ route('menus.adminMenu') }}" class="order_online">
-                            <a href="{{ route('menus.adminMenu') }}" class="order_online">
+                            <a href="" class="order_online">
                                 Order Online
                             </a>
                         </div>
@@ -123,72 +117,24 @@
         <!-- end header section -->
     </div>
 
-    <!-- menu section -->
-    <!-- menu section -->
-    <section class="food_section layout_padding">
-        <div class="container mt-4">
-            <div class="heading_container heading_center mb-4">
-                <h2>Our Menu</h2>
-        <div class="container mt-4">
-            <div class="heading_container heading_center mb-4">
-                <h2>Our Menu</h2>
-            </div>
-            <div class="row">
-                <!-- Left Column (70%) -->
-                <div class="col-md-8">
-                    <div class="row">
-                        @foreach ($menus as $menu)
-                        <form action="{{ route('order.store') }}" method="POST">
-          @csrf
-                            <div class="col-md-6 mb-4">
-                                <div class="card menu-box h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $menu->name }}</h5>
-                                        <p class="card-text">{{ $menu->desc }}</p>
-                                        <div class="options d-flex justify-content-between align-items-center">
-                                            <h6>RM {{ number_format($menu->price, 2) }}</h6>
-                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
-                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
-                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-                            </form>
-                        @endforeach
-                    </div>
-                </div>
+    <div class="container">
+        <h2>Activate Menus</h2>
 
-                <!-- Right Column (Remark and Add to Cart) -->
-                <div class="col-md-4">
-                    <div class="remark-panel" id="remarkPanel">
-                        <span class="close-panel" onclick="hideDetails()">x</span>
-                        <h5 id="remarkTitle">Remark & Add to Cart</h5>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Remark</th>
-                                    <th>Additional Price (RM)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($remarks as $remark)
-                                    <tr>
-                                        <td><input type="checkbox" name="remark[]" value="{{ $remark['name'] }}"></td>
-                                        <td>{{ $remark['name'] }}</td>
-                                        <td>{{ number_format($remark['price'], 2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <button class="btn btn-success btn-block" onclick="addToCart()">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
+        <!-- Display the transformed HTML from XSLT -->
+        <div>
+            {!! $transformedHtml !!}
         </div>
-    </section>
-    <!-- end menu section -->
+        <!-- -->
+
+        <!-- Form to activate all menus at once -->
+        <form method="POST" action="{{ route('menus.activate') }}">
+            @csrf
+            <button type="submit" class="btn btn-success">Activate All Menus</button>
+        </form>
+
+        <!-- Back button to navigate back to the Admin Menu -->
+        <a href="{{ route('menus.adminMenu') }}" class="btn btn-secondary">Back</a>
+    </div>
 
     <!-- footer section -->
     <footer class="footer_section">
@@ -273,15 +219,15 @@
     </footer>
     <!-- footer section -->
 
-    <!-- This page script -->
+    <!-- Script Section -->
     <script>
+        // Hide the success message after 3 seconds
         setTimeout(function() {
-            var
-                messageElement = document.getElementById('success-message');
-            if (messageElement) {
-                messageElement.style.display = 'none';
+            let successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                successMessage.style.display = 'none';
             }
-        }, 3000); // 3000 milliseconds = 3 seconds
+        }, 3000);
     </script>
 
     <!-- jQery -->
@@ -296,18 +242,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <!-- isotope js -->
     <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-    <!-- nice select -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
     <!-- custom js -->
     <script src="{{ asset('js/custom.js') }}"></script>
     <!-- Google Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
     </script>
     <!-- End Google Map -->
-
-    <script>
-        
-    </script>
 
 </body>
 

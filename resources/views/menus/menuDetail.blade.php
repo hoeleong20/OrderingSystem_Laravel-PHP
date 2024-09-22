@@ -79,7 +79,7 @@
                             <a href="" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
-                            <a class="cart_link" href="{{ route('order.index') }}">
+                            <a class="cart_link" href="#">
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                     viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
@@ -112,7 +112,6 @@
                                 </button>
                             </form>
                             <a href="{{ route('menus.adminMenu') }}" class="order_online">
-                            <a href="{{ route('menus.adminMenu') }}" class="order_online">
                                 Order Online
                             </a>
                         </div>
@@ -123,72 +122,41 @@
         <!-- end header section -->
     </div>
 
-    <!-- menu section -->
-    <!-- menu section -->
-    <section class="food_section layout_padding">
-        <div class="container mt-4">
-            <div class="heading_container heading_center mb-4">
-                <h2>Our Menu</h2>
-        <div class="container mt-4">
-            <div class="heading_container heading_center mb-4">
-                <h2>Our Menu</h2>
-            </div>
-            <div class="row">
-                <!-- Left Column (70%) -->
-                <div class="col-md-8">
-                    <div class="row">
-                        @foreach ($menus as $menu)
-                        <form action="{{ route('order.store') }}" method="POST">
-          @csrf
-                            <div class="col-md-6 mb-4">
-                                <div class="card menu-box h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $menu->name }}</h5>
-                                        <p class="card-text">{{ $menu->desc }}</p>
-                                        <div class="options d-flex justify-content-between align-items-center">
-                                            <h6>RM {{ number_format($menu->price, 2) }}</h6>
-                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
-                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
-                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-                            </form>
-                        @endforeach
-                    </div>
-                </div>
 
-                <!-- Right Column (Remark and Add to Cart) -->
-                <div class="col-md-4">
-                    <div class="remark-panel" id="remarkPanel">
-                        <span class="close-panel" onclick="hideDetails()">x</span>
-                        <h5 id="remarkTitle">Remark & Add to Cart</h5>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Remark</th>
-                                    <th>Additional Price (RM)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($remarks as $remark)
-                                    <tr>
-                                        <td><input type="checkbox" name="remark[]" value="{{ $remark['name'] }}"></td>
-                                        <td>{{ $remark['name'] }}</td>
-                                        <td>{{ number_format($remark['price'], 2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <button class="btn btn-success btn-block" onclick="addToCart()">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end menu section -->
+    <!-- Menu Detail Section -->
+    <div class="container mt-4">
+        <h3>{{ $menu->name }}</h3>
+        <p>{{ $menu->desc }}</p>
+        <h4>Price: RM {{ number_format($menu->price, 2) }}</h4>
+
+        <hr>
+        <h5>Available Remarks:</h5>
+        {{-- <form action="{{ route('menus.addToCart', ['menu_code' => $menu->menu_code]) }}" method="POST"> --}}
+            @csrf
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Remark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($remarks as $remark)
+                        <tr>
+                            <td><input type="checkbox" name="remarks[]" value="{{ $remark }}"></td>
+                            <td>{{ $remark }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <p>Total Price: RM <span id="totalPrice">{{ number_format($menu->price, 2) }}</span></p>
+
+            <button type="submit" class="btn btn-success">Add to Cart</button>
+            <a href="{{ route('menus.index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
 
     <!-- footer section -->
     <footer class="footer_section">
@@ -275,13 +243,24 @@
 
     <!-- This page script -->
     <script>
-        setTimeout(function() {
-            var
-                messageElement = document.getElementById('success-message');
-            if (messageElement) {
-                messageElement.style.display = 'none';
-            }
-        }, 3000); // 3000 milliseconds = 3 seconds
+        const basePrice = {{ $menu->price }};
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                let totalPrice = basePrice;
+
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        totalPrice += parseFloat(cb.closest('tr').querySelector('td:nth-child(3)')
+                            .textContent || 0);
+                    }
+                });
+
+                totalPriceElement.textContent = totalPrice.toFixed(2);
+            });
+        });
     </script>
 
     <!-- jQery -->
@@ -304,10 +283,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
     </script>
     <!-- End Google Map -->
-
-    <script>
-        
-    </script>
 
 </body>
 
