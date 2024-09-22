@@ -4,7 +4,6 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CartItemController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,8 +28,6 @@ Route::post('/order/{id}/pay', [OrderController::class, 'pay'])->name('order.pay
 
 
 Route::resource('order',controller: OrderController::class);
-
-Route::post('/api/send-cart-items-to-java', [CartItemController::class, 'sendCartItemsToJava']);
 
 
 
