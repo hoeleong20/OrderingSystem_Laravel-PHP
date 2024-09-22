@@ -79,7 +79,7 @@
                             <a href="" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
-                            <a class="cart_link" href="#">
+                            <a class="cart_link" href="{{ route('order.index') }}">
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                     viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
@@ -112,6 +112,7 @@
                                 </button>
                             </form>
                             <a href="{{ route('menus.adminMenu') }}" class="order_online">
+                            <a href="{{ route('menus.adminMenu') }}" class="order_online">
                                 Order Online
                             </a>
                         </div>
@@ -123,27 +124,67 @@
     </div>
 
     <!-- menu section -->
+    <!-- menu section -->
     <section class="food_section layout_padding">
+        <div class="container mt-4">
+            <div class="heading_container heading_center mb-4">
+                <h2>Our Menu</h2>
         <div class="container mt-4">
             <div class="heading_container heading_center mb-4">
                 <h2>Our Menu</h2>
             </div>
             <div class="row">
-                @foreach ($menus as $menu)
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $menu->name }}</h5>
-                                <p class="card-text">{{ $menu->desc }}</p>
-                                <div class="options d-flex justify-content-between align-items-center">
-                                    <h6>RM {{ number_format($menu->price, 2) }}</h6>
-                                    <a href="{{ route('menus.show', ['menu_code' => $menu->menu_code]) }}"
-                                        class="btn btn-primary btn-sm">+</a>
+                <!-- Left Column (70%) -->
+                <div class="col-md-8">
+                    <div class="row">
+                        @foreach ($menus as $menu)
+                        <form action="{{ route('order.store') }}" method="POST">
+          @csrf
+                            <div class="col-md-6 mb-4">
+                                <div class="card menu-box h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $menu->name }}</h5>
+                                        <p class="card-text">{{ $menu->desc }}</p>
+                                        <div class="options d-flex justify-content-between align-items-center">
+                                            <h6>RM {{ number_format($menu->price, 2) }}</h6>
+                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
+                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
+                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
+                                        </div> 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            </form>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
+
+                <!-- Right Column (Remark and Add to Cart) -->
+                <div class="col-md-4">
+                    <div class="remark-panel" id="remarkPanel">
+                        <span class="close-panel" onclick="hideDetails()">x</span>
+                        <h5 id="remarkTitle">Remark & Add to Cart</h5>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Remark</th>
+                                    <th>Additional Price (RM)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($remarks as $remark)
+                                    <tr>
+                                        <td><input type="checkbox" name="remark[]" value="{{ $remark['name'] }}"></td>
+                                        <td>{{ $remark['name'] }}</td>
+                                        <td>{{ number_format($remark['price'], 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <button class="btn btn-success btn-block" onclick="addToCart()">Add to Cart</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -263,6 +304,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
     </script>
     <!-- End Google Map -->
+
+    <script>
+        
+    </script>
 
 </body>
 
