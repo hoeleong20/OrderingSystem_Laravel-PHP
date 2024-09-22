@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ use app\Models\User;
 class HomeController extends Controller
 {
     public function index()
-    {
+    {   
             return view('welcome');
     }
 

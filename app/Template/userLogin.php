@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 
 class userLogin extends loginTemplate{
@@ -28,7 +29,7 @@ class userLogin extends loginTemplate{
                 'last_login' => Carbon::now()->toDateTimeString(),
             ]);
 
-            session(['customerId' => $user->id]);
+            session()->put('customerID', $user->id);
 
             return redirect()->intended(route('home'));
         }

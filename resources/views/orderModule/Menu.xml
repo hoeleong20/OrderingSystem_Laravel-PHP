@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<menu>
+    <foodItem id="1">
+        <name>Pizza</name>
+        <price>10.99</price>
+    </foodItem>
+    <foodItem id="2">
+        <name>Burger</name>
+        <price>7.99</price>
+    </foodItem>
+    <foodItem id="3">
+        <name>Soda</name>
+        <price>1.99</price>
+    </foodItem>
+</menu>
+
+
