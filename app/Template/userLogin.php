@@ -32,7 +32,7 @@ class userLogin extends loginTemplate{
 
             session()->put('customerID', $user->id);
 
-            return redirect()->intended(route('home'));
+            return redirect()->route('home');
         }
         else{
             Auth::logout();

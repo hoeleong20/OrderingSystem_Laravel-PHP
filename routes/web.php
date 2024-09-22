@@ -13,7 +13,7 @@ use App\Http\Controllers\OrderController;
 
 
 
-
+// Author: Ting Jian Hao
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/dasboard', [HomeController::class, 'adminIndex'])->name('admin.adminDashboard');
     Route::resource('menus', MenuController::class);
@@ -82,22 +82,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
 
-    // Route::get('/order', action: [OrderController::class,'index'])->name('order.index');
-// Route::get('/order/create', action: [OrderController::class,'create'])->name('order.create');
-// Route::post('/order', action: [OrderController::class,'store'])->name('order.store');
-// Route::get('/order/{id}', action: [OrderController::class,'show'])->name('order.show');
-// Route::get('/order/{id}/edit', action: [OrderController::class,'edit'])->name('order.edit');
-// Route::put('/order/{id}', action: [OrderController::class,'update'])->name('order.update');
-// Route::delete('/order/{id}', action: [OrderController::class,'destroy'])->name('order.destroy');
-
-    // Route::get('/order/checkOut', [OrderController::class, 'checkOut'])->name('order.checkOut');
-
-
-
-
-    //  Route::post('/payment', action: [OrderController::class,'store'])->name('order.store');
-//  Route::put('/order/{id}', action: [OrderController::class,'update'])->name('order.update');
-
 
 
 
@@ -112,9 +96,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 });
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 require __DIR__ . '/auth.php';
