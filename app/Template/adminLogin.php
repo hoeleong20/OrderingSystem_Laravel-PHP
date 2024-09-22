@@ -20,7 +20,7 @@ class adminLogin extends loginTemplate{
         if (Auth::user()->usertype == 'admin') {
             // Correct userType, proceed with login
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.adminDashboard'));
+            return redirect()->route('admin.adminDashboard');
         }
         else{
             Auth::logout();

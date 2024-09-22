@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\OrderController;
 
 
+// Author: Ting Jian Hao
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/dasboard', [HomeController::class, 'adminIndex'])->name('admin.adminDashboard');
     Route::resource('menus', MenuController::class);
@@ -85,11 +86,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/menu', [MenuController::class, 'index'])->name('menus.index');
 
 
+
     Route::get('/about', function () {
         return view('menus.index');
     })->name('about');
 });
-
 
 
 require __DIR__ . '/auth.php';
