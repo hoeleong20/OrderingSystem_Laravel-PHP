@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use App\Models\Remark;
 use App\Decorators\DecoratorFactory;
 use Illuminate\Http\Request;
 
@@ -16,8 +15,16 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //$menus = Menu::all();       //problem!!!
-        return view('menus.index'/*, compact('menus')*/);
+        // Retrieve only active menus
+        $menus = Menu::where('status', 'active')->get();
+
+        // Ensure each menu has a 'remarkable' field set
+        $menus->each(function ($menu) {
+            $menu->remarkable = $menu->remarkable ?? []; // Default to empty array if null
+        });
+
+        // Return the index view with the active menus
+        return view('menus.index', compact('menus'));
     }
 
     /**
@@ -44,10 +51,7 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-
-    }
+    public function create() {}
 
     /**
      * Store a newly created menu in storage.
@@ -107,14 +111,20 @@ class MenuController extends Controller
     }
 
     /**
-     * Display the specified menu.
+     * Show the detail of a specific menu.
+     * This will display the selected menu along with its available remarks.
      *
-     * @param  \App\Models\Menu  $menu
+     * @param string $menu_code
      * @return \Illuminate\Http\Response
      */
-    public function show(Menu $menu)
+    public function show($menu_code)
     {
-        return view('menus.show', compact('menu'));
+        $menu = Menu::where('menu_code', $menu_code)->firstOrFail();
+
+        // Get the remarkable field from the Menu model
+        $remarks = $menu->remarkable; // This should be an array of remarks (e.g., 'No Veg', 'No Spicy', etc.)
+
+        return view('menus.menuDetail', compact('menu', 'remarks'));
     }
 
     /**
@@ -123,10 +133,7 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function edit(Menu $menu)
-    {
-
-    }
+    public function edit(Menu $menu) {}
 
     /**
      * Update the specified menu in storage.
