@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\OrderController;
 
 
-
 // Author: Ting Jian Hao
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/dasboard', [HomeController::class, 'adminIndex'])->name('admin.adminDashboard');
@@ -21,7 +20,6 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('admin/UserList', [UserController::class, 'showUsers'])->name('admin.userList');
     Route::delete('admin/UserList', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
 });
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,6 +35,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/menus/send-sold-out', [MenuController::class, 'sendSoldOutMenus'])->name('menus.sendSoldOutMenus');
     Route::get('/menus/activate', [MenuController::class, 'activatePage'])->name('menus.activatePage');
     Route::post('/menus/activate', [MenuController::class, 'activateMenus'])->name('menus.activate');
+    
+    
+    
     // Author Khor Zhi Ying
     Route::get('/book', function () {
         return view('book');
@@ -73,7 +74,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return "Error fetching rating.";
         }
     });
-
+    Route::get('/reservations/export/xml', [ReservationController::class, 'exportReservationsToXML'])->name('reservations.export.xml');
+    Route::get('/reservations/transform/xslt', [ReservationController::class, 'transformXMLWithXSLT'])->name('reservations.transform.xslt');
+    Route::get('/reservations/search/{customerName}', [ReservationController::class, 'searchReservationByXPath'])->name('reservations.search.xpath');
 
 
     Route::get('/', function () {
@@ -84,18 +87,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-
-
-
     Route::get('/about', function () {
         return view('menus.index');
     })->name('about');
-
-
-
-
-
 });
 
 
 require __DIR__ . '/auth.php';
+
