@@ -43,7 +43,7 @@
                 <nav class="navbar navbar-expand-lg custom_nav-container ">
                     <a class="navbar-brand" href="{{ route('welcome') }}">
                         <span>
-                            Feane
+                            Admin
                         </span>
                     </a>
 
@@ -56,11 +56,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav  mx-auto ">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('welcome') }}">Home </a>
+                                <a class="nav-link" href="{{ route('admin.adminDashboard') }}">Dashboard </a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ route('menus.index') }}">Menu <span
-                                        class="sr-only">(current)</span> </a>
+                                <a class="nav-link" href="{{ route('menus.adminMenu') }}">Menu <span
+                                class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('about') }}">About</a>
@@ -69,10 +69,46 @@
                                 <a class="nav-link" href="{{ route('book') }}">Book Table</a>
                             </li>
                         </ul>
+                        <!-- User Dropdown -->
                         <div class="user_option">
-                            <a href="{{ route('menus.create') }}" class="user_link">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </a>
+                            @if (Auth::check())
+                                <!-- Dropdown for logged-in user -->
+                                <div class="dropdown">
+                                    <!-- Dropdown trigger (username) -->
+                                    <a href="#" class="user_link dropdown-toggle" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ Auth::user()->name }}
+                                    </a>
+
+                                    <!-- Dropdown menu -->
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                        <!-- Profile link -->
+                                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                            {{ __('Profile') }}
+                                        </a>
+
+                                        <!-- Logout link with form submission -->
+                                        <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                                            @csrf
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                            </a>
+                                        </form>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- User is not logged in, display the login link -->
+                                <a href="{{ route('login') }}" class="user_link">
+                                    <i class="fa fa-user" aria-hidden="true"></i> {{ __('Login') }}
+                                </a>
+                            @endif
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <a class="cart_link" href="#">
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -98,6 +134,7 @@
                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                         </g>
                                     </g>
+
                                 </svg>
                             </a>
                             <form class="form-inline">

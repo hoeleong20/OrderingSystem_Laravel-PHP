@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Template;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class adminLogin extends loginTemplate{
         if (Auth::user()->usertype == 'admin') {
             // Correct userType, proceed with login
             $request->session()->regenerate();
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('admin.adminDashboard'));
         }
         else{
             Auth::logout();

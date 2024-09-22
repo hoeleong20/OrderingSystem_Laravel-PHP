@@ -8,23 +8,19 @@ use Illuminate\Http\Request;
 
 use app\Models\User;
 
+
+
+
 class HomeController extends Controller
 {
     public function index()
     {
-        if(Auth::id())
-        {
-            $usertype=Auth::user()->usertype;
+            return view('welcome');
+    }
 
-            if($usertype=='user')
-            {
-                return view('welcome');
-            }
-            else
-            {
-                return view('admin.adminhome');
-            }
-        }
+    public function adminIndex()
+    {
+        return view('admin.adminhome');
     }
 
 }

@@ -16,6 +16,13 @@ class MenuController extends Controller
      */
     public function index()
     {
+        $menus = Menu::all();
+        $remarks = DecoratorFactory::getAvailableRemarks();
+
+        // Ensure each menu has a 'remarkable' field set
+        $menus->each(function ($menu) {
+            $menu->remarkable = $menu->remarkable ?? []; // Default to empty array if null
+        });
         //$menus = Menu::all();       //problem!!!
         return view('menus.index'/*, compact('menus')*/);
     }
@@ -29,9 +36,8 @@ class MenuController extends Controller
     public function adminIndex()
     {
         $menus = Menu::all();
-        $remarks = DecoratorFactory::getAvailableRemarks();
+        $remarks = DecoratorFactory::getAvailableRemarks(); // Assuming this function exists
 
-        // Ensure each menu has a 'remarkable' field set
         $menus->each(function ($menu) {
             $menu->remarkable = $menu->remarkable ?? []; // Default to empty array if null
         });

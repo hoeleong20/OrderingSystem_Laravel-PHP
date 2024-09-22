@@ -19,9 +19,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}" />
 
     <!--owl slider stylesheet -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <!-- nice select  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+        integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+        crossorigin="anonymous" />
     <!-- font awesome style -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 
@@ -48,14 +52,17 @@
                         </span>
                     </a>
 
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class=""> </span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav  mx-auto ">
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ route('welcome') }}">Dashboard <span class="sr-only">(current)</span></a>
+                                <a class="nav-link" href="{{ route('welcome') }}">Dashboard <span
+                                        class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('menus.index') }}">Menu</a>
@@ -67,12 +74,51 @@
                                 <a class="nav-link" href="{{ route('book') }}">Book Table</a>
                             </li>
                         </ul>
+                        <!-- User Dropdown -->
                         <div class="user_option">
-                            <a href=" {{ route('login') }}" class="user_link">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </a>
+                            @if (Auth::check())
+                                <!-- Dropdown for logged-in user -->
+                                <div class="dropdown">
+                                    <!-- Dropdown trigger (username) -->
+                                    <a href="#" class="user_link dropdown-toggle" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ Auth::user()->name }}
+                                    </a>
+
+                                    <!-- Dropdown menu -->
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                        <!-- Profile link -->
+                                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                            {{ __('Profile') }}
+                                        </a>
+
+                                        <!-- Logout link with form submission -->
+                                        <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                                            @csrf
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                            </a>
+                                        </form>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- User is not logged in, display the login link -->
+                                <a href="{{ route('login') }}" class="user_link">
+                                    <i class="fa fa-user" aria-hidden="true"></i> {{ __('Login') }}
+                                </a>
+                            @endif
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <a class="cart_link" href="#">
-                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
+                                    xml:space="preserve">
                                     <g>
                                         <g>
                                             <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -123,7 +169,9 @@
                                             Fast Food Restaurant
                                         </h1>
                                         <p>
-                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad
+                                            mollitia laborum quam quisquam esse error unde. Tempora ex doloremque,
+                                            labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
                                         </p>
                                         <div class="btn-box">
                                             <a href="" class="btn1">
@@ -144,7 +192,9 @@
                                             Fast Food Restaurant
                                         </h1>
                                         <p>
-                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad
+                                            mollitia laborum quam quisquam esse error unde. Tempora ex doloremque,
+                                            labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
                                         </p>
                                         <div class="btn-box">
                                             <a href="" class="btn1">
@@ -165,7 +215,9 @@
                                             Fast Food Restaurant
                                         </h1>
                                         <p>
-                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                                            Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad
+                                            mollitia laborum quam quisquam esse error unde. Tempora ex doloremque,
+                                            labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
                                         </p>
                                         <div class="btn-box">
                                             <a href="" class="btn1">
@@ -210,7 +262,10 @@
                                     <span>20%</span> Off
                                 </h6>
                                 <a href="">
-                                    Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
+                                        xml:space="preserve">
                                         <g>
                                             <g>
                                                 <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -249,7 +304,10 @@
                                     <span>15%</span> Off
                                 </h6>
                                 <a href="">
-                                    Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                    Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
+                                        xml:space="preserve">
                                         <g>
                                             <g>
                                                 <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -313,14 +371,18 @@
                                         Delicious Pizza
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $20
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -337,7 +399,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -359,14 +422,18 @@
                                         Delicious Burger
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $15
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -383,7 +450,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -405,14 +473,18 @@
                                         Delicious Pizza
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $17
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -429,7 +501,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -451,14 +524,18 @@
                                         Delicious Pasta
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $18
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -475,7 +552,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -497,14 +575,18 @@
                                         French Fries
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $10
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -521,7 +603,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -543,14 +626,18 @@
                                         Delicious Pizza
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $15
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -567,7 +654,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -589,14 +677,18 @@
                                         Tasty Burger
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $12
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -613,7 +705,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -635,14 +728,18 @@
                                         Tasty Burger
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $14
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -659,7 +756,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -681,14 +779,18 @@
                                         Delicious Pasta
                                     </h5>
                                     <p>
-                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                                        Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam
+                                        voluptatem repellendus sed eaque
                                     </p>
                                     <div class="options">
                                         <h6>
                                             $10
                                         </h6>
                                         <a href="">
-                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
                                                     <g>
                                                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -705,7 +807,8 @@
                                                 </g>
                                                 <g>
                                                     <g>
-                                                        <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                                     </g>
                                                 </g>
@@ -747,9 +850,12 @@
                             </h2>
                         </div>
                         <p>
-                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-                            in some form, by injected humour, or randomised words which don't look even slightly believable. If you
-                            are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in
+                            There are many variations of passages of Lorem Ipsum available, but the majority have
+                            suffered alteration
+                            in some form, by injected humour, or randomised words which don't look even slightly
+                            believable. If you
+                            are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything
+                            embarrassing hidden in
                             the middle of text. All
                         </p>
                         <a href="{{ route('about') }}">
@@ -839,7 +945,8 @@
                         <div class="box">
                             <div class="detail-box">
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
                                 </p>
                                 <h6>
                                     Moana Michell
@@ -857,7 +964,8 @@
                         <div class="box">
                             <div class="detail-box">
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
                                 </p>
                                 <h6>
                                     Mike Hamell
@@ -915,7 +1023,8 @@
                             Feane
                         </a>
                         <p>
-                            Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+                            Necessary, making this the first true generator on the Internet. It uses a dictionary of
+                            over 200 Latin words, combined with
                         </p>
                         <div class="footer_social">
                             <a href="">
@@ -963,8 +1072,9 @@
     <!-- jQery -->
     <script src="js/jquery-3.4.1.min.js"></script>
     <!-- popper js -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+        </script>
     <!-- bootstrap js -->
     <script src="js/bootstrap.js"></script>
     <!-- owl slider -->

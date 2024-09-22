@@ -21,11 +21,6 @@
     <!--owl slider stylesheet -->
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <!-- nice select  -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-        integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
-        crossorigin="anonymous" />
     <!-- font awesome style -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 
@@ -36,7 +31,7 @@
 
 </head>
 
-<body>
+<body class="sub_page">
 
     <div class="hero_area">
         <div class="bg-box">
@@ -46,7 +41,7 @@
         <header class="header_section">
             <div class="container">
                 <nav class="navbar navbar-expand-lg custom_nav-container ">
-                    <a class="navbar-brand" href="">
+                    <a class="navbar-brand" href="{{ route('welcome') }}">
                         <span>
                             Admin
                         </span>
@@ -60,15 +55,15 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav  mx-auto ">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.adminDashboard') }}">Dashboard </a>
+                            </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ route('admin.adminDashboard') }}">Dashboard <span
+                                <a class="nav-link" href="{{ route('menus.adminMenu') }}">Menu <span
                                         class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('menus.adminMenu') }}">Menu</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.userList') }}">User List</a>
+                                <a class="nav-link" href="{{ route('about') }}">About</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('book') }}">Book Table</a>
@@ -156,22 +151,100 @@
             </div>
         </header>
         <!-- end header section -->
-
-        <!-- Main content area -->
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" style=" width: 65%; position: relative; z-index: 1;">
-            <div class="shadow-lg rounded-lg overflow-hidden sm:rounded-lg"
-                style="background: linear-gradient(145deg, #f8f9fa, #e9ecef); margin-top: 50px; padding: 20px; text-align: center;">
-                <div class="p-6" style="color: #343a40; font-size: 1.25rem; font-weight: bold;">
-                    <i class="fa fa-check-circle" style="color: green; margin-right: 10px;"></i>
-                    You’re logged in!
-                </div>
-            </div>
-        </div>
     </div>
 
+    <h2 style="text-align: center;">User List</h2>
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+    <div>
+         {!! $transformedXML !!}
+    </div>
 
-
-
+    <!-- footer section -->
+    <footer class="footer_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 footer-col">
+                    <div class="footer_contact">
+                        <h4>
+                            Contact Us
+                        </h4>
+                        <div class="contact_link_box">
+                            <a href="">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <span>
+                                    Location
+                                </span>
+                            </a>
+                            <a href="">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>
+                                    Call +01 1234567890
+                                </span>
+                            </a>
+                            <a href="">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span>
+                                    demo@gmail.com
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 footer-col">
+                    <div class="footer_detail">
+                        <a href="" class="footer-logo">
+                            Feane
+                        </a>
+                        <p>
+                            Necessary, making this the first true generator on the Internet. It uses a dictionary of
+                            over 200 Latin words, combined with
+                        </p>
+                        <div class="footer_social">
+                            <a href="">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </a>
+                            <a href="">
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                            <a href="">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                            <a href="">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                            <a href="">
+                                <i class="fa fa-pinterest" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 footer-col">
+                    <h4>
+                        Opening Hours
+                    </h4>
+                    <p>
+                        Everyday
+                    </p>
+                    <p>
+                        10.00 Am -10.00 Pm
+                    </p>
+                </div>
+            </div>
+            <div class="footer-info">
+                <p>
+                    &copy; <span id="displayYear"></span> All Rights Reserved By
+                    <a href="https://html.design/">Free Html Templates</a><br><br>
+                    &copy; <span id="displayYear"></span> Distributed By
+                    <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- footer section -->
 
 
 

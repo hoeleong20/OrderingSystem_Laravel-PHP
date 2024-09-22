@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Crypt;
 
 class ProfileController extends Controller
 {
@@ -36,6 +38,35 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
+
+    public function verifyBankAccount(Request $request)
+{
+
+    $request->validate([
+        'account_number' => 'digits:9|numeric',  
+    ]);
+
+    $accountNumber = $request->input('account_number');
+
+    // Send account number to the external Java API
+    $response = Http::post('http://localhost:8081/bank/verify', [
+        'account_number' => $accountNumber,
+    ]);
+
+    if ($response->successful() && $response->json('exists') === true) {
+        // Save the account number if validation is successful
+        $user = Auth::user();
+        
+        $user->update([
+            'account_number' => Crypt::encryptString($accountNumber)
+        ]);
+
+        return redirect()->back()->with('status', 'payment-updated');
+    }
+
+    return redirect()->back()->with('status', 'invalid-account-number');
+}
 
     /**
      * Delete the user's account.

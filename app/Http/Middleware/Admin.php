@@ -21,6 +21,6 @@ class Admin
             return $next($request);
         }
 
-        abort(401);
+        return redirect('/')->with('error', 'Unauthorized Access. Admins only.');
     }
 }

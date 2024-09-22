@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Template;
 
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +16,7 @@ abstract class loginTemplate
     $redirect = $this->userTypeAuthentication($request);
 
     $request->session()->regenerate();
+     
 
     return $redirect;
 }
