@@ -1,12 +1,14 @@
 <?php
 
+
+// Author: Ting Jian Hao
+
 namespace App\Template;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-// Author: Ting Jian Hao
 
 class userLogin extends loginTemplate{
     public function userTypeAuthentication(Request $request)   

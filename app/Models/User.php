@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+// Author: Ting Jian Hao
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
 
-use Illuminate\Http\Request;
-
-use app\Models\User;
-
-
+// Author: Ting Jian Hao
 
 
 class HomeController extends Controller

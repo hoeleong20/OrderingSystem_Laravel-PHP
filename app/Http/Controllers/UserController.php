@@ -1,11 +1,12 @@
 <?php
 
+// Author: Ting Jian Hao
+
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use DOMDocument;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {

@@ -1,8 +1,9 @@
 <?php
 
+// Author: Ting Jian Hao
+
 namespace App\Template;
 
-// Author: Ting Jian Hao
 
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;

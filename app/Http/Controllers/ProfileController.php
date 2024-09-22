@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Crypt;
 
 
 // Author: Ting Jian Hao
+
 class ProfileController extends Controller
 {
     /**

@@ -10,7 +10,6 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CartItemController;
 
 
 
@@ -34,7 +33,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/checkOut', [OrderController::class, 'checkOut'])->name('order.checkOut');
     Route::post('/order/{id}/pay', [OrderController::class, 'pay'])->name('order.pay');
     Route::resource('order', controller: OrderController::class);
-    Route::post('/api/send-cart-items-to-java', [CartItemController::class, 'sendCartItemsToJava']);
     Route::get('/menu/{menu_code}', [MenuController::class, 'show'])->name('menus.show');
     Route::post('/menus/send-sold-out', [MenuController::class, 'sendSoldOutMenus'])->name('menus.sendSoldOutMenus');
     Route::get('/menus/activate', [MenuController::class, 'activatePage'])->name('menus.activatePage');

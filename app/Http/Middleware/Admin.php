@@ -1,5 +1,7 @@
 <?php
 
+// Author: Ting Jian Hao
+
 namespace App\Http\Middleware;
 
 use Closure;
