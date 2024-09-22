@@ -2,6 +2,8 @@
 
 namespace App\Template;
 
+// Author: Ting Jian Hao
+
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

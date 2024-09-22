@@ -2,12 +2,11 @@
 
 namespace App\Template;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
+// Author: Ting Jian Hao
 
 class userLogin extends loginTemplate{
     public function userTypeAuthentication(Request $request)   

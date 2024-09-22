@@ -11,6 +11,8 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 
+
+// Author: Ting Jian Hao
 class ProfileController extends Controller
 {
     /**

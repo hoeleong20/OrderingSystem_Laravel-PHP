@@ -1,3 +1,5 @@
+<!-- Author : Ting Jian Hao -->
+
 <x-guest-layout>
         <!-- Admin Login Title -->
     <h2 class="text-center text-2xl font-bold text-gray-700 dark:text-gray-300 mb-4">
