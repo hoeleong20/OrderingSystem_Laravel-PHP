@@ -1,10 +1,10 @@
 <?php
 
-// Author Khor Zhi Ying 
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReservationController;
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,11 +23,13 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+
+
+
+// Author Khor Zhi Ying
 Route::get('/book', function () {
     return view('book');
 })->name('book');
-
-
 
 // Resource route for reservation CRUD
 Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
@@ -44,3 +46,19 @@ Route::get('/reservations/event', [ReservationController::class, 'createEventRes
 
 // Route for accessing the dish reservation form
 Route::get('/reservations/dish', [ReservationController::class, 'createDishReservation'])->name('reservations.dish');
+
+Route::get('/restaurant/rating', function () {
+    // Call the Python API
+    $response = Http::get('http://localhost:5000/api/restaurant/rating');
+
+    // Check if the response is successful
+    if ($response->successful()) {
+        // Retrieve the average rating from the JSON response
+        $rating = $response->json()['average_rating'];
+
+        // Pass the rating to the Blade view
+        return view('ratings', ['rating' => $rating]);
+    } else {
+        return "Error fetching rating.";
+    }
+});

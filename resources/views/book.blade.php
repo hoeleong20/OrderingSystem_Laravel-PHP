@@ -192,9 +192,9 @@
             </form>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="map_container ">
-            <div id="googleMap"></div>
+        <div class="mt-4">
+            <a href="{{ url('/restaurant/rating') }}" class="btn btn-primary">View Restaurant Rating</a>
+        </div>
           </div>
         </div>
       </div>
