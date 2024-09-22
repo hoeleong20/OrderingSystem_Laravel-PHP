@@ -215,18 +215,6 @@
                 <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST">
                 @csrf  
 
-                @if (isset($order))
-                <p>Order ID: {{ $order->id }}</p>
-                <p>Customer ID: {{ $order->customerID }}</p>
-                <p>Total Payment: {{ $order->paymentTotal }}</p>
-                <p>Payment Method: {{ $order->paymentMethod }}</p>
-                <!-- Add more order details as needed -->
-                @else
-                <p>No pending order available.</p>
-                @endif
-
-
-                
                 <div class="row">
                   <!-- Left -->
                   <div class="accordion" id="accordionPayment">
@@ -370,7 +358,7 @@
               </div>
               <button type="submit" class="paymentBtn" id="makePaymentBtn">Make Payment</button>
               <!-- Result display -->
-              <div id="result"></div>
+              <!-- <div id="result"></div> -->
             </div>
             </form>
           </div>
