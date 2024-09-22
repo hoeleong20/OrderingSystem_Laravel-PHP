@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Models\Composite\CompositeReservation;
+use App\Models\Composite\TableReservation;
+use App\Models\Composite\DishReservation;
+use App\Models\Composite\EventReservation;
+use App\Models\Table;
+use App\Models\Menu;
 
 class ReservationController extends Controller
 {
@@ -15,29 +21,78 @@ class ReservationController extends Controller
 
     public function create()
     {
-        return view('reservations.create');
+        return view('reservations.book'); // This is the default view for table reservations
     }
+    public function createDishReservation()
+{
+    return view('reservations.dish_reservation');
+}
 
+public function createTableWithDishReservation()
+{
+    return view('reservations.table_with_dish_reservation');
+}
+
+public function createEventReservation()
+{
+    return view('reservations.event_reservation');
+}
     public function store(Request $request)
     {
-        $request->validate([
+        // Base validation that applies to all reservation types
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email',
-            'pax' => 'required|integer',
             'datetime' => 'required|date',
-            'reservation_type' => 'required|in:table,table_with_dish,dish,event'
+            'reservation_type' => 'required|in:table,table_with_dish,dish,event',
         ]);
 
-        // Create the reservation
-        $reservation = Reservation::create($request->all());
+        // Additional validation for dish reservations
+        if (in_array($request->reservation_type, ['dish', 'table_with_dish'])) {
+            $request->validate([
+                'dish_id' => 'required|array',
+            ]);
+        }
 
-        // Redirect to the reservation summary page with the newly created reservation
+        // Set pax to 1 for dish reservations
+        $pax = ($request->reservation_type === 'dish') ? 1 : $request->input('pax', 1);
+
+        // For dish or table_with_dish reservations, store dish IDs as a string in extra_info
+        $extraInfo = null;
+        if (in_array($request->reservation_type, ['dish', 'table_with_dish'])) {
+            $extraInfo = implode(',', $request->input('dish_id', []));
+        } elseif ($request->reservation_type === 'table') {
+            $extraInfo = 'Table Number 5';  // Example for table reservation
+        } elseif ($request->reservation_type === 'event') {
+            $extraInfo = 'Event details or remarks';  // Example for event reservation
+        }
+
+        // Create the reservation
+        $reservation = Reservation::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'pax' => $pax,  // Auto-set pax to 1 for dish reservation
+            'datetime' => $request->datetime,
+            'reservation_type' => $request->reservation_type,
+            'extra_info' => $extraInfo,  // Store the additional info here
+        ]);
+
         return redirect()->route('reservations.summary', $reservation->id);
     }
 
-    public function show(Reservation $reservation)
+    public function show($id)
     {
+        // Find the reservation by ID
+        $reservation = Reservation::find($id);
+
+        // Check if the reservation is null (not found)
+        if (!$reservation) {
+            return redirect()->back()->withErrors('Reservation not found.');
+        }
+
+        // Now it's safe to access reservation properties
         return view('reservations.show', compact('reservation'));
     }
 
@@ -57,13 +112,55 @@ class ReservationController extends Controller
             'reservation_type' => 'required|in:table,table_with_dish,dish,event'
         ]);
 
+        // Update the composite pattern based on the reservation type
+        $reservationComponent = null;
+
+        if ($request->reservation_type == 'table') {
+            $reservationComponent = new TableReservation(1);
+        } elseif ($request->reservation_type == 'dish') {
+            $reservationComponent = new DishReservation(['Updated Dish 1', 'Updated Dish 2']);
+        } elseif ($request->reservation_type == 'event') {
+            $reservationComponent = new EventReservation(['Updated Event details']);
+        } elseif ($request->reservation_type == 'table_with_dish') {
+            $reservationComponent = new CompositeReservation();
+            $reservationComponent->add(new TableReservation(1));
+            $reservationComponent->add(new DishReservation(['Updated Dish 1', 'Updated Dish 2']));
+        }
+
+        // Execute the reservation update logic (reserve/cancel)
+        if ($reservationComponent) {
+            $reservationComponent->reserve();  // Reserve updated details
+        }
+
+        // Update the reservation record in the database
         $reservation->update($request->all());
 
-        return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');
+        return redirect()->route('reservations.summary', $reservation->id)->with('success', 'Reservation updated successfully.');
     }
 
     public function destroy(Reservation $reservation)
     {
+        // Use the composite pattern to cancel the reservation
+        $reservationComponent = null;
+
+        if ($reservation->reservation_type == 'table') {
+            $reservationComponent = new TableReservation(1);
+        } elseif ($reservation->reservation_type == 'dish') {
+            $reservationComponent = new DishReservation(['Dish 1', 'Dish 2']);
+        } elseif ($reservation->reservation_type == 'event') {
+            $reservationComponent = new EventReservation(['Event details']);
+        } elseif ($reservation->reservation_type == 'table_with_dish') {
+            $reservationComponent = new CompositeReservation();
+            $reservationComponent->add(new TableReservation(1));
+            $reservationComponent->add(new DishReservation(['Dish 1', 'Dish 2']));
+        }
+
+        // Execute the cancellation logic
+        if ($reservationComponent) {
+            $reservationComponent->cancel();
+        }
+
+        // Delete the reservation record from the database
         $reservation->delete();
 
         return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully.');

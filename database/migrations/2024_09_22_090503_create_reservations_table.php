@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->integer('pax');
+            $table->string('name'); 
+            $table->string('email'); 
+            $table->string('phone'); 
+            $table->integer('pax')->default(1);  // Default pax to 1, used for dish reservations
             $table->dateTime('datetime');
             $table->enum('reservation_type', ['table', 'table_with_dish', 'dish', 'event']);
+            $table->text('extra_info')->nullable();  // Store additional information based on reservation type
             $table->timestamps();
         });
     }

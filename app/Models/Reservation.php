@@ -15,22 +15,10 @@ class Reservation extends Model
         'pax',
         'datetime',
         'reservation_type',
+        'extrax_info'
     ];
 
     protected $casts = [
         'datetime' => 'datetime',
     ];
-
-    public function getDetails()
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'email' => $this->email,
-            'pax' => $this->pax,
-            'datetime' => $this->datetime->format('Y-m-d H:i:s'),
-            'reservation_type' => $this->reservation_type,
-        ];
-    }
 }

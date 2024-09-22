@@ -24,3 +24,6 @@ Route::get('/book', function () {
 Route::resource('reservations', ReservationController::class);
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 Route::get('/reservations/{id}/summary', [ReservationController::class, 'summary'])->name('reservations.summary');
+Route::get('/reservations/dish', [ReservationController::class, 'createDishReservation'])->name('reservations.dish');
+Route::get('/reservations/table_with_dish', [ReservationController::class, 'createTableWithDishReservation'])->name('reservations.table_with_dish');
+Route::get('/reservations/event', [ReservationController::class, 'createEventReservation'])->name('reservations.event');

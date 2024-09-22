@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reservation Summary</title>
-    <!-- Include your CSS files here -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
 </head>
+
 <body>
 
     <div class="container">
@@ -25,12 +26,19 @@
             <li class="list-group-item"><strong>Pax:</strong> {{ $reservation->pax }}</li>
             <li class="list-group-item"><strong>Date & Time:</strong> {{ $reservation->datetime->format('Y-m-d H:i') }}</li>
             <li class="list-group-item"><strong>Reservation Type:</strong> {{ ucfirst($reservation->reservation_type) }}</li>
+            @if ($reservation->reservation_type === 'dish')
+            <li class="list-group-item"><strong>Dish IDs:</strong> {{ $reservation->extra_info }}</li>
+            @elseif ($reservation->reservation_type === 'table')
+            <li class="list-group-item"><strong>Table Number:</strong> {{ $reservation->extra_info }}</li>
+            @elseif ($reservation->reservation_type === 'event')
+            <li class="list-group-item"><strong>Event Details:</strong> {{ $reservation->extra_info }}</li>
+            @endif
         </ul>
 
         <a href="{{ route('welcome') }}" class="btn btn-primary mt-3">Back to Home</a>
     </div>
 
-    <!-- Include your JS files here -->
     <script src="{{ asset('js/bootstrap.js') }}"></script>
 </body>
+
 </html>

@@ -20,8 +20,13 @@
 
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
   <!-- nice select  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" />
+
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
 
@@ -141,6 +146,13 @@
     <!-- end header section -->
   </div>
 
+  <!-- Links for other reservation types -->
+  <div class="reservation-links mb-3">
+    <a href="{{ route('reservations.dish') }}" class="btn btn-secondary">Reserve a Dish</a>
+    <a href="{{ route('reservations.table_with_dish') }}" class="btn btn-secondary">Reserve Table with Dish</a>
+    <a href="{{ route('reservations.event') }}" class="btn btn-secondary">Reserve an Event</a>
+  </div>
+
   <!-- book section -->
   <section class="book_section layout_padding">
     <div class="container">
@@ -169,15 +181,7 @@
               <div>
                 <input type="datetime-local" class="form-control" name="datetime" required>
               </div>
-              <div>
-                <select class="form-control nice-select wide" name="reservation_type" required>
-                  <option value="none" selected disabled hidden>Select Reservation Type</option>
-                  <option value="table">Reserve a Table</option>
-                  <option value="dish">Reserve a Dish</option>
-                  <option value="combined">Reserve Table with Dish</option>
-                  <option value="event">Reserve as an Event</option>
-                </select>
-              </div>
+              <input type="hidden" name="reservation_type" value="table">
               <div class="btn_box">
                 <button>
                   Book Now
@@ -281,7 +285,8 @@
   <!-- jQery -->
   <script src="js/jquery-3.4.1.min.js"></script>
   <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
   <!-- bootstrap js -->
   <script src="js/bootstrap.js"></script>
@@ -291,7 +296,7 @@
   <!-- isotope js -->
   <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
   <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script> -->
   <!-- custom js -->
   <script src="js/custom.js"></script>
   <!-- Google Map -->
