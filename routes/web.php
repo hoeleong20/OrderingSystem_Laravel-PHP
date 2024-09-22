@@ -62,3 +62,7 @@ Route::get('/restaurant/rating', function () {
         return "Error fetching rating.";
     }
 });
+
+Route::get('/reservations/export/xml', [ReservationController::class, 'exportReservationsToXML'])->name('reservations.export.xml');
+Route::get('/reservations/transform/xslt', [ReservationController::class, 'transformXMLWithXSLT'])->name('reservations.transform.xslt');
+Route::get('/reservations/search/{customerName}', [ReservationController::class, 'searchReservationByXPath'])->name('reservations.search.xpath');

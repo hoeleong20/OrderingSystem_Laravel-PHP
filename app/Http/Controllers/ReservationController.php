@@ -10,6 +10,7 @@ use App\Models\Composite\CompositeReservation;
 use App\Models\Composite\TableReservation;
 use App\Models\Composite\DishReservation;
 use App\Models\Composite\EventReservation;
+use Illuminate\Support\Facades\Storage;
 
 class ReservationController extends Controller
 {
@@ -161,4 +162,81 @@ class ReservationController extends Controller
         // Return the summary view with the reservation details
         return view('reservations.summary', compact('reservation'));
     }
+
+    public function exportReservationsToXML()
+    {
+        // Fetch all reservations
+        $reservations = Reservation::all();
+
+        // Create an XML structure
+        $xml = new \SimpleXMLElement('<reservations/>');
+
+        foreach ($reservations as $reservation) {
+            $res = $xml->addChild('reservation');
+            $res->addChild('name', $reservation->name);
+            $res->addChild('email', $reservation->email);
+            $res->addChild('phone', $reservation->phone);
+            $res->addChild('pax', $reservation->pax);
+            $res->addChild('datetime', $reservation->datetime);
+            $res->addChild('reservation_type', $reservation->reservation_type);
+            $res->addChild('extra_info', $reservation->extra_info);
+        }
+
+        // Save the XML to a file in the storage/app/ directory
+        Storage::put('reservations.xml', $xml->asXML());
+
+        return response()->download(storage_path('app/reservations.xml'));
     }
+
+    public function transformXMLWithXSLT()
+    {
+        // Load the XML file
+        $xmlFile = storage_path('app/reservations.xml');
+        $xslFile = resource_path('xsl/reservation_template.xsl');
+
+        // Load XML and XSL files
+        $xml = new \DOMDocument();
+        $xml->load($xmlFile);
+
+        $xsl = new \DOMDocument();
+        $xsl->load($xslFile);
+
+        // Configure the XSLT processor
+        $proc = new \XSLTProcessor();
+        $proc->importStylesheet($xsl);
+
+        // Transform the XML data
+        $html = $proc->transformToXML($xml);
+
+        // Return the transformed HTML
+        return response($html);
+    }
+
+    public function searchReservationByXPath($customerName)
+    {
+        // Load the XML file
+        $xmlFile = storage_path('app/reservations.xml');
+        $xml = new \DOMDocument();
+        $xml->load($xmlFile);
+
+        // Initialize XPath
+        $xpath = new \DOMXPath($xml);
+
+        // Search for reservations by customer name
+        $query = "//reservation[name='$customerName']";
+        $reservations = $xpath->query($query);
+
+        // Process and display results
+        $results = [];
+        foreach ($reservations as $reservation) {
+            // Access elements under the reservation node using XPath directly
+            $name = $xpath->evaluate('string(name)', $reservation);
+            $email = $xpath->evaluate('string(email)', $reservation);
+            $phone = $xpath->evaluate('string(phone)', $reservation);
+
+            $results[] = "Name: $name, Email: $email, Phone: $phone";
+        }
+
+        return response()->json($results);
+    }
+}
