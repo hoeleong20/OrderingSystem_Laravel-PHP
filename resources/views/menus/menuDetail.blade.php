@@ -78,7 +78,7 @@
                             <a href="" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
-                            <a class="cart_link" href="{{ route('order.index') }}">
+                            <a class="cart_link" href="#">
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                     viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
@@ -121,32 +121,41 @@
         <!-- end header section -->
     </div>
 
-    <!-- menu section -->
-    <section class="food_section layout_padding">
-        <div class="container mt-4">
-            <div class="heading_container heading_center mb-4">
-                <h2>Our Menu</h2>
-            </div>
-            <div class="row">
-                @foreach ($menus as $menu)
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $menu->name }}</h5>
-                                <p class="card-text">{{ $menu->desc }}</p>
-                                <div class="options d-flex justify-content-between align-items-center">
-                                    <h6>RM {{ number_format($menu->price, 2) }}</h6>
-                                    <a href="{{ route('menus.show', ['menu_code' => $menu->menu_code]) }}"
-                                        class="btn btn-primary btn-sm">+</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    <!-- end menu section -->
+
+    <!-- Menu Detail Section -->
+    <div class="container mt-4">
+        <h3>{{ $menu->name }}</h3>
+        <p>{{ $menu->desc }}</p>
+        <h4>Price: RM {{ number_format($menu->price, 2) }}</h4>
+
+        <hr>
+        <h5>Available Remarks:</h5>
+        {{-- <form action="{{ route('menus.addToCart', ['menu_code' => $menu->menu_code]) }}" method="POST"> --}}
+            @csrf
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Remark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($remarks as $remark)
+                        <tr>
+                            <td><input type="checkbox" name="remarks[]" value="{{ $remark }}"></td>
+                            <td>{{ $remark }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <p>Total Price: RM <span id="totalPrice">{{ number_format($menu->price, 2) }}</span></p>
+
+            <button type="submit" class="btn btn-success">Add to Cart</button>
+            <a href="{{ route('menus.index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
 
     <!-- footer section -->
     <footer class="footer_section">
@@ -233,13 +242,24 @@
 
     <!-- This page script -->
     <script>
-        setTimeout(function() {
-            var
-                messageElement = document.getElementById('success-message');
-            if (messageElement) {
-                messageElement.style.display = 'none';
-            }
-        }, 3000); // 3000 milliseconds = 3 seconds
+        const basePrice = {{ $menu->price }};
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                let totalPrice = basePrice;
+
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        totalPrice += parseFloat(cb.closest('tr').querySelector('td:nth-child(3)')
+                            .textContent || 0);
+                    }
+                });
+
+                totalPriceElement.textContent = totalPrice.toFixed(2);
+            });
+        });
     </script>
 
     <!-- jQery -->
@@ -262,10 +282,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
     </script>
     <!-- End Google Map -->
-
-    <script>
-        
-    </script>
 
 </body>
 
