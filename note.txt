@@ -1,0 +1,64 @@
+What I added :
+  UI : 
+    resources/view/discount/index.blade.php
+    resources/view/xslt/discountTable.xsl
+    resources/view/xslt/discountView.xsl
+    resources/view/xslt/discountAdd.xsl
+    resources/view/xslt/discountEdit.xsl
+  
+  JavaScript : 
+    public/js/dataTable.js
+  
+  Controller :
+    App/Http/Controllers/DiscountController.php
+
+  Model :
+    App/Models/Discount.php
+
+  Design Pattern :
+    App/Factories/DiscountFactory.php
+    App/Factories/DiscountInterface.php
+    App/Factories/FixedDiscount.php
+    App/Factories/PercentageDiscount.php
+
+  Migration :
+    App/database/migrations/create_discounts_table.php
+
+  DatabaseSeeder :
+    App/database/migration/DiscountSeeder.php
+    App/database/seeders/UserSeeder.php
+
+  Web Service :
+    to check whether a given promo code is valid, or to check what promo code can be auto applied.
+
+  Security Design :
+    role based access control -> only admin can access discount page
+    using csrf token -> go google search
+    logging -> records success and fail actions in log file (storage/logs/Laravel.log)
+    
+
+What I modified :
+   Migration :
+    App/database/migrations/create_orders_table.php  // add foreign key to discount
+
+  DatabaseSeeder :
+    App/database/seeders/DatabaseSeeder.php   // populate database with discount and user record too
+
+  UI : 
+    Change admin header to allow navigate to discount page
+    Allow user to enter promo code at the bottom of checkout page
+
+  JavaScript :
+    Under resources/views/checkOut.blade.php, js code added to handle promo code checking and submission
+
+  web.php : 
+    Add path to navigate to discount pages or functions
+
+
+To run webservice :
+  open webservice/CheckDiscount with Apache NetBeans
+  run the CheckDiscount.java / or just run the project
+
+TO run Laravel :
+  run php artisan migrate --seed
+  run php artisan serve
