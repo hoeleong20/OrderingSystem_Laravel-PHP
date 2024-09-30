@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Observers;
 
 use App\Events\OrderUpdated;
@@ -22,19 +23,14 @@ class OrderObserver
         // Log when an order is updated
         Log::info('Order updated:', ['orderID' => $order->id, 'status' => $order->status]);
 
-        event(new OrderUpdated($order));
-
-      
-            
-        
+        if ($order->status === 'paid') {
+            event(new OrderUpdated($order));
+        }
     }
 
     public function deleted(Order $order)
     {
         // Log when an order is deleted
         Log::info('Order deleted:', ['orderID' => $order->id]);
-        
     }
-
-
 }
