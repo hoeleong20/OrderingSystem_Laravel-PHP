@@ -35,21 +35,6 @@ class OrderObserver
             $this->sendXmlToJavaApi($xmlData);
             
             Log::info($xmlData);
-            
-            // $amount = 10000;
-            // $duration = 3;
-            // $rate = 2;
-
-            // $url="http://localhost/LoanREST/LoanRESTClient.php?amount=". $amount."&duration=".$duration."&rate=". $rate;
-            
-            //     $client=curl_init($url);
-            //     curl_setopt($client,CURLOPT_RETURNTRANSFER,true);
-            //     $response=curl_exec($client);
-                
-            //     $result=json_decode($response);
-                
-            //     Log::info("Monthly Payment: RM".number_format($result->monthlyPayment,2));
-            //     Log::info("Total Payment: RM".number_format($result->totalPayment,2));
         }
     }
 
