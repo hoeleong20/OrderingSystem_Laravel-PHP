@@ -272,40 +272,27 @@ class MenuController extends Controller
         $transformedHtml = $processor->transformToXml($xml);
 
         // Pass the transformed HTML to the Blade view
-        return view('menus.activateMenu'/*, compact('transformedHtml')*/);
+        return view('menus.activateMenu', compact('transformedHtml'));
     }
 
-    public function activateMenus()
+    public function activateAllMenus()
     {
-        $xmlPath = storage_path('app/available_menus.xml');
+        // Path to the XML file
+        $filePath = storage_path('app/available_menus.xml');
 
-        // Load XML file
-        if (file_exists($xmlPath)) {
-            $xml = new DOMDocument;
-            $xml->load($xmlPath);
+        // Load the XML file
+        if (file_exists($filePath)) {
+            $xml = simplexml_load_file($filePath);
 
-            // Create an XPath object to query XML
-            $xpath = new DOMXPath($xml);
-
-            // Select all menu names from the XML file
-            $menus = $xpath->query("//menu/name");
-
-            foreach ($menus as $menu) {
-                $menuName = $menu->nodeValue;
-
-                // Update the menu status to 'active' in the database
-                \App\Models\Menu::where('name', $menuName)->update(['status' => 'active']);
+            // Loop through each menu in the XML and update its status to "active" in the database
+            foreach ($xml->menu as $menu) {
+                Menu::where('name', $menu->name)->update(['status' => 'active']);
             }
 
-            // Delete the XML file after activation
-            if (file_exists($xmlPath)) {
-                unlink($xmlPath);
-            }
-
-            // Redirect back with a success message
-            return redirect()->route('menus.adminMenu')->with('success', 'Menus activated successfully, and XML file deleted.');
-        } else {
-            return redirect()->route('menus.adminMenu')->with('error', 'XML file not found.');
+            // Optionally, delete the XML file after activation
+            unlink($filePath);
         }
+
+        return redirect()->route('menus.adminMenu')->with('success', 'Menus activated successfully.');
     }
 }
