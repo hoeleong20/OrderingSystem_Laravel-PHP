@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use App\Models\Order;
 use App\Observers\OrderObserver;
-
 use App\Models\CartItem;
 use App\Observers\CartItemObserver;
+
 
 use Illuminate\Support\ServiceProvider;
 

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Decorators\MenuInterface; // For the Decorator pattern
 use App\Decorators\DecoratorFactory; // Factory for handling decorators
 
+// Author : Lim Jia Qing
+
 class Menu extends Model implements MenuInterface
 {
     use HasFactory;
@@ -74,20 +76,5 @@ class Menu extends Model implements MenuInterface
         }
 
         return $totalPrice;
-    }
-
-    // Use a factory to dynamically apply decorators based on selected remarks
-    public function applyRemarks(array $selectedRemarks)
-    {
-        // Start with the base menu
-        $decoratedMenu = $this;
-
-        // Apply each selected remark as a decorator
-        foreach ($selectedRemarks as $remarkName) {
-            // Apply the decorator using the remark name and DecoratorFactory
-            $decoratedMenu = DecoratorFactory::applyRemark($decoratedMenu, $remarkName);
-        }
-
-        return $decoratedMenu;
     }
 }

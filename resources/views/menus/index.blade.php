@@ -1,3 +1,4 @@
+<!-- Author : Lim Jia Qing -->
 <!DOCTYPE html>
 <html>
 
@@ -111,8 +112,9 @@
                                 </button>
                             </form>
                             <a href="{{ route('menus.adminMenu') }}" class="order_online">
-                                Order Online
-                            </a>
+                                <a href="{{ route('menus.adminMenu') }}" class="order_online">
+                                    Order Online
+                                </a>
                         </div>
                     </div>
                 </nav>
@@ -127,13 +129,12 @@
             <div class="heading_container heading_center mb-4">
                 <h2>Our Menu</h2>
             </div>
+
             <div class="row">
                 <!-- Left Column (70%) -->
                 <div class="col-md-8">
                     <div class="row">
                         @foreach ($menus as $menu)
-                        <form action="{{ route('order.store') }}" method="POST">
-          @csrf
                             <div class="col-md-6 mb-4">
                                 <div class="card menu-box h-100">
                                     <div class="card-body">
@@ -141,42 +142,41 @@
                                         <p class="card-text">{{ $menu->desc }}</p>
                                         <div class="options d-flex justify-content-between align-items-center">
                                             <h6>RM {{ number_format($menu->price, 2) }}</h6>
-                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
-                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
-                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
-                                        </div> 
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onclick="showDetails('{{ $menu->name }}', '{{ $menu->price }}', {{ json_encode($remarks) }})">+</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            </form>
                         @endforeach
                     </div>
                 </div>
 
+
                 <!-- Right Column (Remark and Add to Cart) -->
                 <div class="col-md-4">
-                    <div class="remark-panel" id="remarkPanel">
+                    <div class="remark-panel" id="remarkPanel" style="display: none;">
                         <span class="close-panel" onclick="hideDetails()">x</span>
                         <h5 id="remarkTitle">Remark & Add to Cart</h5>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Remark</th>
-                                    <th>Additional Price (RM)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($remarks as $remark)
+                        <div id="selectedMenu"></div>
+                        <form id="addToCartForm" action="{{ route('order.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="menu_name" id="menu_name">
+                            <input type="hidden" name="menu_price" id="menu_price">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td><input type="checkbox" name="remark[]" value="{{ $remark['name'] }}"></td>
-                                        <td>{{ $remark['name'] }}</td>
-                                        <td>{{ number_format($remark['price'], 2) }}</td>
+                                        <th>Select</th>
+                                        <th>Remark</th>
+                                        <th>Additional Price (RM)</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <button class="btn btn-success btn-block" onclick="addToCart()">Add to Cart</button>
+                                </thead>
+                                <tbody id="remarkList">
+                                    <!-- Remark checkboxes will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-success btn-block">Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -276,6 +276,33 @@
                 messageElement.style.display = 'none';
             }
         }, 3000); // 3000 milliseconds = 3 seconds
+
+        function showDetails(menuName, menuPrice, remarks) {
+            // Display the remark panel
+            document.getElementById('remarkPanel').style.display = 'block';
+
+            // Set the selected menu details
+            document.getElementById('selectedMenu').innerHTML = `<h6>${menuName} - RM ${menuPrice}</h6>`;
+            document.getElementById('menu_name').value = menuName;
+            document.getElementById('menu_price').value = menuPrice;
+
+            // Populate the remarks
+            let remarkList = document.getElementById('remarkList');
+            remarkList.innerHTML = ''; // Clear existing remarks
+            remarks.forEach(function(remark) {
+                let remarkRow = `<tr>
+                                <td><input type="checkbox" name="remarks[]" value="${remark.name}"></td>
+                                <td>${remark.name}</td>
+                                <td>${remark.price}</td>
+                             </tr>`;
+                remarkList.insertAdjacentHTML('beforeend', remarkRow);
+            });
+        }
+
+        function hideDetails() {
+            // Hide the remark panel
+            document.getElementById('remarkPanel').style.display = 'none';
+        }
     </script>
 
     <!-- jQery -->

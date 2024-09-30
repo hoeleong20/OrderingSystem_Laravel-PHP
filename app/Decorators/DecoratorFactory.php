@@ -2,6 +2,8 @@
 
 namespace App\Decorators;
 
+// Author : Lim Jia Qing
+
 class DecoratorFactory
 {
     /**

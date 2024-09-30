@@ -1,3 +1,5 @@
+<!-- Author Khor Zhi Ying -->
+
 <!DOCTYPE html>
 <html>
 
@@ -20,8 +22,13 @@
 
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
   <!-- nice select  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" />
+
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
 
@@ -141,49 +148,42 @@
     <!-- end header section -->
   </div>
 
+  <!-- Links for other reservation types -->
+  <div class="reservation-links mb-3">
+    <a href="{{ route('reservations.dish') }}" class="btn btn-secondary">Reserve a Dish</a>
+    <a href="{{ route('reservations.table_with_dish') }}" class="btn btn-secondary">Reserve Table with Dish</a>
+    <a href="{{ route('reservations.event') }}" class="btn btn-secondary">Reserve an Event</a>
+  </div>
+
   <!-- book section -->
   <section class="book_section layout_padding">
     <div class="container">
       <div class="heading_container">
         <h2>
-          Book A Table
+          Make a Reservation
         </h2>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="">
+            <form action="{{ route('reservations.store') }}" method="POST">
+              @csrf
               <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
+                <input type="text" class="form-control" name="name" placeholder="Your Name" required />
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
+                <input type="text" class="form-control" name="phone" placeholder="Phone Number" required />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
+                <input type="email" class="form-control" name="email" placeholder="Your Email" required />
               </div>
               <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    How many persons?
-                  </option>
-                  <option value="">
-                    2
-                  </option>
-                  <option value="">
-                    3
-                  </option>
-                  <option value="">
-                    4
-                  </option>
-                  <option value="">
-                    5
-                  </option>
-                </select>
+                <input type="number" class="form-control" name="pax" placeholder="No. of Pax" required />
               </div>
               <div>
-                <input type="date" class="form-control">
+                <input type="datetime-local" class="form-control" name="datetime" required>
               </div>
+              <input type="hidden" name="reservation_type" value="table">
               <div class="btn_box">
                 <button>
                   Book Now
@@ -192,9 +192,9 @@
             </form>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="map_container ">
-            <div id="googleMap"></div>
+        <div class="mt-4">
+            <a href="{{ url('/restaurant/rating') }}" class="btn btn-primary">View Restaurant Rating</a>
+        </div>
           </div>
         </div>
       </div>
@@ -287,7 +287,8 @@
   <!-- jQery -->
   <script src="js/jquery-3.4.1.min.js"></script>
   <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
   <!-- bootstrap js -->
   <script src="js/bootstrap.js"></script>
@@ -297,7 +298,7 @@
   <!-- isotope js -->
   <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
   <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script> -->
   <!-- custom js -->
   <script src="js/custom.js"></script>
   <!-- Google Map -->
