@@ -222,6 +222,8 @@ class OrderController extends Controller
             $order->status = 'paid';
             $order->save();
 
+            session(['orderID' => 0]);
+            
             return redirect()->route('menus.index')->with('success', 'Payment successful! Order status updated to paid.');
         } else {
 
