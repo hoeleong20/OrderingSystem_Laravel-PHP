@@ -28,7 +28,6 @@ class MenuController extends Controller
     {
         // Retrieve only active menus
         $menus = Menu::where('status', 'active')->get();
-        $remarks = DecoratorFactory::getAvailableRemarks();
 
         // Ensure each menu has a 'remarkable' field set
         $menus->each(function ($menu) {
@@ -36,7 +35,7 @@ class MenuController extends Controller
         });
 
         // Return the index view with the active menus
-        return view('menus.index', compact('menus', 'remarks'));
+        return view('menus.index', compact('menus'));
     }
 
     /**

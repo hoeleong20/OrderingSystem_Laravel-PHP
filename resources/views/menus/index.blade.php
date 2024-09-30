@@ -143,7 +143,7 @@
                                         <div class="options d-flex justify-content-between align-items-center">
                                             <h6>RM {{ number_format($menu->price, 2) }}</h6>
                                             <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="showDetails('{{ $menu->name }}', '{{ $menu->price }}', {{ json_encode($remarks) }})">+</button>
+                                                onclick="showDetails('{{ $menu->menu_code }}', '{{ $menu->name }}', '{{ $menu->price }}', {{ json_encode($menu->remarkable) }})">+</button>
                                         </div>
                                     </div>
                                 </div>
@@ -157,18 +157,19 @@
                 <div class="col-md-4">
                     <div class="remark-panel" id="remarkPanel" style="display: none;">
                         <span class="close-panel" onclick="hideDetails()">x</span>
-                        <h5 id="remarkTitle">Remark & Add to Cart</h5>
+                        <h5 id="remarkTitle">Remark</h5>
                         <div id="selectedMenu"></div>
                         <form id="addToCartForm" action="{{ route('order.store') }}" method="POST">
                             @csrf
+                            <input type="hidden" name="menu_code" id="menu_code">
                             <input type="hidden" name="menu_name" id="menu_name">
                             <input type="hidden" name="menu_price" id="menu_price">
-                            <table>
+                            <input type="hidden" name="selected_remarks" id="selected_remarks">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Select</th>
                                         <th>Remark</th>
-                                        <th>Additional Price (RM)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="remarkList">
@@ -277,31 +278,51 @@
             }
         }, 3000); // 3000 milliseconds = 3 seconds
 
-        function showDetails(menuName, menuPrice, remarks) {
+        let selectedRemarks = [];
+
+        function showDetails(menuCode, menuName, menuPrice, remarks) {
+            // Convert menuPrice to a number in case it's passed as a string
+            menuPrice = parseFloat(menuPrice);
+
             // Display the remark panel
             document.getElementById('remarkPanel').style.display = 'block';
 
             // Set the selected menu details
-            document.getElementById('selectedMenu').innerHTML = `<h6>${menuName} - RM ${menuPrice}</h6>`;
+            document.getElementById('selectedMenu').innerHTML = `<h6>${menuName} - RM ${menuPrice.toFixed(2)}</h6>`;
+            document.getElementById('menu_code').value = menuCode;
             document.getElementById('menu_name').value = menuName;
             document.getElementById('menu_price').value = menuPrice;
 
-            // Populate the remarks
+            // Populate the remarks from DecoratorFactory
             let remarkList = document.getElementById('remarkList');
             remarkList.innerHTML = ''; // Clear existing remarks
             remarks.forEach(function(remark) {
-                let remarkRow = `<tr>
-                                <td><input type="checkbox" name="remarks[]" value="${remark.name}"></td>
-                                <td>${remark.name}</td>
-                                <td>${remark.price}</td>
-                             </tr>`;
+                let remarkRow = `
+                <tr>
+                    <td><input type="checkbox" name="remarks[]" value="${remark}" onchange="collectRemarks()"></td>
+                    <td>${remark}</td>
+                </tr>`;
                 remarkList.insertAdjacentHTML('beforeend', remarkRow);
             });
+        }
+
+        function collectRemarks() {
+            // Get all checked remarks and store them in selectedRemarks array
+            let checkboxes = document.querySelectorAll('#remarkList input[type="checkbox"]:checked');
+            selectedRemarks = [];
+
+            checkboxes.forEach(function(checkbox) {
+                selectedRemarks.push(checkbox.value); // Only store the name of the selected remark
+            });
+
+            // Pass the selected remarks (names only) to the hidden input field
+            document.getElementById('selected_remarks').value = JSON.stringify(selectedRemarks);
         }
 
         function hideDetails() {
             // Hide the remark panel
             document.getElementById('remarkPanel').style.display = 'none';
+            selectedRemarks = [];
         }
     </script>
 

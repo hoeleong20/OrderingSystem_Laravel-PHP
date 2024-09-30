@@ -13,6 +13,7 @@ class MoreSauceRemark extends RemarkDecorator
 
     public function getPrice()
     {
-        return $this->menu->getPrice() + 1.00; // Add 1.00 for More Sauce
+        // Add 1.00 to the base price
+        return $this->menu->getPrice() + 1.00;
     }
 }
