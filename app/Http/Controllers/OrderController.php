@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\CartItem;
+use App\Models\Menu;
+use App\Decorators\DecoratorFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -57,13 +59,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // $data=$request->validate([
-        //     'note' => ['required','string']
-        // ]);
-
-        
-
-
+        // If there is no active order, create a new one
         if (session('orderID') == 0) {
             $orderData['customerID'] = session('customerID');
             $orderData['paymentTotal'] = 0;
@@ -74,31 +70,31 @@ class OrderController extends Controller
             session(['orderID' => $orders->id]);
         }
 
-        // $menuPrice = $request->input('menu_price');
+        // Get menu name and base price from request
+        $menuName = $request->input('menu_name');
+        $menuPrice = $request->input('menu_price'); // Base price of the menu
 
+        // Get the selected remarks from the request
+        $selectedRemarks = json_decode($request->input('selected_remarks'), true);
+
+        // Retrieve the menu instance
+        $menu = new Menu($menuName, '', $menuPrice);
+
+        // Apply the decorators for each selected remark
+        foreach ($selectedRemarks as $remarkName) {
+            $menu = DecoratorFactory::applyRemark($menu, $remarkName); // Apply each remark decorator
+        }
+        $finalPrice = $menu->getPrice();
+
+        // Store the cart item with the final calculated price
         $data['orderID'] = session('orderID');
-        $data['foodName'] = $request->input('menu_name');
-        $data['quantity'] = 1;
-        $data['foodPrice'] = $request->input('menu_price');
+        $data['foodName'] = $menuName;
+        $data['quantity'] = 1; // Assuming quantity is always 1 for now
+        $data['foodPrice'] = $finalPrice; // Store the final price after applying decorators
 
-
-        $cartItems = CartItem::create($data);
+        CartItem::create($data);
 
         return redirect()->back();
-
-
-        // $data['customerId']='OR004';
-        // $data['paymentTotal']= 100;
-        // $data['paymentMethod']= 'TNG';
-        // $data['status']= 'pending';
-
-        // $orders = Order::create($data);
-
-
-
-        // return to_route('order.show',$orders)->with('message','Note was create');
-
-
     }
 
     /**
@@ -194,12 +190,12 @@ class OrderController extends Controller
 
             // Calculate the total quantity of items
             $totalItems = $cartItems->sum('quantity');
-            
+
             $totalPrice = $cartItems->sum('foodPrice');
 
             if ($order) {
                 // Pass the order data and total items to the checkout view
-                return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems,'totalPrice' => $totalPrice]);
+                return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems, 'totalPrice' => $totalPrice]);
             } else {
                 // Redirect back if no pending order is found
                 return redirect()->route('order.index')->with('error', 'No pending order found.');
@@ -208,14 +204,14 @@ class OrderController extends Controller
         return redirect()->route('menus.index');
     }
 
-    public function pay(Request $request,$id)
+    public function pay(Request $request, $id)
     {
         $order = Order::findOrFail($id); // Find the order by ID
 
         $paymentType = $request->input('payment');
         $totalPrice = $request->input('totalPrice');
 
-        if($paymentType=='ccPayment'){
+        if ($paymentType == 'ccPayment') {
             $ccPaymentType = $request->input('ccPayment');
         }
 
@@ -225,13 +221,12 @@ class OrderController extends Controller
             $order->paymentMethod = $paymentType;
             $order->status = 'paid';
             $order->save();
-            
+
             return redirect()->route('menus.index')->with('success', 'Payment successful! Order status updated to paid.');
-        }else{
+        } else {
 
             Log::warning('Order not found for order ID: ' . $id);
             return redirect()->back()->with('error', 'Order not found.');
         }
-    
     }
 }

@@ -38,7 +38,7 @@ class Menu extends Model implements MenuInterface
     // Concrete Component implementation for the Decorator pattern
     protected $name;
     protected $description;
-    protected $price;
+    protected $basePrice;
 
     // Constructor for the Decorator pattern's Concrete Component
     public function __construct($name = null, $description = null, $price = null)
@@ -49,7 +49,13 @@ class Menu extends Model implements MenuInterface
         if ($name && $description && $price) {
             $this->name = $name;
             $this->description = $description;
-            $this->price = $price;
+            $this->basePrice = $price;
+        }
+
+        if ($name && $price) {
+            $this->name = $name;
+            $this->baseDescription = $description ?? ''; // Initialize description
+            $this->basePrice = $price; // Initialize base price
         }
     }
 
@@ -62,7 +68,7 @@ class Menu extends Model implements MenuInterface
     // Get the menu price (used in the Decorator pattern)
     public function getPrice()
     {
-        return $this->price;
+        return $this->basePrice;
     }
 
     // Functionality where the decorator pattern comes into play for calculating price
