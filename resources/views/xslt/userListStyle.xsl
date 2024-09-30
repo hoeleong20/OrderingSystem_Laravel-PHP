@@ -1,6 +1,5 @@
-<!-- Author : Ting Jian Hao -->
-
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Author : Ting Jian Hao -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:param name="userFilter" select="'user'"/>
     <xsl:template match='/users'>
@@ -9,8 +8,8 @@
                 <style>
                     table {
                         border-collapse: collapse;
-                        width: 90%; 
-                        margin: 30px auto; 
+                        width: 90%;
+                        margin: 30px auto;
                     }
                     th, td {
                         border: 1px solid #ddd;
@@ -22,7 +21,7 @@
                     }
                     td {
                         max-width: 200px;
-                        word-wrap: break-word; 
+                        word-wrap: break-word;
                     }
                     button {
                         padding: 5px 10px;
