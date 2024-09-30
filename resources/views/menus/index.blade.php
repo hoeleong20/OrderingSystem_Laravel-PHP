@@ -152,6 +152,7 @@
                     </div>
                 </div>
 
+
                 <!-- Right Column (Remark and Add to Cart) -->
                 <div class="col-md-4">
                     <div class="remark-panel" id="remarkPanel" style="display: none;">
