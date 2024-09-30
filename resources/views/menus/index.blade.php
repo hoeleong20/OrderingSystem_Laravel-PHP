@@ -151,7 +151,6 @@
                         @endforeach
                     </div>
                 </div>
-{{-- comment --}}
 
                 <!-- Right Column (Remark and Add to Cart) -->
                 <div class="col-md-4">
