@@ -326,8 +326,6 @@
     </script>
     <!-- End Google Map -->
 
-    <script></script>
-
 </body>
 
 </html>
