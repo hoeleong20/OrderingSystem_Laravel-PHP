@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Remark;
 use App\Decorators\DecoratorFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -27,7 +28,6 @@ class MenuController extends Controller
     {
         // Retrieve only active menus
         $menus = Menu::where('status', 'active')->get();
-        $remarks = DecoratorFactory::getAvailableRemarks();
 
         // Ensure each menu has a 'remarkable' field set
         $menus->each(function ($menu) {
@@ -35,7 +35,7 @@ class MenuController extends Controller
         });
 
         // Return the index view with the active menus
-        return view('menus.index', compact('menus', 'remarks'));
+        return view('menus.index', compact('menus'));
     }
 
     /**
@@ -121,21 +121,12 @@ class MenuController extends Controller
     }
 
     /**
-     * Show the detail of a specific menu.
-     * This will display the selected menu along with its available remarks.
+     * Display the specified menu.
      *
-     * @param string $menu_code
+     * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show($menu_code)
-    {
-        $menu = Menu::where('menu_code', $menu_code)->firstOrFail();
-
-        // Get the remarkable field from the Menu model
-        $remarks = $menu->remarkable; // This should be an array of remarks (e.g., 'No Veg', 'No Spicy', etc.)
-
-        return view('menus.menuDetail', compact('menu', 'remarks'));
-    }
+    public function show(Menu $menu) {}
 
     /**
      * Show the form for editing the specified menu.
@@ -281,40 +272,27 @@ class MenuController extends Controller
         $transformedHtml = $processor->transformToXml($xml);
 
         // Pass the transformed HTML to the Blade view
-        return view('menus.activateMenu'/*, compact('transformedHtml')*/);
+        return view('menus.activateMenu', compact('transformedHtml'));
     }
 
-    public function activateMenus()
+    public function activateAllMenus()
     {
-        $xmlPath = storage_path('app/available_menus.xml');
+        // Path to the XML file
+        $filePath = storage_path('app/available_menus.xml');
 
-        // Load XML file
-        if (file_exists($xmlPath)) {
-            $xml = new DOMDocument;
-            $xml->load($xmlPath);
+        // Load the XML file
+        if (file_exists($filePath)) {
+            $xml = simplexml_load_file($filePath);
 
-            // Create an XPath object to query XML
-            $xpath = new DOMXPath($xml);
-
-            // Select all menu names from the XML file
-            $menus = $xpath->query("//menu/name");
-
-            foreach ($menus as $menu) {
-                $menuName = $menu->nodeValue;
-
-                // Update the menu status to 'active' in the database
-                \App\Models\Menu::where('name', $menuName)->update(['status' => 'active']);
+            // Loop through each menu in the XML and update its status to "active" in the database
+            foreach ($xml->menu as $menu) {
+                Menu::where('name', $menu->name)->update(['status' => 'active']);
             }
 
-            // Delete the XML file after activation
-            if (file_exists($xmlPath)) {
-                unlink($xmlPath);
-            }
-
-            // Redirect back with a success message
-            return redirect()->route('menus.adminMenu')->with('success', 'Menus activated successfully, and XML file deleted.');
-        } else {
-            return redirect()->route('menus.adminMenu')->with('error', 'XML file not found.');
+            // Optionally, delete the XML file after activation
+            unlink($filePath);
         }
+
+        return redirect()->route('menus.adminMenu')->with('success', 'Menus activated successfully.');
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\OrderController;
 
+Route::get('/menus/activate', [MenuController::class, 'activatePage'])->name('menus.activatePage');
 
 // Author: Ting Jian Hao
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
@@ -19,6 +20,7 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/Menu', [MenuController::class, 'adminIndex'])->name('menus.adminMenu');
     Route::get('admin/UserList', [UserController::class, 'showUsers'])->name('admin.userList');
     Route::delete('admin/UserList', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
+
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,11 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('order', controller: OrderController::class);
     Route::get('/menu/{menu_code}', [MenuController::class, 'show'])->name('menus.show');
     Route::post('/menus/send-sold-out', [MenuController::class, 'sendSoldOutMenus'])->name('menus.sendSoldOutMenus');
-    Route::get('/menus/activate', [MenuController::class, 'activatePage'])->name('menus.activatePage');
-    Route::post('/menus/activate', [MenuController::class, 'activateMenus'])->name('menus.activate');
-    
-    
-    
+    Route::post('/menus/activate', [MenuController::class, 'activateAllMenus'])->name('menus.activateAll');
+
+
+
     // Author Khor Zhi Ying
     Route::get('/book', function () {
         return view('book');
