@@ -12,4 +12,10 @@ class Order extends Model
     
     protected $fillable = ['customerID', 'paymentTotal', 'paymentMethod', 'status'];
 
+
+    public function discount()
+    {
+        return $this->belongsTo(Discount::class);
+    }
+
 }

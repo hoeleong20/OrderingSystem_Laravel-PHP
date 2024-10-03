@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            MenuSeeder::class, // Add this line to call the MenuSeeder
-        
+            MenuSeeder::class,
+            DiscountSeeder::class,
+            UserSeeder::class,
         ]);
 
         // User::factory(10)->create();

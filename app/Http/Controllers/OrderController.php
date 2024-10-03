@@ -178,9 +178,38 @@ class OrderController extends Controller
     //     }
     // }
 
+
+    // change here (this is only test data)
     public function checkout()
     {
-        $customerID = session('customerID');
+        // $customerID = session('customerID');
+        $customerID = '3'; // [TEST]
+
+        // create [TEST] data
+        $order = new Order();
+        $order->id = 1;
+        $order->customerID = $customerID;
+        $order->paymentTotal = 0;
+        $order->paymentMethod = 'null';
+        $order->status = 'pending';
+
+        $cartItems = [];
+
+        for ($i = 0; $i < 5; $i++) {
+            $cartItem = new CartItem();
+            $cartItem->id = $i;
+            $cartItem->orderID = $order->id;
+            $cartItem->foodName = 'Food ' . $i;
+            $cartItem->quantity = $i;
+            $cartItem->foodPrice = $i;
+            $cartItems[] = $cartItem;
+        }
+
+        $totalItems = 1;
+        $totalPrice = 100;
+
+    
+        return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems,'totalPrice' => $totalPrice]);
 
         // Retrieve pending order details
         $order = Order::where('customerID', $customerID)

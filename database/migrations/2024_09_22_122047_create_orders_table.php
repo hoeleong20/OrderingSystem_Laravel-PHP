@@ -17,6 +17,11 @@ return new class extends Migration
             $table->integer('paymentTotal');
             $table->string('paymentMethod');
             $table->string('status');
+
+            $table->foreignId('discount_id') // Foreign key for discounts
+                  ->nullable()
+                  ->constrained('discounts');
+
             $table->timestamps();
         });
     }

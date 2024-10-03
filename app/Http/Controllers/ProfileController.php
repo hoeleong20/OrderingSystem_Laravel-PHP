@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 
 // Author: Ting Jian Hao
 
+
 class ProfileController extends Controller
 {
     /**
@@ -41,6 +42,7 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
 
 
     public function verifyBankAccount(Request $request)
