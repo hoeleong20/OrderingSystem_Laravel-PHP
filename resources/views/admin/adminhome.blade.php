@@ -38,6 +38,7 @@
 </head>
 
 <body>
+<<<<<<< Updated upstream
 
     <div class="hero_area">
         <div class="bg-box">
@@ -156,6 +157,9 @@
                 </nav>
             </div>
         </header>
+=======
+    @include('admin.header')
+>>>>>>> Stashed changes
         <!-- end header section -->
 
         <!-- Main content area -->

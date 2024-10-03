@@ -1,11 +1,19 @@
 <!-- Author : Ting Jian Hao -->
 <section>
     <header>
+<<<<<<< Updated upstream
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Bank Account Number') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+=======
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Bank Account Number') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+>>>>>>> Stashed changes
             {{ __('Enter your bank account details for validation and saving.') }}
         </p>
     </header>
@@ -26,12 +34,20 @@
 
             @if (session('status') === 'payment-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
+<<<<<<< Updated upstream
                     class="text-sm text-gray-600 dark:text-gray-400">{{ __('Bank Account Saved.') }}</p>
+=======
+                    class="text-sm text-gray-600">{{ __('Bank Account Saved.') }}</p>
+>>>>>>> Stashed changes
             @endif
 
             @if (session('status') === 'invalid-account-number')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+<<<<<<< Updated upstream
                     class="text-sm text-red-600 dark:text-red-400">{{ __('Invalid Account Number.') }}</p>
+=======
+                    class="text-sm text-red-600">{{ __('Invalid Account Number.') }}</p>
+>>>>>>> Stashed changes
             @endif
         </div>
     </form>

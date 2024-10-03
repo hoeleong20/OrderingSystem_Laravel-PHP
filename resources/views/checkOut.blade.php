@@ -11,6 +11,10 @@
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
+<<<<<<< Updated upstream
+=======
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+>>>>>>> Stashed changes
   <link rel="shortcut icon" href="images/favicon.png" type="">
 
   <title> Feane </title>
@@ -212,7 +216,11 @@
 
               <div class="container">
                 <h1 class="h3 mb-5">Payment</h1>
+<<<<<<< Updated upstream
                 <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST">
+=======
+                <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST" onsubmit="formSubmit()">
+>>>>>>> Stashed changes
                 @csrf  
 
                 <div class="row">
@@ -349,6 +357,7 @@
                 <div class="col text-left">Delivery</div>
                 <div class="col text-right">Free</div>
               </div>
+<<<<<<< Updated upstream
               <div class="row lower">
                 <div class="col text-left"><b>Total to pay</b></div>
                 <div class="col text-right"><b>RM {{ $totalPrice }}</b></div>
@@ -356,6 +365,27 @@
               <div class="row lower">
                 <div class="col text-left"><a href="#"><u>Add promo code</u></a></div>
               </div>
+=======
+              <div class="row lower" id="discountDiv" style="display:none;">
+                <div class="col text-left">Discount</div>
+                <div class="col text-right">123</div>
+              </div>
+              <div class="row lower">
+                <div class="col text-left"><b>Total to pay</b></div>
+                <div class="col text-right" id="finalTotal"><b>RM {{ $totalPrice }}</b></div>
+                <input type="hidden" name="finalPrice" value="{{ $totalPrice }}">
+              </div><br/>
+              <div class="row lower align-items-center">
+                <div class="col text-left">
+                    <div class="input-group" style="vertical-align:middle">
+                        <input type="text" name="promo_code" placeholder="Enter promo code" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="applyPromoBtn" style="margin:0;">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+>>>>>>> Stashed changes
               <button type="submit" class="paymentBtn" id="makePaymentBtn">Make Payment</button>
               <!-- Result display -->
               <!-- <div id="result"></div> -->
@@ -448,7 +478,105 @@
   <script src="js/bootstrap.js"></script>
 
   <script>
+<<<<<<< Updated upstream
 
+=======
+    // Check discount onload
+    document.addEventListener('DOMContentLoaded', function() {
+      checkDiscount();
+    });
+
+    function checkDiscount() {
+      var promoCode = document.querySelector('input[name="promo_code"]').value;
+      var totalAmount = "{{ $totalPrice }}";
+
+      $.ajax({
+            url: `{{ route('discount.check') }}`,
+            method: 'POST',
+            data: {
+              promoCode: promoCode,
+              totalAmount: totalAmount
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+              const promoCode = response.promo_code;
+
+              if (promoCode !== '') {
+                document.querySelector('input[name="promo_code"]').value = promoCode;
+                calculateDiscount(totalAmount, promoCode);
+              } else {
+                document.getElementById('finalTotal').innerHTML = `RM ${totalAmount}`;
+                document.querySelector('input[name="finalPrice"]').value = totalAmount;
+                document.getElementById('discountDiv').style.display = 'none';
+              }
+            },
+            error: function (xhr) {
+              if (!xhr.responseJSON['error']) {
+                alert("Invalid promo code");
+              } else {
+                alert(xhr.responseJSON['error']);
+              }
+
+              document.querySelector('input[name="promo_code"]').value = '';
+              document.getElementById('finalTotal').innerHTML = `RM {{ $totalPrice }}`;
+              document.querySelector('input[name="finalPrice"]').value = '{{ $totalPrice }}';
+              document.getElementById('discountDiv').style.display = 'none';
+            }
+        });
+    }
+
+    function calculateDiscount(totalAmount, promoCode) {
+      $.ajax({
+        url: `{{ route('discount.calculate') }}`,
+            method: 'POST',
+            data: {
+              promoCode: promoCode,
+              totalAmount: totalAmount
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+              const finalTotalField = document.getElementById('finalTotal');
+              finalTotalField.innerHTML = `RM ${response.discount_amount.toFixed(2)}`;
+              document.querySelector('input[name="finalPrice"]').value = `${response.discount_amount.toFixed(2)}`;
+
+              
+              document.getElementById('discountDiv').style.display = 'flex';
+
+              if (response.discount_type === 'percentage') {
+                document.querySelector('#discountDiv').lastElementChild.innerText = `-${response.discount_value}%`;
+              } else {
+                document.querySelector('#discountDiv').lastElementChild.innerText = `-RM ${response.discount_value}`;
+              }
+            },
+            error: function (xhr) {
+              alert("Invalid promo code");
+              document.querySelector('input[name="promo_code"]').value = '';
+              document.getElementById('finalTotal').innerHTML = `RM {{ $totalPrice }}`;
+              document.querySelector('input[name="finalPrice"]').value = '{{ $totalPrice }}';
+            }
+      });
+    }
+
+    document.getElementById('applyPromoBtn').addEventListener('click', function() {
+      if (document.querySelector('input[name="promo_code"]').value === '') {
+        document.getElementById('finalTotal').innerHTML = `RM {{ $totalPrice }}`;
+        document.getElementById('discountDiv').style.display = 'none';
+        return;
+      } 
+
+      checkDiscount();
+    });
+
+    function formSubmit() {
+      event.preventDefault();
+
+      checkDiscount();
+    }
+>>>>>>> Stashed changes
 
 
     //Modal

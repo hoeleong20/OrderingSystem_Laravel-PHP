@@ -35,6 +35,7 @@
 
 <body class="sub_page">
 
+<<<<<<< Updated upstream
     <div class="hero_area">
         <div class="bg-box">
             <img src="{{ asset('images/hero-bg.jpg') }}" alt="">
@@ -154,6 +155,9 @@
         </header>
         <!-- end header section -->
     </div>
+=======
+    @include('admin.header')
+>>>>>>> Stashed changes
 
     <h2 style="text-align: center;">User List</h2>
     @if (session('success'))

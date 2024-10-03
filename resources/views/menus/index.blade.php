@@ -38,6 +38,7 @@
 </head>
 
 <body class="sub_page">
+<<<<<<< Updated upstream
 
     <div class="hero_area">
         <div class="bg-box">
@@ -123,18 +124,34 @@
         <!-- end header section -->
     </div>
 
+=======
+    @include('admin.header')
+    
+>>>>>>> Stashed changes
     <!-- menu section -->
     <section class="food_section layout_padding">
         <div class="container mt-4">
             <div class="heading_container heading_center mb-4">
                 <h2>Our Menu</h2>
+<<<<<<< Updated upstream
             </div>
 
+=======
+        <div class="container mt-4">
+            <div class="heading_container heading_center mb-4">
+                <h2>Our Menu</h2>
+            </div>
+>>>>>>> Stashed changes
             <div class="row">
                 <!-- Left Column (70%) -->
                 <div class="col-md-8">
                     <div class="row">
                         @foreach ($menus as $menu)
+<<<<<<< Updated upstream
+=======
+                        <form action="{{ route('order.store') }}" method="POST">
+                            @csrf
+>>>>>>> Stashed changes
                             <div class="col-md-6 mb-4">
                                 <div class="card menu-box h-100">
                                     <div class="card-body">
@@ -142,16 +159,28 @@
                                         <p class="card-text">{{ $menu->desc }}</p>
                                         <div class="options d-flex justify-content-between align-items-center">
                                             <h6>RM {{ number_format($menu->price, 2) }}</h6>
+<<<<<<< Updated upstream
                                             <button type="button" class="btn btn-primary btn-sm"
                                                 onclick="showDetails('{{ $menu->menu_code }}', '{{ $menu->name }}', '{{ $menu->price }}', {{ json_encode($menu->remarkable) }})">+</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+=======
+                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
+                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
+                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+>>>>>>> Stashed changes
                         @endforeach
                     </div>
                 </div>
 
+<<<<<<< Updated upstream
 
                 <!-- Right Column (Remark and Add to Cart) -->
                 <div class="col-md-4">
@@ -178,6 +207,32 @@
                             </table>
                             <button type="submit" class="btn btn-success btn-block">Add to Cart</button>
                         </form>
+=======
+                <!-- Right Column (Remark and Add to Cart) -->
+                <div class="col-md-4">
+                    <div class="remark-panel" id="remarkPanel">
+                        <span class="close-panel" onclick="hideDetails()">x</span>
+                        <h5 id="remarkTitle">Remark & Add to Cart</h5>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Remark</th>
+                                    <th>Additional Price (RM)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($remarks as $remark)
+                                    <tr>
+                                        <td><input type="checkbox" name="remark[]" value="{{ $remark['name'] }}"></td>
+                                        <td>{{ $remark['name'] }}</td>
+                                        <td>{{ number_format($remark['price'], 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <button class="btn btn-success btn-block" onclick="addToCart()">Add to Cart</button>
+>>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
@@ -277,6 +332,7 @@
                 messageElement.style.display = 'none';
             }
         }, 3000); // 3000 milliseconds = 3 seconds
+<<<<<<< Updated upstream
 
         let selectedRemarks = [];
 
@@ -324,6 +380,8 @@
             document.getElementById('remarkPanel').style.display = 'none';
             selectedRemarks = [];
         }
+=======
+>>>>>>> Stashed changes
     </script>
 
     <!-- jQery -->
