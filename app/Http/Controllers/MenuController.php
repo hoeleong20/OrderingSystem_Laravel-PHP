@@ -15,7 +15,7 @@ use DOMDocument;
 use DOMXPath;
 use XSLTProcessor;
 
-// Author : Lim Jia Qing
+
 
 class MenuController extends Controller
 {
@@ -190,7 +190,7 @@ class MenuController extends Controller
         Log::info('Sending Sold Out Menus:', ['menus' => $soldOutMenus]);
 
         try {
-            $response = Http::post('http://127.0.0.1:5000/check_availability', [
+            $response = Http::post(config('services.python_api.url') . '/check_availability', [
                 'menu_names' => $soldOutMenus,
             ]);
 

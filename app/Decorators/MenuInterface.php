@@ -2,7 +2,6 @@
 
 namespace App\Decorators;
 
-// Author : Lim Jia Qing
 
 interface MenuInterface
 {

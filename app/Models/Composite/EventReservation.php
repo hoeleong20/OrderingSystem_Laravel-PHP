@@ -2,7 +2,7 @@
 
 namespace app\Models\Composite;
 
-// Author Khor Zhi Ying 
+
 
 use App\Models\Composite\ReservableComponent;
 

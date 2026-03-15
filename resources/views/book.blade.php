@@ -1,4 +1,3 @@
-<!-- Author Khor Zhi Ying -->
 
 <!DOCTYPE html>
 <html>

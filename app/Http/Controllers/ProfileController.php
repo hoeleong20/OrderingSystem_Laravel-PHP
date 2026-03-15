@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 
 
-// Author: Ting Jian Hao
+
 
 
 class ProfileController extends Controller
@@ -55,7 +55,7 @@ class ProfileController extends Controller
     $accountNumber = $request->input('account_number');
 
     // Send account number to the external Java API
-    $response = Http::post('http://localhost:8081/bank/verify', [
+    $response = Http::post(config('services.bank_api.url') . '/bank/verify', [
         'account_number' => $accountNumber,
     ]);
 

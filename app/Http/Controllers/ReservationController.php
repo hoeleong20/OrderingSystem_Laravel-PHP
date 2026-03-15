@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// Author Khor Zhi Ying 
+
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
@@ -222,8 +222,9 @@ class ReservationController extends Controller
         // Initialize XPath
         $xpath = new \DOMXPath($xml);
 
-        // Search for reservations by customer name
-        $query = "//reservation[name='$customerName']";
+        // Search for reservations by customer name (sanitize to prevent XPath injection)
+        $sanitizedName = htmlspecialchars($customerName, ENT_QUOTES, 'UTF-8');
+        $query = "//reservation[name='$sanitizedName']";
         $reservations = $xpath->query($query);
 
         // Process and display results

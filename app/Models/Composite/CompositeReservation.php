@@ -2,7 +2,7 @@
 
 namespace app\Models\Composite;
 
-// Author Khor Zhi Ying 
+
 
 class CompositeReservation extends ReservableComponent
 {

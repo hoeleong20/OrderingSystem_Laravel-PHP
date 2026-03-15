@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'python_api' => [
+        'url' => env('PYTHON_API_URL', 'http://127.0.0.1:5000'),
+    ],
+
+    'java_api' => [
+        'url' => env('JAVA_API_URL', 'http://localhost:8080'),
+    ],
+
+    'bank_api' => [
+        'url' => env('BANK_API_URL', 'http://localhost:8081'),
+    ],
+
 ];

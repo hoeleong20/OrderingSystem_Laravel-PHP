@@ -11,10 +11,7 @@
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-<<<<<<< Updated upstream
-=======
   <meta name="csrf-token" content="{{ csrf_token() }}">
->>>>>>> Stashed changes
   <link rel="shortcut icon" href="images/favicon.png" type="">
 
   <title> Feane </title>
@@ -216,12 +213,8 @@
 
               <div class="container">
                 <h1 class="h3 mb-5">Payment</h1>
-<<<<<<< Updated upstream
-                <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST">
-=======
                 <form action="{{ route('order.pay', ['id' => $order->id]) }}" method="POST" onsubmit="formSubmit()">
->>>>>>> Stashed changes
-                @csrf  
+                @csrf
 
                 <div class="row">
                   <!-- Left -->
@@ -319,19 +312,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
             </div>
           </div>
           <div class="col-md-5">
-          
+
             <div class="right border">
               <div class="header">Order Summary</div>
               <p>Qty: {{ $totalItems }}</p>
@@ -345,8 +329,8 @@
                 </div>
               </div>
                 @endforeach
-              
- 
+
+
               <hr>
               <div class="row lower">
                 <div class="col text-left">Subtotal</div>
@@ -357,15 +341,6 @@
                 <div class="col text-left">Delivery</div>
                 <div class="col text-right">Free</div>
               </div>
-<<<<<<< Updated upstream
-              <div class="row lower">
-                <div class="col text-left"><b>Total to pay</b></div>
-                <div class="col text-right"><b>RM {{ $totalPrice }}</b></div>
-              </div>
-              <div class="row lower">
-                <div class="col text-left"><a href="#"><u>Add promo code</u></a></div>
-              </div>
-=======
               <div class="row lower" id="discountDiv" style="display:none;">
                 <div class="col text-left">Discount</div>
                 <div class="col text-right">123</div>
@@ -385,7 +360,6 @@
                     </div>
                 </div>
             </div>
->>>>>>> Stashed changes
               <button type="submit" class="paymentBtn" id="makePaymentBtn">Make Payment</button>
               <!-- Result display -->
               <!-- <div id="result"></div> -->
@@ -478,9 +452,6 @@
   <script src="js/bootstrap.js"></script>
 
   <script>
-<<<<<<< Updated upstream
-
-=======
     // Check discount onload
     document.addEventListener('DOMContentLoaded', function() {
       checkDiscount();
@@ -543,7 +514,7 @@
               finalTotalField.innerHTML = `RM ${response.discount_amount.toFixed(2)}`;
               document.querySelector('input[name="finalPrice"]').value = `${response.discount_amount.toFixed(2)}`;
 
-              
+
               document.getElementById('discountDiv').style.display = 'flex';
 
               if (response.discount_type === 'percentage') {
@@ -566,7 +537,7 @@
         document.getElementById('finalTotal').innerHTML = `RM {{ $totalPrice }}`;
         document.getElementById('discountDiv').style.display = 'none';
         return;
-      } 
+      }
 
       checkDiscount();
     });
@@ -576,7 +547,6 @@
 
       checkDiscount();
     }
->>>>>>> Stashed changes
 
 
     //Modal

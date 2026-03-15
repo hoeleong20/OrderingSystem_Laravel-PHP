@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-// Author: Ting Jian Hao
+
 
 
 class HomeController extends Controller

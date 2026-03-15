@@ -2,7 +2,7 @@
 
 namespace App\Factories;
 
-// Author : Chong Soon He
+
 
 class PercentageDiscount implements DiscountInterface {
     protected $percentage;

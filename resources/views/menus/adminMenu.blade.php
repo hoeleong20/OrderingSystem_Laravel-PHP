@@ -1,4 +1,3 @@
-<!-- Author : Lim Jia Qing -->
 <!DOCTYPE html>
 <html>
 
@@ -416,10 +415,7 @@
 
         // Switch from Add Menu to Edit Menu form
         function editMenu(menuCode, name, desc, price, remarks) {
-<<<<<<< Updated upstream
-=======
             console.log("hiiiiiiiii")
->>>>>>> Stashed changes
             document.getElementById('addMenuForm').style.display = 'none';
             document.getElementById('editMenuForm').style.display = 'block';
 

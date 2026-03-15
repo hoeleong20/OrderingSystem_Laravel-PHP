@@ -4,6 +4,13 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/framework/views/*.php
+/storage/framework/sessions/
+/storage/framework/cache/
+/storage/logs/*.log
+/storage/app/discount.xml
+/storage/app/available_menus.xml
+/storage/app/reservations.xml
 /vendor
 .env
 .env.backup
@@ -18,3 +25,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/nbproject
+*.sql
+ReservationData.txt

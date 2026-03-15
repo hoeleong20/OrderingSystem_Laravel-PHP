@@ -1,4 +1,3 @@
-<!-- Author : Lim Jia Qing -->
 <!DOCTYPE html>
 <html>
 
@@ -38,120 +37,21 @@
 </head>
 
 <body class="sub_page">
-<<<<<<< Updated upstream
-
-    <div class="hero_area">
-        <div class="bg-box">
-            <img src="{{ asset('images/hero-bg.jpg') }}" alt="">
-        </div>
-        <!-- header section strats -->
-        <header class="header_section">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg custom_nav-container ">
-                    <a class="navbar-brand" href="{{ route('welcome') }}">
-                        <span>
-                            Feane
-                        </span>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class=""> </span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav  mx-auto ">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('welcome') }}">Home </a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ route('menus.index') }}">Menu <span
-                                        class="sr-only">(current)</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('about') }}">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('book') }}">Book Table</a>
-                            </li>
-                        </ul>
-                        <div class="user_option">
-                            <a href="" class="user_link">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </a>
-                            <a class="cart_link" href="{{ route('order.index') }}">
-                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                    viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <g>
-                                            <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                                        </g>
-                                    </g>
-                                    <g>
-                                        <g>
-                                            <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                                        </g>
-                                    </g>
-                                    <g>
-                                        <g>
-                                            <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </a>
-                            <form class="form-inline">
-                                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                            <a href="{{ route('menus.adminMenu') }}" class="order_online">
-                                <a href="{{ route('menus.adminMenu') }}" class="order_online">
-                                    Order Online
-                                </a>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </header>
-        <!-- end header section -->
-    </div>
-
-=======
     @include('admin.header')
-    
->>>>>>> Stashed changes
+
     <!-- menu section -->
     <section class="food_section layout_padding">
         <div class="container mt-4">
             <div class="heading_container heading_center mb-4">
                 <h2>Our Menu</h2>
-<<<<<<< Updated upstream
             </div>
-
-=======
-        <div class="container mt-4">
-            <div class="heading_container heading_center mb-4">
-                <h2>Our Menu</h2>
-            </div>
->>>>>>> Stashed changes
             <div class="row">
                 <!-- Left Column (70%) -->
                 <div class="col-md-8">
                     <div class="row">
                         @foreach ($menus as $menu)
-<<<<<<< Updated upstream
-=======
                         <form action="{{ route('order.store') }}" method="POST">
                             @csrf
->>>>>>> Stashed changes
                             <div class="col-md-6 mb-4">
                                 <div class="card menu-box h-100">
                                     <div class="card-body">
@@ -159,55 +59,18 @@
                                         <p class="card-text">{{ $menu->desc }}</p>
                                         <div class="options d-flex justify-content-between align-items-center">
                                             <h6>RM {{ number_format($menu->price, 2) }}</h6>
-<<<<<<< Updated upstream
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="showDetails('{{ $menu->menu_code }}', '{{ $menu->name }}', '{{ $menu->price }}', {{ json_encode($menu->remarkable) }})">+</button>
+                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
+                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
+                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-=======
-                                            <input type="hidden" name="menu_name" value="{{ $menu->name }}">
-                                            <input type="hidden" name="menu_price" value="{{ $menu->price }}">
-                                            <button type="submit" class="btn btn-primary btn-sm" id="addToCartBtn" onclick="showDetails('{{ $menu->id }}', '{{ $menu->name }}')">+</button>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
                             </form>
->>>>>>> Stashed changes
                         @endforeach
                     </div>
                 </div>
 
-<<<<<<< Updated upstream
-
-                <!-- Right Column (Remark and Add to Cart) -->
-                <div class="col-md-4">
-                    <div class="remark-panel" id="remarkPanel" style="display: none;">
-                        <span class="close-panel" onclick="hideDetails()">x</span>
-                        <h5 id="remarkTitle">Remark</h5>
-                        <div id="selectedMenu"></div>
-                        <form id="addToCartForm" action="{{ route('order.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="menu_code" id="menu_code">
-                            <input type="hidden" name="menu_name" id="menu_name">
-                            <input type="hidden" name="menu_price" id="menu_price">
-                            <input type="hidden" name="selected_remarks" id="selected_remarks">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Select</th>
-                                        <th>Remark</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="remarkList">
-                                    <!-- Remark checkboxes will be dynamically inserted here -->
-                                </tbody>
-                            </table>
-                            <button type="submit" class="btn btn-success btn-block">Add to Cart</button>
-                        </form>
-=======
                 <!-- Right Column (Remark and Add to Cart) -->
                 <div class="col-md-4">
                     <div class="remark-panel" id="remarkPanel">
@@ -232,7 +95,6 @@
                             </tbody>
                         </table>
                         <button class="btn btn-success btn-block" onclick="addToCart()">Add to Cart</button>
->>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
@@ -332,56 +194,6 @@
                 messageElement.style.display = 'none';
             }
         }, 3000); // 3000 milliseconds = 3 seconds
-<<<<<<< Updated upstream
-
-        let selectedRemarks = [];
-
-        function showDetails(menuCode, menuName, menuPrice, remarks) {
-            // Convert menuPrice to a number in case it's passed as a string
-            menuPrice = parseFloat(menuPrice);
-
-            // Display the remark panel
-            document.getElementById('remarkPanel').style.display = 'block';
-
-            // Set the selected menu details
-            document.getElementById('selectedMenu').innerHTML = `<h6>${menuName} - RM ${menuPrice.toFixed(2)}</h6>`;
-            document.getElementById('menu_code').value = menuCode;
-            document.getElementById('menu_name').value = menuName;
-            document.getElementById('menu_price').value = menuPrice;
-
-            // Populate the remarks from DecoratorFactory
-            let remarkList = document.getElementById('remarkList');
-            remarkList.innerHTML = ''; // Clear existing remarks
-            remarks.forEach(function(remark) {
-                let remarkRow = `
-                <tr>
-                    <td><input type="checkbox" name="remarks[]" value="${remark}" onchange="collectRemarks()"></td>
-                    <td>${remark}</td>
-                </tr>`;
-                remarkList.insertAdjacentHTML('beforeend', remarkRow);
-            });
-        }
-
-        function collectRemarks() {
-            // Get all checked remarks and store them in selectedRemarks array
-            let checkboxes = document.querySelectorAll('#remarkList input[type="checkbox"]:checked');
-            selectedRemarks = [];
-
-            checkboxes.forEach(function(checkbox) {
-                selectedRemarks.push(checkbox.value); // Only store the name of the selected remark
-            });
-
-            // Pass the selected remarks (names only) to the hidden input field
-            document.getElementById('selected_remarks').value = JSON.stringify(selectedRemarks);
-        }
-
-        function hideDetails() {
-            // Hide the remark panel
-            document.getElementById('remarkPanel').style.display = 'none';
-            selectedRemarks = [];
-        }
-=======
->>>>>>> Stashed changes
     </script>
 
     <!-- jQery -->
@@ -406,7 +218,7 @@
     <!-- End Google Map -->
 
     <script>
-        
+
     </script>
 
 </body>

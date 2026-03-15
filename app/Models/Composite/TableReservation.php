@@ -2,7 +2,7 @@
 
 namespace app\Models\Composite;
 
-// Author Khor Zhi Ying 
+
 
 class TableReservation extends ReservableComponent {
     protected $tables = [];

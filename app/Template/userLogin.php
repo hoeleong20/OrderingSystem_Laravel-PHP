@@ -1,7 +1,7 @@
 <?php
 
 
-// Author: Ting Jian Hao
+
 
 namespace App\Template;
 

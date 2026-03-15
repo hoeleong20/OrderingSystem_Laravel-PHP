@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// Author : Chong Soon He
+
 
 use GuzzleHttp\Client;
 use App\Models\Discount;
@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use App\Factories\DiscountFactory;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 use DOMDocument;
@@ -59,7 +60,8 @@ class DiscountController extends Controller
 
         // Create a new DOMXPath object
         $xpath = new DOMXPath($xmlDom);
-        $discountNode = $xpath->query("//discount[id='$id']")->item(0);
+        $sanitizedId = htmlspecialchars($id, ENT_QUOTES, 'UTF-8');
+        $discountNode = $xpath->query("//discount[id='$sanitizedId']")->item(0);
 
         // Handle the case where the discount is not found
         if (!$discountNode) {
@@ -128,10 +130,11 @@ class DiscountController extends Controller
         $xmlDom->load($xmlFilePath);
 
         $xpath = new DOMXPath($xmlDom);
-        $discountNode = $xpath->query("//discount[id='$id']")->item(0);
+        $sanitizedId = htmlspecialchars($id, ENT_QUOTES, 'UTF-8');
+        $discountNode = $xpath->query("//discount[id='$sanitizedId']")->item(0);
 
         if (!$discountNode) {
-            return response()->json(['error' => 'User not found'], 404);
+            return response()->json(['error' => 'Discount not found'], 404);
         }
 
         $discountXmlDom = new DOMDocument;
@@ -184,8 +187,7 @@ class DiscountController extends Controller
     public function check(Request $request)
     {
         $promoCode = $request->input('promoCode');
-        // $userId = Auth::id();
-        $userId = '3';
+        $userId = Auth::id();
         $totalAmount = $request->input('totalAmount');
 
         $query = [
@@ -199,7 +201,7 @@ class DiscountController extends Controller
 
         $client = new Client();
         try {
-            $response = $client->get('http://localhost:8080/checkDiscount', [
+            $response = $client->get(config('services.java_api.url') . '/checkDiscount', [
                 'query' => $query
             ]);
         } catch (Exception $e) {

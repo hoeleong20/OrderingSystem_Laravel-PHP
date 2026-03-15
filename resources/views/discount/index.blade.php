@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<!-- Author : Chong Soon He -->
 <head>
     <!-- Basic -->
     <meta charset="utf-8" />

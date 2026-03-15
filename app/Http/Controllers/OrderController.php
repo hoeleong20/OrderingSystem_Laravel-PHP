@@ -151,86 +151,31 @@ class OrderController extends Controller
         }
     }
 
-    // public function checkout()
-    // {
-    //     // Assuming you have a way to get the current customer and their pending order
-    //     $customerID = session('customerID');
-
-    //     // Retrieve pending order details
-    //     $order = Order::where('customerID', $customerID)
-    //         ->where('status', 'pending')
-    //         ->first();
-
-    //     $cartItems = CartItem::where('orderID', $order->id)
-    //         ->orderBy('created_at', 'asc')
-    //         ->get();
-
-    //     if ($order) {
-    //         // Pass the order data to the checkout view
-    //         return view('checkOut', ['order' => $order, 'cartItems' => $cartItems]);
-    //     } else {
-    //         // Redirect back or to another page if no pending order is found
-    //         return redirect()->route('order.index')->with('error', 'No pending order found.');
-    //     }
-    // }
-
-
-    // change here (this is only test data)
     public function checkout()
     {
-        // $customerID = session('customerID');
-        $customerID = '3'; // [TEST]
+        $customerID = session('customerID');
 
-        // create [TEST] data
-        $order = new Order();
-        $order->id = 1;
-        $order->customerID = $customerID;
-        $order->paymentTotal = 0;
-        $order->paymentMethod = 'null';
-        $order->status = 'pending';
-
-        $cartItems = [];
-
-        for ($i = 0; $i < 5; $i++) {
-            $cartItem = new CartItem();
-            $cartItem->id = $i;
-            $cartItem->orderID = $order->id;
-            $cartItem->foodName = 'Food ' . $i;
-            $cartItem->quantity = $i;
-            $cartItem->foodPrice = $i;
-            $cartItems[] = $cartItem;
-        }
-
-        $totalItems = 1;
-        $totalPrice = 100;
-
-    
-        return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems,'totalPrice' => $totalPrice]);
-
-        // Retrieve pending order details
         $order = Order::where('customerID', $customerID)
             ->where('status', 'pending')
             ->first();
 
-        if ($order) {
-            $cartItems = CartItem::where('orderID', $order->id)
-                ->orderBy('created_at', 'asc')
-                ->get();
-
-            // Calculate the total quantity of items
-            $totalItems = $cartItems->sum('quantity');
-
-            $totalPrice = $cartItems->sum('foodPrice');
-
-            if ($order) {
-                // Pass the order data and total items to the checkout view
-                return view('checkOut', ['order' => $order, 'cartItems' => $cartItems, 'totalItems' => $totalItems, 'totalPrice' => $totalPrice]);
-            } else {
-                // Redirect back if no pending order is found
-                return redirect()->route('order.index')->with('error', 'No pending order found.');
-            }
+        if (!$order) {
+            return redirect()->route('menus.index')->with('error', 'No pending order found.');
         }
-        return redirect()->route('menus.index');
+
+        $cartItems = CartItem::where('orderID', $order->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $totalItems = $cartItems->sum('quantity');
+        $totalPrice = $cartItems->sum('foodPrice');
+
+        return view('checkOut', [
+            'order' => $order,
+            'cartItems' => $cartItems,
+            'totalItems' => $totalItems,
+            'totalPrice' => $totalPrice,
+        ]);
     }
 
     public function pay(Request $request, $id)

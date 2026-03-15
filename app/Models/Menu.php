@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Decorators\MenuInterface; // For the Decorator pattern
 use App\Decorators\DecoratorFactory; // Factory for handling decorators
 
-// Author : Lim Jia Qing
+
 
 class Menu extends Model implements MenuInterface
 {

@@ -1,102 +1,69 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Restaurant Ordering System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-featured restaurant ordering system built with **Laravel 11** and **PHP 8.2+**. The system supports menu management, online ordering with cart functionality, table/dish/event reservations, discount management, and integrates with external Java and Python microservices.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Menu Management** - Admin CRUD for menu items with status tracking (active, soldOut, archived)
+- **Order & Cart System** - Add items to cart with customizable remarks (e.g. Add Cheese, Less Spicy), checkout and payment processing
+- **Reservation System** - Support for table, dish, table+dish, and event reservations
+- **Discount System** - Promo code management with percentage/fixed discounts, criteria-based eligibility
+- **User Management** - Role-based access (admin/user), email verification, profile management with bank account verification
+- **XML/XSLT Integration** - Data transformation and rendering using XML and XSLT stylesheets
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Design Patterns Used
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Pattern | Usage |
+|---------|-------|
+| **Decorator** | Menu item remarks/modifications (Add Cheese, No Veg, etc.) |
+| **Factory** | Discount calculation (PercentageDiscount, FixedDiscount) |
+| **Composite** | Reservation management (TableReservation, DishReservation, EventReservation) |
+| **Observer** | Order lifecycle tracking and event firing on status changes |
+| **Template Method** | Login flow differentiation (UserLogin vs AdminLogin) |
+| **Event/Listener** | Order payment triggers kitchen notification via REST API |
 
-## Learning Laravel
+## Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend:** Laravel 11, PHP 8.2+
+- **Frontend:** Blade templates, Tailwind CSS, Vite
+- **Database:** MySQL
+- **Auth:** Laravel Breeze with email verification
+- **External Services:** Python API (inventory), Java API (discount verification, kitchen notifications), Bank verification API
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Prerequisites
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2+
+- Composer
+- Node.js & NPM
+- MySQL (via XAMPP or standalone)
 
-## Laravel Sponsors
+## Setup
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-## Initial Setup
 ### 1. Clone the repository
-Make sure the location is "C:\xampp\htdocs", then clone the project.
 
-### 2. Open the project, open new terminal 
-Make sure the path is inside the project name: 
-    - "C:\xampp\htdocs\RestaurantOrderingSystem"
+```bash
+git clone https://github.com/hoeleong20/OrderingSystem_Laravel-PHP.git
+cd OrderingSystem_Laravel-PHP
+```
 
-### 3. Install composer dependencies
-Whenever you clone a new Laravel project you must now install all of the project dependencies. This is what actually installs Laravel itself, among other necessary packages to get started.
+### 2. Install dependencies
 
-`composer install`
+```bash
+composer install
+npm install
+```
 
-### 4. Install NPM dependencies
-Similarly to composer, npm manages javascript, css, and node packages, so make sure to install those dependencies also.
+### 3. Configure environment
 
-`npm install`
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-### 5. Copy the .env file
-.env files are not generally committed to source control for security reasons. But there is a .env.example which is a template of the .env file that the project requires. So you should make a copy of the .env.example file and name it .env so that you can setup your local deployment configuration in the next few steps.
+### 4. Configure the database
 
-`cp .env.example .env`
+Update `.env` with your database credentials:
 
-### 6. Generate an app encryption key
-Laravel requires you to have an app encryption key which is generally randomly generated and stored in your .env file. The app will use this encryption key to encode various elements of your application from cookies to password hashes and more. Run this command in the terminal to generate that key.
-
-`php artisan key:generate`
-
-### 7. Create database for the project
-We need to create the database ourself by using the same constant of the database.
-
-Go to .env file, find and change the following code: 
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -106,30 +73,80 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-After that run `php artisan migrate`
+### 5. Configure external services (optional)
 
-### 8. Change the Mail Details 
+Update `.env` with your external service URLs if different from defaults:
+
+```
+PYTHON_API_URL=http://127.0.0.1:5000
+JAVA_API_URL=http://localhost:8080
+BANK_API_URL=http://localhost:8081
+```
+
+### 6. Configure mail (optional)
+
+For email verification, configure your mail settings in `.env`. Example using Mailtrap:
+
 ```
 MAIL_MAILER=smtp
 MAIL_HOST=sandbox.smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=a92ee5af8a1144
-MAIL_PASSWORD=e89cfddafd1278
-MAIL_ENCRYPTION=null
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
 MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
+### 7. Run migrations
 
-### 9. Download Breeze
-Download laravel breeze
+```bash
+php artisan migrate
+```
 
-`php artisan breeze:install`
+### 8. Seed the database (optional)
 
+```bash
+php artisan db:seed
+```
 
-### 10. Run the project
-Before running the project, ensure the Apache+MySQL in XAMPP is started.
+### 9. Build frontend assets
 
-To run the project, `php artisan serve`
+```bash
+npm run build
+```
 
-CTRL + LeftClick the http://127.0.0.1:8000 (Probably is 8000 port)
+### 10. Start the server
+
+```bash
+php artisan serve
+```
+
+Visit [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+## Project Structure
+
+```
+app/
+  Decorators/       - Decorator pattern for menu remarks
+  Events/           - Application events (OrderUpdated)
+  Factories/        - Factory pattern for discounts
+  Http/Controllers/ - Route controllers
+  Listeners/        - Event listeners (KitchenListener)
+  Models/
+    Composite/      - Composite pattern for reservations
+  Observers/        - Model observers (Order, CartItem)
+  Template/         - Template method pattern for login
+config/
+database/
+  migrations/       - Database schema
+  seeders/          - Database seeders
+resources/
+  views/
+    xslt/           - XSLT stylesheets
+routes/
+  web.php           - Application routes
+```
+
+## License
+
+Open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

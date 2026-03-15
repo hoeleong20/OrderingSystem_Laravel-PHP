@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// Author Khor Zhi Ying 
+
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,11 +1,4 @@
-<<<<<<< Updated upstream
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Author : Ting Jian Hao -->
-=======
-<!-- Author : Ting Jian Hao -->
-
-<!-- <?xml version="1.0" encoding="UTF-8"?> -->
->>>>>>> Stashed changes
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:param name="userFilter" select="'user'"/>
     <xsl:template match='/users'>
@@ -14,13 +7,8 @@
                 <style>
                     table {
                         border-collapse: collapse;
-<<<<<<< Updated upstream
                         width: 90%;
                         margin: 30px auto;
-=======
-                        width: 90%; 
-                        margin: 30px auto; 
->>>>>>> Stashed changes
                     }
                     th, td {
                         border: 1px solid #ddd;
@@ -32,11 +20,7 @@
                     }
                     td {
                         max-width: 200px;
-<<<<<<< Updated upstream
                         word-wrap: break-word;
-=======
-                        word-wrap: break-word; 
->>>>>>> Stashed changes
                     }
                     button {
                         padding: 5px 10px;
@@ -115,8 +99,4 @@
             </body>
         </html>
     </xsl:template>
-<<<<<<< Updated upstream
 </xsl:stylesheet>
-=======
-</xsl:stylesheet>
->>>>>>> Stashed changes

@@ -51,7 +51,7 @@ class KitchenListener
 
     private function sendXmlToJavaApi($xmlData)
     {
-        $apiUrl = 'http://localhost:8080/cart-items';
+        $apiUrl = config('services.java_api.url') . '/cart-items';
         
         $ch = curl_init($apiUrl);
         curl_setopt($ch, CURLOPT_POST, true);

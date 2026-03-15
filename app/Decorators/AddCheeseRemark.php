@@ -2,7 +2,6 @@
 
 namespace App\Decorators;
 
-// Author : Lim Jia Qing
 
 class AddCheeseRemark extends RemarkDecorator
 {

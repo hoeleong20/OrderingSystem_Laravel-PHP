@@ -2,7 +2,7 @@
 
 namespace App\Decorators;
 
-// Author : Lim Jia Qing
+
 
 abstract class RemarkDecorator implements MenuInterface
 {

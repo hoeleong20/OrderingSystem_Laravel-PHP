@@ -2,7 +2,7 @@
 
 namespace App\Decorators;
 
-// Author : Lim Jia Qing
+
 
 class NoVegRemark extends RemarkDecorator
 {

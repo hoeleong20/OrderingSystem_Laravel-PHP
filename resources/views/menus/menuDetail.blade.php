@@ -1,4 +1,3 @@
-<!-- Author : Lim Jia Qing -->
 <!DOCTYPE html>
 <html>
 
